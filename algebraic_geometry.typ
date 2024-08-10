@@ -1,5 +1,5 @@
 #import "@preview/cetz:0.2.2"
-#import "@preview/fletcher:0.5.0" as fletcher: diagram, node, edge
+#import "@preview/fletcher:0.5.1" as fletcher: diagram, node, edge
 #import "@preview/xarrow:0.3.1": xarrow
 
 
@@ -43,6 +43,8 @@
 #let injlim = $limits(limits(lim)_(xarrow(#v(-50em), width: #1.8em)))$
 #let projlim = $limits(limits(lim)_(xarrow(sym:arrow.l.long, #v(-50em), width: #1.8em)))$
 
+
+#counter(page).update(1)
 = Sheaf Theory <sheaf-theory>
 == Presheaf <presheaf>
 === Presheaf on Topological Space <presheaf-on-topological-space>
@@ -187,7 +189,7 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
 
   where $tilde.op$ is the equivalence relation defined as follows: for any open neighborhoods $U , V$ of $x$ and any $f in cal(F) lr((U))$, $g in cal(F) lr((V))$,
   $
-    lr((U , f)) tilde.op lr((V , g)) arrow.l.r.double upright("there exists an open neighborhood ") W subset U sect V upright(" of ") x upright(" such that ") f lr(|""_W = g|)_W .
+    lr((U , f)) tilde.op lr((V , g)) arrow.l.r.double upright("there exists an open neighborhood ") W subset.eq U sect V upright(" of ") x upright(" such that ") f lr(|""_W = g|)_W .
   $
   The image under the map $cal(F) lr((U)) arrow.r.hook cal(F)_x$ of a section $f in cal(F) lr((U))$ is the equivalence
   class of $lr((U , f))$, denoted as $lr([lr((U , f))])_x$, called the #strong[germ] of $f$ at $x$.
@@ -489,12 +491,12 @@ follows:
   #commutative_diagram($
     cal(F)(
       U
-    ) edge(iota, "-->") edge("dr", injlim_(x in U in tau), #right, "->") & product_(x in U) cal(F)_x edge("d", pi_x, #left, "->") \
+    ) edge(iota, "-->") edge("dr", injlim_(x in U in tau), #right, "->") & limits(product)_(x in U) cal(F)_x edge("d", pi_x, #left, "->") \
     & cal(F)_x
   $)
 ]<section_is_determined_by_its_germs_at_all_points>
 #proof[
-  Suppose that $s , s^prime in cal(F) lr((U))$ such that $iota lr((s)) = iota lr((s^prime))$. Then for each $x in U$, $s , s^prime$ map to the same element in stalk $cal(F)_x$. This means that for every $x in U$, there exists an open $V^x subset U , x in V^x$ such that $s\|_(V^x) = s^prime\|_(V^x)$. Note that $U = union.big_(x in U) V^x$ is an open covering. Thus by the uniqueness in the sheaf condition we see that $s = s^prime$.
+  Suppose that $s , s^prime in cal(F) lr((U))$ such that $iota lr((s)) = iota lr((s^prime))$. Then for each $x in U$, $s , s^prime$ map to the same element in stalk $cal(F)_x$. This means that for every $x in U$, there exists an open $V^x subset.eq U , x in V^x$ such that $s\|_(V^x) = s^prime\|_(V^x)$. Note that $U = union.big_(x in U) V^x$ is an open covering. Thus by the uniqueness in the sheaf condition we see that $s = s^prime$.
 
 ]
 
@@ -613,7 +615,7 @@ follows:
     #set enum(numbering: "(i)", start: 1)
     + #block[If $tildecal(F)$ is a $mathsf("Set")$-valued sheaf on $cal(B)$, then it extends uniquely to a $mathsf("Set")$-valued sheaf $cal(F)$ on $X$ by
         $
-          cal(F) (U) & := projlim_(V in cal(B) , V subset U ) tildecal(F) (V)\
+          cal(F) (U) & := projlim_(V in cal(B) , V subset.eq U ) tildecal(F) (V)\
           & = {
             (f_V) in product_(V in cal(B) , V subset.eq U) tildecal(F) (V) mid(|) "res"_(V arrow.l.hook W) (
               f_V
@@ -627,19 +629,62 @@ follows:
 
 #proposition[Extended Sheaf has the Same Stalks][
   Let $X$ be a topological space. Let $cal(B)$ be a basis for the topology on $X$. Let $tildecal(F)$ be a $mathsf("Set")$-valued sheaf on $cal(B)$ and $cal(F)$ be the extension of $tildecal(F)$ to $X$. Then for any $x in X$, the stalk $cal(F)_x$ is isomorphic to the stalk $tildecal(F)_x$.
-]
+]<extended-sheaf-has-the-same-stalks>
 #proof[
   Consider the composition of functors $cal(F)|_(mathsf(B)_(x)^(op("op")))=cal(F)|_(mathsf("Open")_(X , x)^(op("op")))circle.tiny iota^(op("op"))$
-  #commutative_diagram(spacing: 4em,
-  $
-  mathsf(B)_(x)^(op("op")) edge("r", iota^(op("op")), "hook->") & mathsf("Open")_(X , x)^(op("op")) edge("r", cal(F)|_(mathsf("Open")_(X , x)^(op("op"))), ->) &mathsf("Set") 
-  $
+  #commutative_diagram(
+    spacing: 4em,
+    $
+      mathsf(B)_(x)^(op("op")) edge("r", iota^(op("op")), "hook->") & mathsf("Open")_(X , x)^(op("op")) edge("r", cal(F)|_(mathsf("Open")_(X , x)^(op("op"))), ->) &mathsf("Set")
+    $,
   )
-  Since $iota^(op("op"))$ is a final functor, we have 
+  Since $iota^(op("op"))$ is a final functor, we have
   $
-  tildecal(F)_x = injlim cal(F)|_(mathsf(B)_(x)^(op("op"))) = injlim cal(F)|_(mathsf("Open")_(X , x)^(op("op")))circle.tiny iota^(op("op")) tilde.equiv injlim cal(F)|_(mathsf("Open")_(X , x)^(op("op"))) = cal(F)_x
+    tildecal(F)_x = injlim cal(F)|_(mathsf(B)_(x)^(op("op"))) = injlim cal(F)|_(mathsf("Open")_(X , x)^(op("op")))circle.tiny iota^(op("op")) tilde.equiv injlim cal(F)|_(mathsf("Open")_(X , x)^(op("op"))) = cal(F)_x
   $.
 ]
+
+== Ringed Space <ringed-space>
+#definition[
+  Ringed Spaces][
+  A #strong[ringed space] is a pair $lr((X , cal(O)_X))$, where $X$ is a topological space and $cal(O)_X$ is a sheaf of commutative rings on $X$.
+
+]
+#definition[
+  Category of Ringed Spaces][
+  The #strong[category of ringed spaces] consists of the following data:
+
+  - Objects: ringed spaces $lr((X , cal(O)_X))$.
+
+  - Morphisms: morphisms of ringed spaces $lr((f , f^(♯))) : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$, where $f : X arrow.r Y$ is a continuous map and $f^(♯) : cal(O)_Y arrow.r f_(\*) cal(O)_X$ is a morphism of sheaves on $Y$.
+
+    #square_cd(
+      A11: $cal(O)_Y (V)$,
+      A12: $cal(O)_Y (U)$,
+      A21: $cal(O)_X (f^(-1)(V))$,
+      A22: $cal(O)_X (f^(-1)(U))$,
+      Ff: $op("res")_(V,U)$,
+      Gf: $op("res")_(V,U)$,
+      theta_l: $f_(V)^♯$,
+      theta_r: $f_(U)^♯$,
+    )
+]
+#definition[
+  Locally Ringed Spaces][A ringed space $lr((X , cal(O)_X))$ is called a #strong[locally ringed space] if for every $x in X$, the stalk $cal(O)_(X , x)$ is a local ring.
+
+]<locally-ringed-space>
+#definition[
+  Morphism of Locally Ringed Spaces
+][
+  A morphism of locally ringed spaces $lr((f , f^(♯))) : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$ is a morphism of ringed spaces such that for every $x in X$, the induced map $f_x^(♯) : cal(O)_(Y , f lr((x))) arrow.r cal(O)_(X , x)$ is a local ring homomorphism.
+
+]
+#definition[
+  Residue Field
+][
+  Let $lr((X , cal(O)_X))$ be a locally ringed space and $x in X$. The #strong[residue field] of $X$ at $x$ is the field $cal(O)_(X , x) \/ frak(m)_(X , x)$, where $frak(m)_(X , x)$ is the maximal ideal of $cal(O)_(X , x)$.
+
+]<residue-field>
 
 #pagebreak()
 
@@ -702,7 +747,7 @@ Affine schemes are the basic building blocks of schemes. They are locally ringed
 #example[
   $affine_(bb(C))^n = op("Spec") lr((bb(C) lr([x_1 , dots.h.c , x_n])))$][
   The prime ideals of $bb(C) lr([x , y])$ includes $lr((0))$, $lr((x_1 - a_1, dots.c , x_n - a_n))$ and $lr((f))$, where $a_i in bb(C)$ and $f$ is an irreducible polynomial in $bb(C) lr([x_1 , dots.h.c , x_n])$. \
-  By the Hilbert’s Nullstellensatz, $lr((x_1 - a_1 , dots.h.c , x_n - a_n))$ are exactly all maximal ideals of $bb(C) lr([x_1 , dots.h.c , x_n])$. Therefore, we have a bijection between closed points of $affine_(bb(C))^n$ and $bb(C)^n$.
+  By the Hilbert's Nullstellensatz, $lr((x_1 - a_1 , dots.h.c , x_n - a_n))$ are exactly all maximal ideals of $bb(C) lr([x_1 , dots.h.c , x_n])$. Therefore, we have a bijection between closed points of $affine_(bb(C))^n$ and $bb(C)^n$.
 
 ]
 Given en element $f$ of a commutative ring $R$, we can evaluate $f$ at a prime ideal $lr([frak(p)]) in op("Spec")(R)$ by defining $f lr((lr([frak(p)])))$ to be the image of $f$ under the projection $pi : R arrow.r R \/ frak(p)$, that is $f lr((lr([frak(p)]))) = f + frak(p)$.
@@ -733,7 +778,7 @@ Every $f in S$ vanishes at $lr([frak(p)])$ is equivalent to $S subset.eq frak(p)
   Given a commutative ring $R$, the #strong[Zariski topology] on $op("Spec")(R)$ is defined by taking the collection of all vanishing sets as the closed sets, that is, $ upright("Collection of closed sets") = lr({V lr((S)) in 2^(thin op("Spec")(R)) thin | thin S subset.eq R}) . $ Or equivalently, Zariski topology can be defined by taking the collection of all non-vanishing sets as the open sets, that is, $ upright("Collection of open sets") = lr({D lr((S)) in 2^(thin op("Spec")(R)) thin | thin S subset.eq R}) . $
 
 ]
-#definition[
+#proposition[
   Properties of $V$
 ][
   Suppose $R$ is a commutative ring. Then the vanishing set function $V : 2^R arrow.r 2^(thin op("Spec")(R))$ satisfies the following properties:
@@ -807,9 +852,34 @@ Every $f in S$ vanishes at $lr([frak(p)])$ is equivalent to $S subset.eq frak(p)
 
 ]
 
+#definition[
+  $I (Y)$ for $Y subset.eq op("Spec")(R)$
+][
+  Let $R$ be a
+  commutative ring. The map $I$ assigns to each subset $Y$ of $op("Spec")(R)$
+  the ideal $I (Y)$ of $R$ defined by
+  $
+    I : 2^(upright(S p e c) (R)) & arrow.r 2^R\
+    Y & arrow.r sect.big_([frak(p)] in Y) frak(p)
+  $
+]
+
+#proposition[Properties of $I$][
+  Suppose $R$ is a commutative ring.
+  Then the non-vanishing set function $I : 2^(op("Spec")(R)) arrow.r 2^R$
+  satisfies the following properties:
+
+  + $I$ is inclusion-reversing: if $Y_1 subset.eq Y_2 subset.eq op("Spec")  (R)$, then $I (Y_2) subset.eq I (Y_1)$.
+
+  + $I (Y_1 union Y_2) = I (Y_1) sect I (Y_2)$ for any subsets $Y_1 , Y_2$ of $op("Spec") (R)$.
+
+  + For any ideal $frak(a) subset.eq R , I (V (frak(a))) = sqrt(frak(a))$.
+
+  + For any subset $Y subset.eq op("Spec") (R) , I (Y) = I (overline(Y)) , V (I (Y)) = overline(Y)$.
+]
 
 #theorem[
-  Hilbert’s Nullstellensatz][
+  Hilbert's Nullstellensatz][
   Let $upright(R a d) lr((R))$ be the collection of all radical ideals of $R$ and $ mono(C l o s e d)_(op("Spec")(R)) := lr({A subset.eq op("Spec")(R) thin | thin A upright(" is closed")}) $ be the collection of closed subsets of $op("Spec")(R)$. Then by restricting $V : 2^R arrow.r 2^(thin op("Spec")(R))$ to $upright(R a d) lr((R))$, we obtain the following bijection:
   $
     V : "Rad" (R) & arrow.r^tilde.op upright(" Closed ")_(op("Spec") (R))\
@@ -1075,14 +1145,16 @@ The second case of localization is as follows.
 
   + $f$ is invertible in $R_g$ if and only if there exists $a in R$ such that $r f = g^n$ for some $n gt.eq 1$. By , since $V lr((f)) subset.eq V lr((g))$, we have $g^n in lr((f))$ for some $n gt.eq 1$, which proves $f$ is invertible in $R_g$.
 
-  + Suppose $l_f : R arrow.r R_f$ and $l_g : R arrow.r R_g$ are the localization maps. Since from (i) we know $ l_g lr((lr({f^n thin | thin n in bb(Z)}))) subset.eq R_g^times , $ there exists a unique ring homomorphism
-  $
-    rho_(f , g) : R_f & --> R_g\
-    a / f^n & arrow.long.bar a / f^n
-  $
-  such that the following diagram commutes
+  + #block[Suppose $l_f : R arrow.r R_f$ and $l_g : R arrow.r R_g$ are the localization maps. Since from (i) we know $ l_g lr((lr({f^n thin | thin n in bb(Z)}))) subset.eq R_g^times , $ there exists a unique ring homomorphism
+      $
+        rho_(f , g) : R_f & --> R_g\
+        a / f^n & arrow.long.bar a / f^n
+      $
+      such that the following diagram commutes
+      #commutative_diagram($R_f edge("rr", rho_(f,g), "-->") & & R_g\
+        &R edge("ul", l_f, ->, #left)edge("ur", l_g, ->, #right)&$)
 
-
+    ]
 
 ]
 #proposition[
@@ -1156,18 +1228,24 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
     X: $D(g)$,
     Y: $D(f)$,
     Fg: $op("Res")_(D(f)arrow.hook.l D(g))$,
-    FX: $tilde(M) lr((D(g)))$,
-    FY: $tilde(M) lr((D(f)))$,
+    FX: $tilde(M) lr((D(g)))=M_g$,
+    FY: $tilde(M) lr((D(f)))=M_f$,
     Fg_e: $rho_(f,g)$,
     FX_e: $m / f^n$,
     FY_e: $m / f^n$,
     contravariant: true,
   )
   where $rho_(f , g) : M_f arrow.r M_g$ is the canonical $R_f$-module map
-  defined in Lemma 2.1.18. Note here we abuse notation because
+  defined in @localization_canonical_maps. Note here we abuse notation because
   $tilde(M) (D (f)) := M_f$ is only defined up to canonical isomorphism.
   Suppose $[frak(p)] in op("Spec") (R)$. The stalk of $tilde(M)$ at
   $[frak(p)]$ is given by
+  $
+    tilde(M)_([frak(p)]) = injlim_([frak(p)] in D (f) in mathsf("BZar")_R) tilde(M) (
+      D (f)
+    ) = injlim_(f in R - frak(p)) M_f = M_(frak(p)) .
+  $
+
 
   We can check the sheaf condition for $tilde(M)$ as follows: Suppose
   $D (f) = limits(union.big)_(i = 1)^n D (g_i)$ and
@@ -1189,16 +1267,19 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
   $
 
   Since
-  $gamma^(i j) : M_(g_i g_j) arrow.r.hook m_(i j)_(k = 1) M_(h_k^(i j))$
-  is injective, let $gamma = n_(i , j = 1) gamma^(i j)$ and we have the
-  following exact sequence
+  $gamma^(i j) : M_(g_i g_j) arrow.r.hook limits(xor.big)_(k = 1)^(m_(i j)) M_(h_k^(i j))$
+  is injective, there exists a unique map $gamma$ such that the following diagram commutes
+  #commutative_diagram($
+    &display(xor.big_(k = 1)^(m_(i j)) M_(h_k^(i j)))\
+    M_(g_i g_j)edge("r", iota, ->) edge("ur", gamma^(i j), ->)& display(xor.big_(k = 1)^(m_(i j))M_(g_i g_j))edge("u", gamma, "-->")
+  $)
+  So we get the following exact sequence
   $
     0 arrow.long.r M_f arrow.long.r^alpha xor.big_(i = 1)^n M_(g_i) arrow.long.r^(gamma circle.stroked.tiny beta) xor.big_(i , j = 1)^n xor.big_(k = 1)^(m_(i j)) M_(h_k^(i j)) .
   $
 
-  According to Proposition 1.2.13, we can extend $tilde(M)$ to a unique
-  sheaf on $op("Spec") (R)$, which is still denoted by $tilde(M)$, and call it
-  the sheaf associated to $M$.
+  According to @extended-sheaf-has-the-same-stalks, we can extend $tilde(M)$ to a unique
+  sheaf on $op("Spec") (R)$, which is still denoted by $tilde(M)$, and call it *the sheaf associated to $M$*.
 
 ]<sheaf_associated_to_module>
 
@@ -1214,7 +1295,7 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
       f
     ) subset.eq U) R_f\
     =& {
-      (s_f) in product_(D (f) subset.eq U) R_f divides "res"_(D (f) arrow.hook.l D (g)) (
+      (s_f) in product_(D (f) subset.eq U) R_f mid(|) "res"_(D (f) arrow.hook.l D (g)) (
         s_f
       ) = s_g upright(" for any ") D (g) subset.eq D (f) subset.eq U
     } upright(". ")
@@ -1249,31 +1330,27 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
 
 #proposition[][
   Let $R$ be a ring. Let $M$ be an $R$-module. Let
-$tilde(M)$ be the sheaf of
-$cal(O)_(upright(S p e c) (R) )$-modules associated to $M$.
+  $tilde(M)$ be the sheaf of
+  $cal(O)_(upright(S p e c) (R) )$-modules associated to $M$.
 
-+ We have $Gamma (op("Spec")(R) , tilde(M)) = M$ as an $R$-module. 
+  + We have $Gamma (op("Spec")(R) , tilde(M)) = M$ as an $R$-module.
 
-+ For every $f in R$ we have $Gamma (D (f) , tilde(M)) = M_f$ as an $R_f$-module.
+  + For every $f in R$ we have $Gamma (D (f) , tilde(M)) = M_f$ as an $R_f$-module.
 
-+ Whenever $D (g) subset D (f)$ the restriction mappings on $tilde(M)$ are the maps $R_f arrow.r R_g$ from Lemma 26.5.1. 
+  + Whenever $D (g) subset.eq D (f)$ the restriction mappings on $tilde(M)$ are the maps $M_f arrow.r M_g$ from @sheaf_associated_to_module.
 
-+  Let $frak(p)$ be a prime of $R$, and let $x in op("Spec")(R)$ be the corresponding point. We have $tilde(M)_x = M_(frak(p))$ as an $R_(frak(p))$-module.
+  + Let $[frak(p)] in op("Spec")(R)$. We have $tilde(M)_[frak(p)] = M_(frak(p))$ as an $R_(frak(p))$-module.
 ]
 
 #corollary[][
-  Let $R$ be a ring. 
-+ We have $Gamma (op("Spec")(R) , cal(O)_(op("Spec")(R))) = R$. 
+  Let $R$ be a ring.
+  + We have $Gamma (op("Spec")(R) , cal(O)_(op("Spec")(R))) = R$.
 
-+ For every $f in R$ we have $Gamma (D (f) , cal(O)_(upright(S p e c) (R))) = R_f$.
+  + For every $f in R$ we have $Gamma (D (f) , cal(O)_(upright(S p e c) (R))) = R_f$.
 
-+ Whenever $D (g) subset D (f)$ the restriction mappings on $cal(O)_(upright(S p e c) (R))$ are the maps
-$R_f arrow.r R_g$ from Lemma 26.5.1. (6) Let
-$frak(p)$ be a prime of $R$, and let $x in "Spec" (R)$ be the
-corresponding point. We have
-$cal(O)_(upright(S p e c) (R) , x) = R_(frak(p))$. (7) Let $frak(p)$ be
-a prime of $R$, and let $x in "Spec" (R)$ be the corresponding point. We
-have $tilde(M)_x = M_(frak(p))$ as an $R_(frak(p))$-module.
+  + Whenever $D (g) subset.eq D (f)$ the restriction mappings on $cal(O)_(upright(S p e c) (R))$ are the maps $R_f arrow.r R_g$ from @sheaf_associated_to_module.
+
+  + Let $[frak(p)] in op("Spec")(R)$. We have $cal(O)_(upright(S p e c) (R) , x) = R_(frak(p))$.
 ]
 
 
@@ -1323,4 +1400,4 @@ have $tilde(M)_x = M_(frak(p))$ as an $R_(frak(p))$-module.
 
 = Algebraic Curves
 
-In this chapter, by curve we mean a smooth, projective, algebraic variety of dimension.
+In this chapter, by curve we mean a smooth, projective, algebraic variety of dimension 1.
