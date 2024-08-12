@@ -62,7 +62,7 @@
 
   - Morphisms: Inclusion maps of open sets.
 
-  Note that $lr((tau , supset.eq))$ is also a filtered set which can be seen as the filtered (0,1)-category $mathsf("Open")_X^(upright(o p))$.
+  Note that $lr((tau , supset.eq))$ is also a filtered set which can be seen as the filtered (0,1)-category $mathsf("Open")_X^(op("op"))$.
   Therefore, $mathsf("Open")_X$ is both filtered and cofiltered.
 ]
 
@@ -73,7 +73,7 @@ Note in $mathsf("Open")_X$, all diagrams are commutative.
 #definition[
   $mathsf(C)$-valued Presheaf
 ][
-  Let $mathsf(C)$, $mathsf(D)$ be categories. A $mathsf(C)$-valued #strong[presheaf] is a functor $F : mathsf(D)^(upright(o p)) arrow.r mathsf(C)$.
+  Let $mathsf(C)$, $mathsf(D)$ be categories. A $mathsf(C)$-valued #strong[presheaf] is a functor $F : mathsf(D)^(op("op")) arrow.r mathsf(C)$.
 ]
 
 
@@ -157,6 +157,134 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
   )
 ]<constant-presheaf>
 
+
+#definition[
+  Pushforward Presheaf
+][
+  Let $X$ be a topological space and $cal(F)$ be a presheaf on $X$. Let $f : X arrow.r Y$ be a continuous map. The #strong[pushforward presheaf] $f_(*) cal(F)$ is the presheaf on $Y$ defined as follows:
+
+  #functor_diagram(
+    F: $f_* cal(F)$,
+    C: $mathsf("Open")_Y^(op("op"))$,
+    D: $mathsf("C")$,
+    g: $iota^(op("op"))$,
+    X: $V$,
+    Y: $U$,
+    Fg: $res(f^(-1)(V),f^(-1)(U))$,
+    FX: $cal(F)(f^(-1)(V))$,
+    FY: $cal(F)(f^(-1)(U))$,
+  )
+
+  The #strong[pushforward presheaf functor] $f_(*) : mathsf("PSh")_(mathsf(C)) lr((X)) arrow.r mathsf("PSh")_(mathsf(C)) lr((Y))$ is defined as follows:
+
+  #functor_diagram_square_cd(
+    F: $f_*$,
+    C: $mathsf("PSh")_(mathsf(C))(X)$,
+    D: $mathsf("PSh")_(mathsf(C))(Y)$,
+    g: $phi$,
+    X: $cal(F)_1$,
+    Y: $cal(F)_2$,
+    Fg: $f_* phi$,
+    FX: $f_* cal(F)_1$,
+    FY: $f_* cal(F)_2$,
+
+    A11: $cal(F)_1(f^(-1)(V))$,
+    A12: $cal(F)_1(f^(-1)(U))$,
+    A21: $cal(F)_2(f^(-1)(V))$,
+    A22: $cal(F)_2(f^(-1)(U))$,
+    Ff: $res(f^(-1)(V),f^(-1)(U))$,
+    Gf: $res(f^(-1)(V),f^(-1)(U))$,
+    theta_l: $phi_(f^(-1)(V))$,
+    theta_r: $phi_(f^(-1)(U))$,
+  )
+]<pushforward-presheaf>
+#proof[
+  Let's check that $f_*$ is a functor.
+
+  - Suppose $cal(F)$ is a presheaf on $X$. For any open set $U$ of $Y$, we have
+    $
+      (f_* op("id")_(cal(F)))_U = op("id")_(cal(F)(f^(-1)(U))) = op("id")_(f_* cal(F))_U,
+    $
+    which means $f_* op("id")_(cal(F)) = op("id")_(f_* cal(F))$.
+
+  - Suppose $cal(F)_1 xarrow(phi) cal(F)_2 xarrow(psi) cal(F)_3$ are morphisms of presheaves on $X$. For any open set $U$ of $Y$, we have
+    $
+      (f_* psi circle.stroked.tiny f_* phi)_U =
+      psi_(f^(-1)(U)) circle.stroked.tiny phi_(f^(-1)(U)) =(psi circle.stroked.tiny phi)_(f^(-1)(U))= f_* (
+        psi circle.stroked.tiny phi
+      )_U,
+    $
+    which means $f_* psi circle.stroked.tiny f_* phi = f_* (psi circle.stroked.tiny phi)$.
+]
+
+
+#definition[Pullback Presheaf][
+  Let $X$ be a topological space and $cal(G)$ be a presheaf on $Y$. Let $f : (X,tau^') arrow.r (Y,tau)$ be a continuous map. The #strong[pullback presheaf] $f^*cal(G)$ is the presheaf on $X$ defined as follows:
+
+  #functor_diagram(
+    F: $f^* cal(G)$,
+    C: $mathsf("Open")_X^(op("op"))$,
+    D: $mathsf("C")$,
+    g: $iota^(op("op"))$,
+    X: $V$,
+    Y: $U$,
+    Fg: $$,
+    FX: $injlim_(f(V) subset.eq W in tau) cal(G)(W)$,
+    FY: $injlim_(f(U) subset.eq W in tau) cal(G)(W)$,
+  )
+
+  Formally, Given an open set $U$ of $X$, let $mathsf("Open")_(Y , f(U))$ be the full subcategory of $mathsf("Open")_Y$ whose
+  objects are the open neighborhoods of $f(U)$ and whose morphisms are the inclusions of open sets. We see $mathsf("Open")_(Y , f(U))^(op("op"))$ is a filtered category. Therefore, $f^*cal(G)(U)$ is the filtered colimit
+  $
+    f^*cal(G)(U) = injlim_(f(U) subset.eq W in tau) cal(G)(W) = injlim cal(G)|_mathsf("Open")_(Y , f(U))^(op("op")).
+  $ 
+
+  If $U arrow.r.hook V$ is an inclusion map of open sets, then we have inclusion of categories $mathsf("Open")_(Y , f(V)) arrow.r.hook mathsf("Open")_(Y , f(U))$.
+
+
+  And we can define the #strong[pullback presheaf functor] $f^* : mathsf("PSh")_(mathsf(C)) lr((Y)) arrow.r mathsf("PSh")_(mathsf(C)) lr((X))$ as follows:
+
+  #functor_diagram_square_cd(
+    F: $f^*$,
+    C: $mathsf("PSh")_(mathsf(C))(Y)$,
+    D: $mathsf("PSh")_(mathsf(C))(X)$,
+    g: $phi$,
+    X: $cal(G)_1$,
+    Y: $cal(G)_2$,
+    Fg: $f^* phi$,
+    FX: $f^* cal(G)_1$,
+    FY: $f^* cal(G)_2$,
+
+    A11: $injlim_(f(V) subset.eq W ) cal(G)_1(W)$,
+    A12: $injlim_(f(U) subset.eq W ) cal(G)_1(W)$,
+    A21: $injlim_(f(V) subset.eq W) cal(G)_2(W)$,
+    A22: $injlim_(f(U) subset.eq W) cal(G)_2(W)$,
+    Ff: $res(f(V),f(U))$,
+    Gf: $res(f(V),f(U))$,
+    theta_l: $(f^* phi)_V$,
+    theta_r: $(f^* phi)_U$,
+  )
+
+  
+
+]
+#proposition[][
+  Let $f : X arrow.r Y$ be a continuous map. We have the following adjunction
+  #adjunction_pair(
+    C: $mathsf("PSh")_(mathsf(C))(Y)$,
+    D: $mathsf("PSh")_(mathsf(C))(X)$,
+    L: $f^*$,
+    R: $f_*$,
+  )
+  For any $cal(F) in op("Ob")(mathsf("PSh")_(mathsf(C))(X))$ and $cal(G) in op("Ob")(mathsf("PSh")_(mathsf(C))(Y))$, we have natural isomorphism
+  $
+    "Hom"_(mathsf("PSh")_(mathsf(C))(
+      X
+    )) lr((f^* cal(G), cal(F))) tilde.equiv "Hom"_(mathsf("PSh")_(mathsf(C)) lr((Y))) lr((cal(G) , f_* cal(F))) .
+  $
+]
+
+
 === Stalk of a Presheaf <stalk-of-a-presheaf>
 #definition[
   Stalk of a $mathsf(C)$-valued Presheaf
@@ -167,9 +295,9 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
     cal(F)_x := injlim_(x in U in tau) cal(F) lr((U)) .
   $
 
-  where $U$ runs over all open neighborhoods of $x$. Formally, let $mathsf(O p e n)_(X , x)$ be the full subcategory of $mathsf(O p e n)_X$ whose
+  where $U$ runs over all open neighborhoods of $x$. Formally, let $mathsf("Open")_(X , x)$ be the full subcategory of $mathsf("Open")_X$ whose
   objects are the open neighborhoods of $x$ and whose morphisms are the inclusions of open sets. Since for any $U , V in tau$,
-  there exists $U sect V in tau$ such that $x in U sect V$, $U supset.eq U sect V$ and $V supset.eq U sect V$, we see $mathsf(O p e n)_(X , x)^(upright(o p))$ is
+  there exists $U sect V in tau$ such that $x in U sect V$, $U supset.eq U sect V$ and $V supset.eq U sect V$, we see $mathsf("Open")_(X , x)^(op("op"))$ is
   a filtered category. Therefore, $cal(F)_x$ is a filtered colimit
   $
     cal(F)_x = injlim cal(F) |_mathsf("Open")_(X , x)^(op("op"))
@@ -275,7 +403,7 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
   Category of $mathsf(C)$-valued Presheaves on a Base for Topology
 ][
   Let $X$ be a topological space. Let $cal(B)$ be a base for the topology on $X$. The #strong[category of $mathsf(C)$-valued presheaves on $cal(B)$] is
-  defined as $ mathsf("PSh")_(mathsf(C)) lr((cal(B))) := lr([mathsf(B)^(upright(o p)) , mathsf(C)]) , $ where $mathsf(B)$ is the
+  defined as $ mathsf("PSh")_(mathsf(C)) lr((cal(B))) := lr([mathsf(B)^(op("op")) , mathsf(C)]) , $ where $mathsf(B)$ is the
   category whose objects are the elements of $cal(B)$ and whose morphisms are the inclusions of elements of $cal(B)$.
 
 ]
@@ -290,7 +418,7 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
   where $B$ runs over all elements of $cal(B)$ containing $x$. Formally, let $mathsf(B)_x$ be the full subcategory of $mathsf(B)$ whose
   objects are the elements of $cal(B)$ containing $x$ and whose morphisms are the inclusions of elements of $cal(B)$.
   Since for any $B , C in cal(B)$ such that $x in B sect C$, there exists $D in cal(B)$ such that $x in D subset.eq B sect C$,
-  we see $mathsf(B)_x^(upright(o p))$ is a filtered category. Therefore, $cal(F)_x$ is a filtered colimit
+  we see $mathsf(B)_x^(op("op"))$ is a filtered category. Therefore, $cal(F)_x$ is a filtered colimit
   $
     cal(F)_x = injlim cal(F) |_mathsf(B)_(x)^(op("op"))
   $
@@ -348,11 +476,11 @@ follows:
 
   - Objects: $mathsf(C)$-valued presheaves $cal(F)$ on $X$ such that one of the following equivalent condition holds:
 
-    + #block[for any tuple of open sets $lr((U_i))_(i in I)$, $cal(F)$ preserves the limit of $K_I^(upright(o p))$, i.e., $cal(F)$ maps a colimit of $K_I$ to a limit of $cal(F) circle.stroked.tiny K_I^(upright(o p))$
+    + #block[for any tuple of open sets $lr((U_i))_(i in I)$, $cal(F)$ preserves the limit of $K_I^(op("op"))$, i.e., $cal(F)$ maps a colimit of $K_I$ to a limit of $cal(F) circle.stroked.tiny K_I^(op("op"))$
         $
-          cal(F)lr((injlim K_I)) = projlim cal(F) circle.stroked.tiny K_I^(upright(o p))
+          cal(F)lr((injlim K_I)) = projlim cal(F) circle.stroked.tiny K_I^(op("op"))
         $
-        If we denote $U = union.big_(i in I) U_i$, then the limit cone of $cal(F) circle.stroked.tiny K_I^(upright(o p))$ is
+        If we denote $U = union.big_(i in I) U_i$, then the limit cone of $cal(F) circle.stroked.tiny K_I^(op("op"))$ is
         #commutative_diagram($
           &cal(F)(
             U
@@ -492,7 +620,8 @@ follows:
 
 
 #example[
-  Pointwise Function Sheaf][
+  Pointwise Function Sheaf
+][
   Let $X$ be a topological space. Let $lr((A_x))_(x in X)$ be a family of sets $A_x$ indexed by points $x in X$. We can construct a $mathsf(S e t)$-valued sheaf $cal(F)$ as follows
 
   #functor_diagram(
@@ -538,7 +667,8 @@ follows:
 
 
 #definition[
-  Sheafification of a Presheaf][
+  Sheafification of a Presheaf
+][
   Let $X$ be a topological space and $cal(F)$ be a $mathsf(S e t)$-valued presheaf on $X$. The #strong[sheafification of $cal(F)$] is a sheaf $sheafify(F)$ on $X$ together with a presheaf morphism $phi : cal(F) arrow.r cal(F)^(" sh")$ such that for any sheaf $cal(G)$ and any morphism $psi : cal(F) arrow.r cal(G)$, there exists a unique morphism $psi^(+) : sheafify(F) arrow.r cal(G)$ such that the following diagram commutes:
 
   #commutative_diagram($
@@ -563,38 +693,133 @@ follows:
 
 ]
 
-#example[Constant Sheaf is the Sheafification of Constant Presheaf][
+#example[
+  Constant Sheaf is the Sheafification of Constant Presheaf
+][
   Let $X$ be a topological space and $A$ be a set. Let $cal(F)$ be the #link(<constant-presheaf>)[constant presheaf with value $A$]. Recall that if $cal(F)$ is a sheaf, there must be $cal(F)(diameter)={*}$. Therefore, if $A$ has more than one element, $cal(F)$ is not a sheaf. We can also check that $cal(F)$ violates the gluability axiom if $A={0,1}$ and $X={0,1}$ with the discrete topology. Take sections $0 in cal(F) lr(({0}))$ and $1 in cal(F) lr(({1}))$. We cannot find a section $f in cal(F) lr((X))$ such that $f\|_({0}) = 0$ and $f\|_({1}) = 1$.
 
   The sheafification of $cal(F)$ is the #link(<constant-sheaf>)[constant sheaf with value $A$]. That's because compatible germs of $cal(F)$ on an open set $U subset.eq X$ are just locally constant functions $f: U arrow.r A$.
 ]
+#lemma[Pushforward of a Sheaf is a Sheaf][
+  Let $X$ and $Y$ be topological spaces and $cal(F)$ be a sheaf on $X$. Let $f : X arrow.r Y$ be a continuous map. According to the definition of #link(<pushforward-presheaf>)[pushforward presheaf], $f_(*) cal(F)$ is a presheaf on $Y$. We can check that $f_(*) cal(F)$ is a sheaf on $Y$.
+]
+#proof[
+  For any open set $U subset.eq Y$, for any open covering $U = union.big_(i in I) U_i$, we see $f^(-1)(U)=union.big_(i in I) f^(-1)(U_i)$ is an open covering of $f^(-1)(U)$. Thus we have the following equalizer diagram
+  $
+    cal(F)(f^(-1)(U))xarrow(width: #3em, "") product_(i in I ) cal(F)(
+      f^(-1)(U_i)
+    )xarrow(width: #3em, sym: arrows.rr, alpha_1)_(alpha_2)product_((i_1 , i_2) in I times I) cal(F) (
+      f^(-1)(U_(i_1) sect U_(i_2))
+    )
+  $
+  which means $f_(*) cal(F)$ is a sheaf on $Y$.
+]
+This lemma justifies the following definition.
 
 #definition[
   Pushforward Sheaf
 ][
-  Let $X$ be a topological space and $cal(F)$ be a sheaf on $X$. Let $f : X arrow.r Y$ be a continuous map. The #strong[pushforward sheaf] $f_(\*) cal(F)$ is the sheaf on $Y$ defined as follows:
+  Let $X$ be a topological space and $cal(F)$ be a sheaf on $X$. Let $f : X arrow.r Y$ be a continuous map. The #strong[pushforward sheaf] $f_(*) cal(F)$ is the pushforward presheaf $f_(*) cal(F)$ and defined explicitly as follows:
 
   #functor_diagram(
     F: $f_* cal(F)$,
-    C: $mathsf("Open")_X^(op("op"))$,
+    C: $mathsf("Open")_Y^(op("op"))$,
     D: $mathsf("Set")$,
     g: $iota^(op("op"))$,
     X: $V$,
     Y: $U$,
-    Fg: $res(V,U)$,
-    FX: $sheafify(F)(V)$,
-    FY: $sheafify(F)(U)$,
+    Fg: $res(f^(-1)(V),f^(-1)(U))$,
+    FX: $cal(F)(f^(-1)(V))$,
+    FY: $cal(F)(f^(-1)(U))$,
   )
 
-  The #strong[pushforward sheaf functor] $f_(\*) : mathsf(S h)_(mathsf(C)) lr((X)) arrow.r mathsf(S h)_(mathsf(C)) lr((Y))$ is defined as follows:
+  The #strong[pushforward sheaf functor] $f_(*) : mathsf("Sh")_(mathsf(C)) lr((X)) arrow.r mathsf(S h)_(mathsf(C)) lr((Y))$ is defined as follows:
+
+  #commutative_diagram({
+    let F = $f_*$
+    let C = $mathsf("Sh")_(mathsf(C))(X)$
+    let D = $mathsf("Sh")_(mathsf(C))(Y)$
+    let g = $phi$
+    let X = $cal(F)$
+    let Y = $cal(G)$
+    let Fg = $f_* phi$
+    let FX = $f_* cal(F)$
+    let FY = $f_* cal(G)$
+    let Fg_e = $res(V,U)$
+    let FX_e = $(U,f)$
+    let FY_e = $lr((U, f))$
+    let g_arrow = "=>"
+    let Fg_arrow = "=>"
 
 
-]
+    let width = 1.7
+
+    let (y1, y2) = (0.5, 1.9)
+
+    let (p_C, p_D) = ((0, 0), (width, 0))
+    let (p_X, p_Y) = ((0, y1), (0, y2))
+    let (p_FX, p_FY) = ((width, y1), (width, y2))
+
+    node(p_C, C)
+    node(p_D, D)
+    node(p_X, X)
+    node(p_FX, FX)
+    node(p_Y, Y)
+    node(p_FY, FY)
+    edge(p_X, p_Y, g, g_arrow)
+    edge(p_FX, p_FY, Fg, Fg_arrow, left)
+
+    let pad = 0.3
+    let mid_y = (y1 + y2) / 2
+    edge(
+      (pad, mid_y),
+      (width - pad, mid_y),
+      F,
+      "->",
+      decorations: cetz.decorations.wave.with(amplitude: .06, segment-length: .2, start: 10%, stop: 90%),
+    )
+
+    let A11 = $cal(F)(f^(-1)(V))$
+    let A12 = $cal(F)(f^(-1)(U))$
+    let A21 = $cal(G)(f^(-1)(V))$
+    let A22 = $cal(G)(f^(-1)(U))$
+    let Ff = $res(f^(-1)(V),f^(-1)(U))$
+    let Gf = $res(f^(-1)(V),f^(-1)(U))$
+    let theta_l = $phi_(f^(-1)(V))$
+    let theta_r = $phi_(f^(-1)(U))$
+    let Ff_arrow = "->"
+    let Gf_arrow = "->"
+    let theta_l_arrow = "->"
+    let theta_r_arrow = "->"
+
+    let cd_start_x = 2.8
+    let cd_width = 2
+
+    let (p_A11, p_A12, p_A21, p_A22) = (
+      (cd_start_x, y1),
+      (cd_start_x + cd_width, y1),
+      (cd_start_x, y2),
+      (cd_start_x + cd_width, y2),
+    )
+
+    node(p_A11, A11)
+    node(p_A12, A12)
+    node(p_A21, A21)
+    node(p_A22, A22)
+    edge(p_A11, p_A12, Ff, Ff_arrow)
+    edge(p_A21, p_A22, Gf, Gf_arrow, right)
+    edge(p_A11, p_A21, theta_l, theta_l_arrow)
+    edge(p_A12, p_A22, theta_r, theta_r_arrow, left)
+  })
+
+]<pushforward-sheaf>
+
+
 
 #example[
   Skyscraper Sheaf
 ][
-  Suppose $X$ is a topological space with $x in X$, and $S$ is a set. Let $i_x : { x } arrow.r X$ be the inclusion. Then we can define a functor $i_(x , *) S : mathsf("Open")_X^(upright(o p)) arrow.r mathsf("Set")$ as follows:
+  Suppose $X$ is a topological space with $x in X$, and $S$ is a set. Let $i_x : { x } arrow.r X$ be the inclusion. Then we can define a functor $i_(x , *) S : mathsf("Open")_X^(op("op")) arrow.r mathsf("Set")$ as follows:
 
   - Map on objects:
   $
@@ -644,7 +869,8 @@ follows:
 
 
 #example[
-  Sheaf of Continuous Sections of a Continuous Map][
+  Sheaf of Continuous Sections of a Continuous Map
+][
   Let $E$ and $X$ be topological spaces and $p: E arrow.r X$ be a continuous map. The #strong[sheaf of sections of $p$], denoted $Gamma(-,p)$, is the sheaf on $X$ defined as follows:
 
   #functor_diagram(
@@ -684,14 +910,17 @@ follows:
 ]
 
 #definition[
-  Étale Space][
+  Étale Space
+][
   An #strong[étale map] over a topological space $X$ is an object $p : E arrow.r X$ in slice category $mathsf("Top")\/ X$ such that $p$ is a local homeomorphism. The topological space $E$ is called an #strong[étale space] over $X$. The set $E_x = p^(- 1) lr((x))$ where $x in X$ is called the #strong[stalk] of $p$ over $x$. The category of étale maps over $X$ is the full subcategory of $mathsf("Top")\/ X$ consisting of étale spaces over $X$, denoted $mathsf("Et")_X$.
 
 ]
 #definition[
-  Étale Space of a Presheaf][ Let $X$ be a topological space and $cal(F)$ be a presheaf on $X$. The #strong[étale space] of $cal(F)$, denoted $op("Et")lr((cal(F)))$, is defined as follows:
+  Étale Space of a Presheaf
+][
+  Let $X$ be a topological space and $cal(F)$ be a presheaf on $X$. The #strong[étale space] of $cal(F)$, denoted $op("Et")lr((cal(F)))$, is defined as follows:
 
-  - The underlying set of $op("Et")lr((cal(F)))$ is
+  - The underlying set of $op("Et")lr((cal(F)))$ is the disjoint union of all stalks of $cal(F)$
   $ product.co_(x in X) cal(F)_x = lr({lr((x , s)) thin | thin x in X , s in cal(F)_x}) . $
 
   - The topology on $op("Et")lr((cal(F)))$ is generated by the following basis:
@@ -701,7 +930,7 @@ follows:
     ) .
   $
 
-  Define a map $p : op("Et")lr((cal(F))) arrow.r X$ by $p lr((x , s)) = x$. Then $p$ is a local homeomorphism. Therefore, $p : op("Et")r((cal(F))) arrow.r X$ is an étale map over $X$, which justifies the notation.
+  Define a map $p : op("Et")lr((cal(F))) arrow.r X$ by $p lr((x , s)) = x$. Then $p$ is a local homeomorphism. Therefore, $p_cal(F) : op("Et")lr((cal(F))) arrow.r X$ is an étale map over $X$, which justifies the notation.
 
   This construction is functorial. In other words, we can define a functor $op("Et"): mathsf("PSh")_(mathsf("Set")) lr((X)) arrow.r mathsf("Et")_X arrow.r.hook mathsf("Top")\/ X$ as follows:
 
@@ -714,14 +943,19 @@ follows:
     X: $cal(F)$,
     Y: $cal(G)$,
     Fg: $op("Et")(phi)$,
-    FX: $op("Et")(cal(F)) xarrow(p_1) X$,
-    FY: $op("Et")(cal(G)) xarrow(p_2, position: #bottom) X$,
+    FX: $op("Et")(cal(F)) xarrow(p_cal(F)) X$,
+    FY: $op("Et")(cal(G)) xarrow(p_cal(G), position: #bottom) X$,
     g_arrow: "=>",
     FX_e: $(x,s)$,
     FY_e: $(x,phi(s))$,
   )
 
-  We have the following adjunction: $ "Hom"_(mathsf("Top")\/ X) lr((mathsf("Et")lr((-)) , -)) tilde.equiv "Hom"_(mathsf("PSh")_(mathsf("Set")) lr((X))) lr((- , Gamma lr((-)))) . $ Furthermore, this adjunction restricts to an equivalence of categories
+  We have the following adjunction:
+  $
+    "Hom"_(mathsf("Top")\/ X) lr((op("Et")lr((-)) , -)) tilde.equiv "Hom"_(mathsf("PSh")_(mathsf("Set")) lr((X))) lr((- , Gamma lr((-)))) .
+  $
+
+  Furthermore, this adjunction restricts to an equivalence of categories
 
   #commutative_diagram({
     let (A, B) = ((0, 0), (1, 0))
@@ -811,9 +1045,9 @@ follows:
   Category of Ringed Spaces][
   The #strong[category of ringed spaces] consists of the following data:
 
-  - Objects: ringed spaces $lr((X , cal(O)_X))$.
+  - #emph[Objects] : ringed spaces $lr((X , cal(O)_X))$.
 
-  - Morphisms: morphisms of ringed spaces $lr((f , f^(♯))) : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$, where $f : X arrow.r Y$ is a continuous map and $f^(♯) : cal(O)_Y arrow.r f_(\*) cal(O)_X$ is a morphism of sheaves on $Y$.
+  - #emph[Morphisms] : morphisms of ringed spaces $lr((f , f^(♯))) : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$, where $f : X arrow.r Y$ is a continuous map and $f^(♯) : cal(O)_Y arrow.r f_(*) cal(O)_X$ is a morphism of sheaves on $Y$. Recall that $f_(*) cal(O)_X$ is the #link(<pushforward-sheaf>,"pushforward sheaf") of $cal(O)_X$ along $f$. The naturality of $f^(♯)$ is given by the following commutative diagram:
 
     #square_cd(
       A11: $cal(O)_Y (V)$,
@@ -825,23 +1059,41 @@ follows:
       theta_l: $f_(V)^♯$,
       theta_r: $f_(U)^♯$,
     )
+    For simplicity, we abuse the notation and write $f=lr((f , f^(♯)))$. Then the morphism of ringed spaces can be written as $f : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$.
 ]
+
+
 #definition[
   Locally Ringed Spaces][A ringed space $lr((X , cal(O)_X))$ is called a #strong[locally ringed space] if for every $x in X$, the stalk $cal(O)_(X , x)$ is a local ring.
 
 ]<locally-ringed-space>
+
+
 #definition[
-  Morphism of Locally Ringed Spaces
+  Category of Locally Ringed Spaces
 ][
-  A morphism of locally ringed spaces $lr((f , f^(♯))) : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$ is a morphism of ringed spaces such that for every $x in X$, the induced map $f_x^(♯) : cal(O)_(Y , f lr((x))) arrow.r cal(O)_(X , x)$ is a local ring homomorphism.
+  The #strong[category of locally ringed spaces] consists of the following data:
+
+  - #emph[Objects] : locally ringed spaces $lr((X , cal(O)_X))$.
+
+  - #emph[Morphisms] : a *morphism of locally ringed spaces* $lr((f , f^(♯))) : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$ is a morphism of ringed spaces such that for every $x in X$, the induced map $f_x^(♯) : cal(O)_(Y , f lr((x))) arrow.r cal(O)_(X , x)$ is a local ring homomorphism.
 
 ]
+
 #definition[
   Residue Field
 ][
   Let $lr((X , cal(O)_X))$ be a locally ringed space and $x in X$. The #strong[residue field] of $X$ at $x$ is the field $cal(O)_(X , x) \/ frak(m)_(X , x)$, where $frak(m)_(X , x)$ is the maximal ideal of $cal(O)_(X , x)$.
 
 ]<residue-field>
+
+#definition[
+  Open Immersions of Locally Ringed Spaces
+][
+  Let $f: (X, cal(O)_X) arrow.r (Y, cal(O)_Y)$ be a morphism of locally ringed spaces. We say that $f$ is an #strong[open immersion] if the following conditions are satisfied:
+  - $f$ is a homeomorphism onto its image $f(X)$ where $f(X)$ is equipped with the subspace topology induced by $Y$,
+  - $f^♯: cal(O)_Y arrow.r f_(*) cal(O)_X$ is an isomorphism of sheaves.
+]
 
 #pagebreak()
 
@@ -1066,7 +1318,7 @@ Every $f in S$ vanishes at $lr([frak(p)])$ is equivalent to $S subset.eq frak(p)
 ]
 #proposition[
   Base of Zariski Topology][
-  The collection of all sets of the form $D lr((f))$, where $f in R$, $ lr({D lr((f)) in 2^(thin op("Spec")(R)) thin | thin f in R}) $ forms a base for the Zariski topology on $op("Spec")(R)$. For this reason, we call the sets $D lr((f))$ #strong[distinguished open set]. They form a full subcategory of the category of $mathsf(O p e n)_(op("Spec")(R))$. We denote this category as $mathsf(B Z a r)_R$.
+  The collection of all sets of the form $D lr((f))$, where $f in R$, $ lr({D lr((f)) in 2^(thin op("Spec")(R)) thin | thin f in R}) $ forms a base for the Zariski topology on $op("Spec")(R)$. For this reason, we call the sets $D lr((f))$ #strong[distinguished open set]. They form a full subcategory of the category of $mathsf("Open")_(op("Spec")(R))$. We denote this category as $mathsf(B Z a r)_R$.
 
 ]<base_of_zariski_topology>
 #proof[
