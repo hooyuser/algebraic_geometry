@@ -1,5 +1,7 @@
 .history/*
-*/.idea/*
+.idea/*
 .vscode/*
+fonts/*
 
 *.pdf
+.DS_Store
