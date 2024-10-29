@@ -1,4 +1,4 @@
-#import "@preview/cetz:0.2.2"
+#import "@preview/cetz:0.3.1"
 #import "@preview/fletcher:0.5.1" as fletcher: diagram, node, edge
 #import "@preview/xarrow:0.3.1": xarrow
 
@@ -19,6 +19,8 @@
 
 
 #let sheafify(x) = $cal(#x)^(#h(0.2em)op("sh"))$
+
+#let spec(x) = $op("Spec")(#x)$
 
 #let mathsf(x) = $sans(upright(#x))$
 
@@ -129,7 +131,7 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
   defined as follows:
 
   #functor_diagram(
-    F: $cal(F)$,
+    F: $underline(A)_op("pre")$,
     C: $mathsf("Open")_X^(op("op"))$,
     D: $mathsf("Set")$,
     g: $iota^(op("op"))$,
@@ -140,6 +142,26 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
     FY: $A$,
   )
 ]<constant-presheaf>
+
+#proposition[Monomorphisms and Epimorphisms in $mathsf("PSh")_(mathsf("Set")) lr((X))$][
+  Let $X$ be topological space and $f: cal(F)->cal(G)$ be a morphism in $mathsf("PSh")_(mathsf("Set")) lr((X))$. The following conditions on $f$ are equivalent characterizations of monomorphisms:
+
+  + $f$ is a monomorphism.
+
+  + For any open set $U subset.eq X$, the map $f_U : cal(F)(U) arrow.r cal(G)(U)$ is injective.
+
+  The following conditions on $f$ are equivalent characterizations of epimorphisms:
+
+  + $f$ is an epimorphism.
+
+  + For any open set $U subset.eq X$, the map $f_U : cal(F)(U) arrow.r cal(G)(U)$ is surjective.
+
+  The following conditions on $f$ are equivalent characterizations of isomorphisms:
+
+  + $f$ is an isomorphism.
+
+  + For any open set $U subset.eq X$, the map $f_U : cal(F)(U) arrow.r cal(G)(U)$ is bijective.
+]
 
 
 #definition[
@@ -201,6 +223,7 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
     which means $f_* psi circle.stroked.tiny f_* phi = f_* (psi circle.stroked.tiny phi)$.
 ]
 
+Since the continuous image of an open set is generally not open, defining the pushforward presheaf needs to "take outer limit" , i.e. take colimit among open sets that contain the image of the open set.
 
 #definition[Pullback Presheaf][
   Let $X$ be a topological space and $cal(G)$ be a presheaf on $Y$. Let $f : (X,tau^') arrow.r (Y,tau)$ be a continuous map. The #strong[pullback presheaf] $f^*cal(G)$ is the presheaf on $X$ defined as follows:
@@ -222,9 +245,6 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
   $
     f^*cal(G)(U) = injlim_(f(U) subset.eq W in tau) cal(G)(W) = injlim cal(G)|_mathsf("Open")_(Y , f(U))^(op("op")).
   $
-
-  If $U arrow.r.hook V$ is an inclusion map of open sets, then we have inclusion of categories $mathsf("Open")_(Y , f(V)) arrow.r.hook mathsf("Open")_(Y , f(U))$.
-
 
   And we can define the #strong[pullback presheaf functor] $f^* : mathsf("PSh")_(mathsf(C)) lr((Y)) arrow.r mathsf("PSh")_(mathsf(C)) lr((X))$ as follows:
 
@@ -248,11 +268,37 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
     theta_l: $(f^* phi)_V$,
     theta_r: $(f^* phi)_U$,
   )
+]
+#remark[
+  The universal property of the colimit
+  $
+    f^*cal(G)(U) = injlim_(f(U) subset.eq W in tau) cal(G)(W) = injlim cal(G)|_mathsf("Open")_(Y , f(U))^(op("op")).
+  $
+  is given as follows: for any open sets $W,Z$ such that $f(U)subset.eq W subset.eq Z$, for any set $A$, and for any morphism $h_Z: cal(G)(Z) arrow.r A$ and $h_W: cal(G)(W) arrow.r A$ such that $h_W circle.stroked.tiny res(Z , W) = h_Z$, there exists a unique morphism $tilde(h):f^*cal(G)(U) arrow.r A$ such that the following diagram commutes:
 
+  #commutative_diagram($
+    &A&\
+    & f^*cal(G)(U) edge("u",#left,tilde(h), "-->")&\
+    cal(G)(
+      Z
+    )edge("ru",#right, #h(-1em)accent(op("res"),->)_(Z,f(U)),->)edge("ruu",h_Z,->) edge("rr",#right, res(Z,W),->)&& cal(G)(
+      W
+    )edge("lu",#left, accent(op("res"),->)_(W,f(U))#h(-1em),->)edge("luu",h_W,->)
+  $)
 
+  If $U arrow.r.hook V$ is an inclusion map of open sets, then we have inclusion of sets $f(U) arrow.r.hook f(V)$ and inclusion of categories $mathsf("Open")_(Y , f(V)) arrow.r.hook mathsf("Open")_(Y , f(U))$. This induces a morphism $f^*cal(G)(V) ->f^*cal(G)(U)$ by the universal property of the colimit
+
+  #commutative_diagram($
+    cal(G)(W)edge("r",accent(op("res"),->)_(W,f(V)),->) edge("rd",#right,accent(op("res"),->)_(W,f(U)),->) & injlim_(f(
+      V
+    ) subset.eq W in tau) cal(G)(W)edge("d",#left,f^*cal(G)(U arrow.hook V), "-->")\
+    &injlim_(f(U) subset.eq W in tau) cal(G)(W)
+  $)
 
 ]
-#proposition[][
+
+
+#proposition[$f^* tack.l f_*$][
   Let $f : X arrow.r Y$ be a continuous map. We have the following adjunction
   #adjunction_pair(
     C: $mathsf("PSh")_(mathsf(C))(Y)$,
@@ -266,6 +312,73 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
       X
     )) lr((f^* cal(G), cal(F))) tilde.equiv "Hom"_(mathsf("PSh")_(mathsf(C)) lr((Y))) lr((cal(G) , f_* cal(F))) .
   $
+]
+#proof[
+  Suppose $cal(F) in op("Ob")(mathsf("PSh")_(mathsf(C))(X))$ and $cal(G) in op("Ob")(mathsf("PSh")_(mathsf(C))(Y))$. We need to define a map
+  $
+    Phi_(cal(G), cal(F)):"Hom"_(mathsf("PSh")_(mathsf(C))(
+      X
+    )) lr((f^* cal(G), cal(F))) --> "Hom"_(mathsf("PSh")_(mathsf(C)) lr((Y))) lr((cal(G) , f_* cal(F))) .
+  $
+  Let $theta: f^* cal(G) arrow.r cal(F)$ be a morphism in $mathsf("PSh")_(mathsf(C))(X)$. We can define a morphism $Phi_(cal(G), cal(F))(theta): cal(G) arrow.r f_* cal(F)$ in $mathsf("PSh")_(mathsf(C))(Y)$ as follows: for each open set $W subset.eq Y$, the morphism $(Phi_(cal(G), cal(F))(theta))_W: cal(G)(W)->f_* cal(F)(W)$ is the composition of the following morphisms
+  $
+    cal(G)(W) xarrow(accent(op("res"),->)_(W,f(f^(-1)(W)))) f^* cal(G)(f^(-1)(W)) xarrow(theta_(f^(-1)(W))) cal(F)(
+      f^(-1)(W)
+    ).
+  $
+  To verufy the naturality of $Phi_(cal(G), cal(F))(theta)$, we can check the following commutative diagram
+  #commutative_diagram(
+    $
+      cal(G)(W) edge("r",res(W, W'),->) edge("d",accent(op("res"),->)_(W,f(f^(-1)(W))),->) &cal(G)(
+        W'
+      )edge("d",accent(op("res"),->)_(W',f(f^(-1)(W'))),->)\
+      f^* cal(G)(f^(-1)(W)) edge("r",res(f^(-1)(W), f^(-1)(W')),->)edge("d",theta_(f^(-1)(W)),->)&f^* cal(G)(
+        f^(-1)(W')
+      ) edge("d",#left, theta_(f^(-1)(W')),->)\
+      cal(F)(f^(-1)(W)) edge("r",#right,res(f^(-1)(W), f^(-1)(W')),->) &cal(F)(f^(-1)(W'))\
+    $,
+    spacing: (7em, 3em),
+  )
+  #par(first-line-indent: 0em)[which follows from the naturality of $injlim$ and $theta$.]
+
+  Let $xi: cal(G) arrow.r f_* cal(F)$ be a morphism in $mathsf("PSh")_(mathsf(C))(Y)$. We can define a morphism $Psi_(cal(G), cal(F))(xi): f^* cal(G) arrow.r cal(F)$ in $mathsf("PSh")_(mathsf(C))(X)$ as follows: for each open set $U subset.eq X$, the morphism $(Psi_(cal(G), cal(F))(xi))_U: f^* cal(G)(U)->cal(F)(U)$ is defined through the universal property
+
+  #commutative_diagram($
+    cal(G)(W)edge("r",accent(op("res"),->)_(W,f(U)),->) edge("d",#right,xi_(W),->) & injlim_(f(
+      U
+    ) subset.eq W in tau) cal(G)(W)edge("d",#left,(Psi_(cal(G), cal(F))(xi))_U, "-->")\
+    cal(F)(f^(-1)(W)) edge("r",#right, res(f^(-1)(W), U),->)&cal(F)(U)
+  $)
+
+  The naturality of $Psi_(cal(G), cal(F))(xi)$ follows from the naturality of $xi$ and $injlim$.
+
+  Now we check that $Phi_(cal(G), cal(F))$ and $Psi_(cal(G), cal(F))$ are inverse to each other. Let $theta: f^* cal(G) arrow.r cal(F)$ be a morphism in $mathsf("PSh")_(mathsf(C))(X)$. We are going to check that $Psi_(cal(G), cal(F))(Phi_(cal(G), cal(F))(theta)) = theta$. For any open set $U subset.eq X$, and for any $W supset.eq f(U)$, we have $U subset.eq f^(-1)(W)$ and the following commutative diagram
+  #commutative_diagram(
+    $
+      cal(G)(
+        W
+      ) edge("r",accent(op("res"),->)_(W,f(U)),->) edge("d",#right, accent(op("res"),->)_(W,f(f^(-1)(W))),->) & injlim_(f(
+        U
+      ) subset.eq W in tau) cal(G)(W)edge("dd",#left, (Psi_(cal(G), cal(F))(Phi_(cal(G), cal(F))(theta)))_U, "-->")\
+      injlim_(f(
+        f^(-1)(W)
+      ) subset.eq Z in tau) cal(G)(Z)edge("ru",#right,f^*cal(G)(U arrow.hook f^(-1)(W)),->) edge("d",#right,theta_(f^(-1)(W)),->)&\
+      cal(F)(f^(-1)(W)) edge("r",#right, res(f^(-1)(W), U),->) &cal(F)(U)\
+    $,
+    spacing: (7em, 3em),
+  )
+  If $(Psi_(cal(G), cal(F))(Phi_(cal(G), cal(F))(theta)))_U=theta_U$, then by the naturality of $theta$, the above diagram commutes. And the uniqueness of the colimit guarantees $(Psi_(cal(G), cal(F))(Phi_(cal(G), cal(F))(theta)))_U=theta_U$. Hence we show that $Psi_(cal(G), cal(F))circle.tiny Phi_(cal(G), cal(F))=op("id")$. 
+
+  Similarly, we can show that $Phi_(cal(G), cal(F))circle.tiny Psi_(cal(G), cal(F))=op("id")$. Let $xi: cal(G) arrow.r f_* cal(F)$ be a morphism in $mathsf("PSh")_(mathsf(C))(Y)$. We are going to check that $Phi_(cal(G), cal(F))(Psi_(cal(G), cal(F))(xi)) = xi$. For any open set $W subset.eq Y$, we have the following commutative diagram
+
+#commutative_diagram($
+    cal(G)(W)edge("r",accent(op("res"),->)_(W,f(f^(-1)(W))),->) edge("d",#right,xi_(W),->) edge("rd",#right,xi_(W),->) & injlim_(f(
+      f^(-1)(W)
+    ) subset.eq W in tau) cal(G)(W)edge("d",#left,(Psi_(cal(G), cal(F))(xi))_(f^(-1)(W)), "-->")\
+    cal(F)(f^(-1)(W)) edge("r",#right, res(f^(-1)(W), f^(-1)(W)),->)&cal(F)(f^(-1)(W))
+  $)
+
+  Hence we have $(Phi_(cal(G), cal(F))(Psi_(cal(G), cal(F))(xi)))_W = xi_W$. Therefore, we have shown that $Phi_(cal(G), cal(F))$ and $Psi_(cal(G), cal(F))$ are inverse to each other.
 ]
 
 
@@ -284,9 +397,18 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
   there exists $U sect V in tau$ such that $x in U sect V$, $U supset.eq U sect V$ and $V supset.eq U sect V$, we see $mathsf("Open")_(X , x)^(op("op"))$ is
   a filtered category. Therefore, $cal(F)_x$ is a filtered colimit
   $
-    cal(F)_x = injlim cal(F) |_mathsf("Open")_(X , x)^(op("op"))
+    cal(F)_x = injlim cal(F) |_mathsf("Open")_(X , x)^(op("op")).
   $
-
+  The universal property of the colimit is given as follows: for open sets $W subset.eq U$, for any set $A$, and for any morphism $f_U: cal(F)(U) arrow.r A$ and $f_U: cal(F)(U) arrow.r A$ such that $h_W circle.stroked.tiny res(U , W) = f_U$, there exists a unique morphism $tilde(f):cal(F)_x arrow.r A$ such that the following diagram commutes:
+  #commutative_diagram($
+    &A&\
+    &cal(F)_x edge("u",#left,tilde(f), "-->")&\
+    cal(F)(
+      U
+    )edge("ru",#right, op("res")_(U,x),->)edge("ruu",f_U,->) edge("rr",#right, op("res")_(U arrow.l.hook W),->)&& cal(F)(
+      W
+    )edge("lu",#left, op("res")_(W,x),->)edge("luu",h_W,->)
+  $)
 ]
 #definition[
   Stalk of a $mathsf(S e t)$-valued Presheaf
@@ -305,10 +427,10 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
   $
     lr((U , f)) tilde.op lr((V , g)) <==> upright("there exists an open neighborhood ") W subset.eq U sect V upright("of ") x upright("such that ") f lr(|""_W = g|)_W .
   $
-  The image under the map $cal(F) lr((U)) arrow.r.hook cal(F)_x$ of a section $f in cal(F) lr((U))$ is the equivalence
+  The image under the map $op("res")_(U,x):cal(F) lr((U)) arrow.r cal(F)_x$ of a section $f in cal(F) lr((U))$ is the equivalence
   class of $lr((U , f))$, denoted as $lr([lr((U , f))])_x$, called the #strong[germ] of $f$ at $x$.
 
-]
+]<stalk-of-a-set-valued-presheaf>
 #proposition[][
   Let $mathsf(C)$ be a category. Let $F : mathsf(C) arrow.r mathsf(S e t)$ be a functor. Assume that
 
@@ -328,6 +450,21 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
 
 ]
 
+#proposition[Stalk of Pullback Presheaf][
+  Let $X$ be a topological space and $cal(G)$ be a presheaf on $Y$. Let $f : (X,tau^') arrow.r (Y,tau)$ be a continuous map. Suppose $cal(G)$ is a $mathsf(C)$-valued presheaf on $Y$ and all filtered colimits exist in $mathsf(C)$. For any $x in X$, we have the following isomorphism
+  $
+    (f^* cal(G))_x tilde.equiv injlim_(x in U in tau^') (f^* cal(G)) (U) tilde.equiv injlim_(f(x) in W in tau) cal(G)(W) = cal(G)_(f(x)).
+  $
+]
+#proof[
+  The basic idea is
+  $
+    (f^* cal(G))_x &tilde.equiv injlim_(x in U in tau^') (f^* cal(G)) (U)\
+    &tilde.equiv injlim_(x in U in tau^') injlim_(f(U) subset.eq W in tau) cal(G)(W)\
+    &tilde.equiv injlim_(f(x) subset.eq W in tau) cal(G)(W) \
+    &tilde.equiv cal(G)_(f(x)).
+  $
+]
 
 
 #definition[
@@ -566,6 +703,32 @@ follows:
     $
     is an equalizer diagram.
 ]
+
+#proposition[Monomorphisms and Epimorphisms in $mathsf("Sh")_(mathsf("Set")) lr((X))$][
+  Let $X$ be a topological space and $f: cal(F)->cal(G)$ be a morphism in $mathsf("Sh")_(mathsf("Set")) lr((X))$. The following conditions on $f$ are equivalent characterizations of monomorphisms:
+
+  + $f$ is a monomorphism.
+
+  + For any open set $U subset.eq X$, the map $f_U : cal(F)(U) arrow.r cal(G)(U)$ is injective.
+
+  + For any $x in X$, the map $f_x : cal(F)_x arrow.r cal(G)_x$ is injective.
+
+  The following conditions on $f$ are equivalent characterizations of epimorphisms:
+
+  + $f$ is an epimorphism.
+
+  + For any open set $U subset.eq X$ and every section $s in cal(G)(U)$, there exists an open cover $U= union.big_(i in I) U_i$ such that for each $i in I$, $s|_(U_i)$ is in the image of the map $f_(U_i) : cal(F)(U_i) arrow.r cal(G)(U_i)$.
+
+  + For any $x in X$, the map $f_x : cal(F)_x arrow.r cal(G)_x$ is surjective.
+
+  The following conditions on $f$ are equivalent characterizations of isomorphisms:
+
+  + $f$ is an isomorphism.
+
+  + For any $x in X$, the map $f_x : cal(F)_x arrow.r cal(G)_x$ is bijective.
+]
+
+
 #proposition[
   Suppose the category $mathsf(C)$ and the functor $U : mathsf(C) arrow.r mathsf(S e t)$ have the following properties:
 
@@ -643,10 +806,17 @@ follows:
     ) edge(iota, "-->") edge("dr", injlim_(x in U in tau), #right, "->") & limits(product)_(x in U) cal(F)_x edge("d", pi_x, #left, "->") \
     & cal(F)_x
   $)
+
+  And we have the following commutative diagram
+
+  #commutative_diagram($
+    cal(F)(U) edge(f, "->") edge("d", iota, #right, "->") & cal(G)(U) edge("d", iota, #left, "->") \
+    limits(product)_(x in U) cal(F)_x edge((f_x)_(x in U), #right, "->")& limits(product)_(x in U) cal(G)_x
+  $)
+
 ]<section_is_determined_by_its_germs_at_all_points>
 #proof[
   Suppose that $s , s^prime in cal(F) lr((U))$ such that $iota lr((s)) = iota lr((s^prime))$. Then for each $x in U$, $s , s^prime$ map to the same element in stalk $cal(F)_x$. This means that for every $x in U$, there exists an open $V^x subset.eq U , x in V^x$ such that $s\|_(V^x) = s^prime\|_(V^x)$. Note that $U = union.big_(x in U) V^x$ is an open covering. Thus by the uniqueness in the sheaf condition we see that $s = s^prime$.
-
 ]
 
 
@@ -656,13 +826,13 @@ follows:
   Let $X$ be a topological space and $cal(F)$ be a $mathsf(S e t)$-valued presheaf on $X$. The #strong[sheafification of $cal(F)$] is a sheaf $sheafify(F)$ on $X$ together with a presheaf morphism $phi : cal(F) arrow.r cal(F)^(" sh")$ such that for any sheaf $cal(G)$ and any morphism $psi : cal(F) arrow.r cal(G)$, there exists a unique morphism $psi^(+) : sheafify(F) arrow.r cal(G)$ such that the following diagram commutes:
 
   #commutative_diagram($
-    cal(F) edge(phi, "-->") edge("dr",psi, #right, "->") &sheafify(F) edge("d", psi^+, #left, "->") \
-    & cal(G)
+    sheafify(F) edge(psi^(+), "-->") & cal(G) \
+    cal(F)edge("u",phi, #left, "->") edge("ur", psi, #right, "->") &
   $)
-  A construction of $sheafify(F)$ and $phi$ can be given as follows: for any open set $U subset.eq X$, we define the set of #strong[compatible germs] of $cal(F)$ on $U$ as $ sheafify(F) lr((U)) := lr(size:#115%,
+  A construction of $phi:cal(F)->sheafify(F)$ can be given as follows: for any open set $U subset.eq X$, we define the set of #strong[compatible germs] of $cal(F)$ on $U$ as $ sheafify(F) lr((U)) := lr(size:#115%,
     {(s_x)_(x in U) in product_(x in U) cal(F)_x thin mid(|) #box(baseline: 50%, $thin &"for any" x in U , "there exists an open neighborhood" x in V subset.eq U\
-            &"and a section" f in cal(F)(V) "such that for all" y in V,  s_y = lr([lr((U , f))])_y$)}
-  ) . $ If $U subset.eq V$, then the image of $sheafify(F) lr((V)) arrow.r.hook product_(x in V) cal(F)_x arrow.r product_(x in U) cal(F)_x$ still lies in $sheafify(F) lr((U))$, which gives a well-defined restriction map $res(V , U) : sheafify(F) lr((V)) arrow.r sheafify(F) lr((U))$. So we can define a presheaf of sets on $X$ as follows
+            &"and a section" f in cal(F)(V) "such that for all" y in V,  s_y = op("res")_(V,y)(f)$)}
+  ) . $ If $U subset.eq V subset.eq  X$, then the image of $sheafify(F) lr((V)) arrow.r.hook product_(x in V) cal(F)_x arrow.r.twohead product_(x in U) cal(F)_x$ still lies in $sheafify(F) lr((U))$, which gives a well-defined restriction map $res(V , U) : sheafify(F) lr((V)) arrow.r sheafify(F) lr((U))$. So we can define a presheaf of sets on $X$ as follows
   #functor_diagram(
     F: $sheafify(F)$,
     C: $mathsf("Open")_X^(op("op"))$,
@@ -674,15 +844,55 @@ follows:
     FX: $sheafify(F)(V)$,
     FY: $sheafify(F)(U)$,
   )
+  The morphism $phi: cal(F) arrow.r sheafify(F)$ is defined as
+  $
+    phi_U: cal(F)(U) &--> sheafify(F) (U)\
+    f &arrow.bar.long (f_x:=op("res")_(U,x)(f))_(x in U)
+  $ where $f_x$ is the germ of $f$ at $x$. For any sheaf $cal(G)$ and any morphism $psi : cal(F) arrow.r cal(G)$, the morphism $psi^(+) : sheafify(F) arrow.r cal(G)$ is defined as
+  $
+    psi^+_U: sheafify(F)(U) &--> cal(G)(U)\
+    (s_x)_(x in U) &arrow.bar.long psi_U (phi_U^(-1)((s_x)_(x in U)))
+  $
+
+]<sheafification-of-a-presheaf>
+#remark[
+  If $U,V$ are open sets such that $U subset.eq V$, we can check the following diagram commutes
+  #commutative_diagram($
+    cal(F)(V) edge(phi_V, "hook->") edge("d",res(V,U), #right, "->") &sheafify(F)(
+      V
+    ) edge("d", res(V,U), #right, "->")edge("hook->")& limits(product)_(x in V) cal(F)_x edge("d", "->>")\
+    cal(F)(U) edge(phi_U, #right, "hook->") &sheafify(F)(U) edge("hook->")& limits(product)_(x in U) cal(F)_x
+  $)
+  Hence the image of $sheafify(F) lr((V)) arrow.r.hook product_(x in V) cal(F)_x arrow.r.twohead product_(x in U) cal(F)_x$ lies in $sheafify(F) lr((U))$.
+
+]
+
+#definition[Sheafification Functor][
+  Let $X$ be a topological space. The #strong[sheafification functor] $sheafify(zws) : mathsf("PSh")_(mathsf("Set")) lr((X)) arrow.r mathsf("Sh")_(mathsf("Set")) lr((X))$ is defined as follows:
+  #functor_diagram(
+    F: $sheafify(zws)$,
+    C: $mathsf("PSh")_(mathsf("Set"))(X)$,
+    D: $mathsf("Sh")_(mathsf("Set"))(X)$,
+    g: $f$,
+    X: $cal(F)$,
+    Y: $cal(G)$,
+    Fg: $f^op("sh")$,
+    FX: $sheafify(F)$,
+    FY: $sheafify(G)$,
+  )
 
 ]
 
 #example[
   Constant Sheaf is the Sheafification of Constant Presheaf
 ][
-  Let $X$ be a topological space and $A$ be a set. Let $cal(F)$ be the #link(<constant-presheaf>)[constant presheaf with value $A$]. Recall that if $cal(F)$ is a sheaf, there must be $cal(F)(diameter)={*}$. Therefore, if $A$ has more than one element, $cal(F)$ is not a sheaf. We can also check that $cal(F)$ violates the gluability axiom if $A={0,1}$ and $X={0,1}$ with the discrete topology. Take sections $0 in cal(F) lr(({0}))$ and $1 in cal(F) lr(({1}))$. We cannot find a section $f in cal(F) lr((X))$ such that $f\|_({0}) = 0$ and $f\|_({1}) = 1$.
+  Let $X$ be a topological space and $A$ be a set. Let $underline(A)_(op("pre"))$ be the #link(<constant-presheaf>)[constant presheaf with value $A$]. Recall that if $underline(A)_(op("pre"))$ is a sheaf, there must be $underline(A)_(op("pre"))(diameter)={*}$. Therefore, if $A$ has more than one element, $underline(A)_(op("pre"))$ is not a sheaf. We can also check that $underline(A)_(op("pre"))$ violates the gluability axiom if $A={0,1}$ and $X={0,1}$ with the discrete topology. Take sections $0 in underline(A)_(op("pre")) lr(({0}))$ and $1 in underline(A)_(op("pre")) lr(({1}))$. We cannot find a section $f in underline(A)_(op("pre")) lr((X))$ such that $f\|_({0}) = 0$ and $f\|_({1}) = 1$.
 
-  The sheafification of $cal(F)$ is the #link(<constant-sheaf>)[constant sheaf with value $A$]. That's because compatible germs of $cal(F)$ on an open set $U subset.eq X$ are just locally constant functions $f: U arrow.r A$.
+  The sheafification of $underline(A)_(op("pre"))$ is the #link(<constant-sheaf>)[constant sheaf with value $A$], denoted by $underline(A):=(underline(A)_(op("pre")))^op("sh")$. That's because the #link(<stalk-of-a-set-valued-presheaf>)[stalk] of $underline(A)_(op("pre"))$ at any point $x in X$ is
+  $
+    (underline(A)_(op("pre")))_x = injlim_(x in U in op("Ob")(mathsf("Open")_X)) underline(A) lr((U)) = A .
+  $ and the
+  compatible germs of $underline(A)_(op("pre"))$ on an open set $U subset.eq X$ are just locally constant functions $f: U arrow.r A$.
 ]
 #lemma[Pushforward of a Sheaf is a Sheaf][
   Let $X$ and $Y$ be topological spaces and $cal(F)$ be a sheaf on $X$. Let $f : X arrow.r Y$ be a continuous map. According to the definition of #link(<pushforward-presheaf>)[pushforward presheaf], $f_(*) cal(F)$ is a presheaf on $Y$. We can check that $f_(*) cal(F)$ is a sheaf on $Y$.
@@ -939,15 +1149,14 @@ This lemma justifies the following definition.
     "Hom"_(mathsf("Top")\/ X) lr((op("Et")lr((-)) , -)) tilde.equiv "Hom"_(mathsf("PSh")_(mathsf("Set")) lr((X))) lr((- , Gamma lr((-)))) .
   $
 
-  Furthermore, this adjunction restricts to an equivalence of categories
+  Furthermore, this adjunction restricts to an adjoint equivalence of categories
+  #adjunction_pair(
+    C: $mathsf("Sh")_(mathsf("Set"))(X)$,
+    D: $mathsf("Et")_X$,
+    L: $"Et"$,
+    R: $Gamma$,
+  )
 
-  #commutative_diagram({
-    let (A, B) = ((0, 0), (1, 0))
-    node(A, $mathsf("Sh")_(mathsf("Set"))(X)$)
-    node(B, $mathsf("Et")_X$)
-    edge(A, B, $"Et"$, "->", bend: +35deg)
-    edge(A, B, $Gamma$, "<-", bend: -35deg)
-  })
 ]
 
 
@@ -1088,7 +1297,37 @@ This lemma justifies the following definition.
 #definition[Open Subspace of Locally Ringed Spaces][
   Let $(X,cal(O)_X)$ be a locally ringed space. Let $U subset.eq X$ be an open subset of $X$. Let $cal(O)_X|_U$ be the restriction of $cal(O)_X$ to $U$. For any $u in U$, the stalk $cal(O)_(X , u)$ is isomorphic to the stalk $cal(O)_X|_(U , u)$. Therefore, the pair $(U,cal(O)_X|_U)$ is a locally ringed space, called the *open subspace of $X$ associated to $U$*. The inclusion $i: (U,cal(O)_X|_U) arrow.r (X, cal(O)_X)$ is an #link(<open-immersion-of-locally-ringed-spaces>)[open immersion].
 ]<open-subspace-of-locally-ringed-spaces>
+#remark[
+  We give explicit discription of the isomorphism of sheaves $i^♯: cal(O)_X arrow.r i_(*)(cal(O)_X|_U)$. The pushforward sheaf $i_(*)(cal(O)_X|_U)$ is defined as follows:
+  #functor_diagram(
+    F: $i_(*)(cal(O)_X|_U)$,
+    C: $mathsf("Open")_X^(op("op"))$,
+    D: $mathsf("Set")$,
+    g: $iota^(op("op"))$,
+    X: $V$,
+    Y: $W$,
+    Fg: $res(V sect U,W sect U)$,
+    FX: $cal(O)_X|_U (i^(-1)(V))=cal(O)_X (V sect U)$,
+    FY: $cal(O)_X|_U (i^(-1)(U))=cal(O)_X (W sect U)$,
+  )
+  $i^♯: cal(O)_X arrow.r i_(*)(cal(O)_X|_U)$ is defined as follows:
+  For each open set $V$ of $X$, the map
+  $
+    i^♯(V): cal(O)_X (V) arrow.r cal(O)_X (V sect U)
+  $ is the restriction map $res(V sect U,V): cal(O)_X (V) arrow.r cal(O)_X (V sect U)$. And we can check the naturality of $i^♯$ by the following commutative diagram:
 
+  #square_cd(
+    A11: $cal(O)_Y (V)$,
+    A12: $cal(O)_Y (W)$,
+    A21: $cal(O)_X (V sect U)$,
+    A22: $cal(O)_X (f^(-1)(U))$,
+    Ff: $op("res")_(V arrow.l.hook W)$,
+    Gf: $op("res")_(V arrow.l.hook W)$,
+    theta_l: $f_(V)^♯$,
+    theta_r: $f_(U)^♯$,
+  )
+
+]
 
 #pagebreak()
 
@@ -1284,7 +1523,7 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   + For any ideal $frak(a) subset.eq R , I (V (frak(a))) = sqrt(frak(a))$.
 
   + For any subset $Y subset.eq op("Spec") (R) , I (Y) = I (overline(Y)) , V (I (Y)) = overline(Y)$.
-]
+]<properties-of-function-I>
 
 #theorem[
   Hilbert's Nullstellensatz
@@ -1376,7 +1615,7 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
 
 ]
 #proof[
-  First, $phi^(- 1)$ is a well-defined map from $op("Spec") lr((S))$ to $op("Spec")(R)$ since $phi^(- 1)$ maps any prime ideal of $S$ to a prime ideal of $R$. Then we show that $phi^(- 1)$ is continuous. Let $V lr((frak(a)))$ be a closed subset of $op("Spec")(R)$. Then we can check that $ lr(("Spec" lr((phi))))^(- 1) lr((V lr((frak(a))))) & = lr(
+  First, $phi^(- 1)$ is a well-defined map from $op("Spec") lr((S))$ to $op("Spec")(R)$ since $phi^(- 1)$ maps any prime ideal of $S$ to a prime ideal of $R$. Then we show that $phi^(- 1)$ is continuous. Let $V lr((frak(a)))$ be a closed subset of $op("Spec")(R)$. Then we can check that $ lr((spec(phi)))^(- 1) lr((V lr((frak(a))))) & = lr(
     {lr([frak(p)]) in op("Spec") lr((S)) thin | thin phi^(- 1) lr((lr([frak(p)]))) in V lr((frak(a)))}
   )\
                                                      & = lr(
@@ -1519,9 +1758,9 @@ The second case of localization is as follows.
 
 #example[
   $op("Spec") lr((R_f))$][
-  The localization of $R$ at $f in R$, which is denoted by $R_f$. In this case, we have
+  The localization of $R$ at $f in R$, which is den oted by $R_f$. In this case, we have
   $
-    "Spec" (R_f) arrow.r^tilde.op D_f subset.eq "Spec" (R) .
+    spec(R_f) arrow.r^tilde.op D_f subset.eq spec(R) .
   $
 
 ]
@@ -1710,9 +1949,7 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
   $
   By @sheaf_associated_to_module, we can extend $cal(O)_(op("Spec")(R))$ to a sheaf on $op("Spec")(R)$ as follows:
   $
-    cal(O)_("Spec" (R)) (U) = &projlim_(D (f) subset.eq U) cal(O)_("Spec" (R)) (D (f)) = projlim_(D (
-      f
-    ) subset.eq U) R_f\
+    cal(O)_(spec(R)) (U) = &projlim_(D (f) subset.eq U) cal(O)_(spec(R)) (D (f)) = projlim_(D (f) subset.eq U) R_f\
     =& {
       (s_f) in product_(D (f) subset.eq U) R_f mid(|) "res"_(D (f) arrow.hook.l D (g)) (
         s_f
@@ -1792,20 +2029,128 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
 ]
 
 === Zariski topology of Schemes
+#lemma[][
+  Let $X$ be a topological space and $eta in X$. If $overline({eta})=X$ and $U$ is an nonempty open subset of $X$, then $eta in U$.
+]<generic_point_in_open_set>
+#proof[
+  Suppose $eta in.not U$. Then $X-U$ is a closed subset of $X$ and $eta in X-U$. Hence we have $X=overline({eta}) subset.eq X-U$ in $X$, which contradicts the fact that $U$ is nonempty.
+]
+
+
 #proposition[Schemes are Sober Spaces][
   Suppose $X$ is a scheme. Then $X$ is a sober space. That is, every irreducible closed subset of $X$ has a unique generic point.
 ]
 #proof[
   Suppose $Z subset.eq X$ is an irreducible closed subset. Given an affine open $U=op("Spec")(R) subset.eq X$ that satisfies $Z sect U eq.not emptyset$. We know nonempty open subsets of irreducible spaces are irreducible and dense. Since $Z sect U$ is an open subset of the irreducible space $Z$, we see $Z sect U$ is a irreducible dense subset of $Z$. Hence $Z sect U$ is an irreducible closed subset of $U$. By @algebra-geometry-dictionary, it corresponds to a prime ideal $frak(p)=I(Z sect U)$ of $R$ and we have $Z sect U=op("cl")_U ({frak(p)})=op("cl")_(Z sect U) ({frak(p)})$. Since $Z=op("cl")_(Z)(Z sect U)$, by transitivity of denseness, we have $overline({frak(p)})=Z$ in $X$, which means $frak(p)$ is a generic point of $Z$.
 
-  If there exists $xi in X$ such that $overline({xi})=Z$ in $X$. If $xi in.not U$, then $xi in X-U$ and $X-U$ is a closed subset of $X$. Hence we have $Z=overline({xi}) subset.eq X-U$ in $X$, which contradicts the fact that $Z sect U eq.not emptyset$. Therefore $xi in U$ and $xi$ can be identified with $frak(q) in op("Spec")(R)$. Then we have $V(frak(p))=V(frak(q))=overline({frak(p)})=overline({frak(q)})=Z sect U$ in $U$. By @algebra-geometry-dictionary, we have $frak(p)=frak(q)=I(Z sect U)$. Hence $Z$ has a unique generic point.
+  If there exists $xi in X$ such that $overline({xi})=Z$ in $X$. By @generic_point_in_open_set, we see $xi in U$ and $xi$ can be identified with $frak(q) in op("Spec")(R)$. Then we have $V(frak(p))=V(frak(q))=overline({frak(p)})=overline({frak(q)})=Z sect U$ in $U$. By @algebra-geometry-dictionary, we have $frak(p)=frak(q)=I(Z sect U)$. Hence $Z$ has a unique generic point.
 ]
 
 #proposition[Schemes are Locally Quasi-compact][
   The underlying topological space of any scheme is locally quasi-compact.
 ]
 
+
+
+
 == Properties of Schemes
+
+We say $P$ is a *property of a class of mathematical objects* if for any object $X$ in the class, $P(X)$ is a proposition that is either true or false. We say $X$ has property $P$ if $P(X)$ is true.
+
+#definition[Stalk-local Property][
+  We say a property $P$ of schemes is a *stalk-local property* if the following condition holds: for any scheme $X$, $P$ holds for $X$ if and only if $P$ holds for the spectrum of every stalk $cal(O)_(X , x)$.
+]<stalk-local-property>
+
+#proposition[Equivalent Characterizations for Stalk-local Properties][
+  Let $P$ be a stalk-local property of schemes and $X$ be a scheme. The following are equivalent:
+
+  + $X$ has property $P$.
+
+  + The spectrum of every stalk of $X$ has property $P$.
+
+  + Every open subscheme of $X$ has property $P$.
+
+  + Every affine open subscheme of $X$ has property $P$.
+
+  + $X$ has an open cover by affine open subschemes that have property $P$.
+
+  + $X$ has an open cover by open subschemes that have property $P$.
+]<equivalent_characterizations_for_stalk-local_properties>
+#proof[
+  By definition we have (i) $<==>$ (ii). And it is straightforward to check (iii) $==>$ (iv) $==>$ (v) $==>$ (vi).
+
+  (ii) $==>$ (iii). Suppose every stalk of $X$ has property $P$. Let $U$ be any open subscheme of $X$. For any $x in U$, we have $cal(O)_(X , x) = cal(O)_(U , x)$, which means each stalk of $U$ has property $P$. Since $P$ is a stalk-local property, $U$ has property $P$.
+
+  (vi) $==>$ (ii). Suppose $X$ has an open cover by open subschemes $X =union.big_(i in I) U_i$ where each $U_i$ has property $P$. Given any $x in X$, there exists some $i in I$ such that $x in U_i$. Since $P$ is a stalk-local property, $spec(cal(O)_(U_i , x))$ has property $P$, which implies $spec(cal(O)_(X , x))$ also has property $P$. By the arbitrariness of $x$, we see each stalk of $X$ has property $P$.
+]
+
+#definition[Local Property of Commutative Rings][
+  We say a property $P$ of commutative rings is a *local property* if the following conditions holds:
+
+  + For any commutative ring $R$ and any $f in R$, we have
+    $
+      P(R) ==> P(R_f) .
+    $
+
+  + For any commutative ring $R$ and any $f_i in R$ such that $(f_1,f_2,dots,f_n)=R$, we have
+    $
+      (forall i , P(R_(f_i))) ==> P(R) .
+    $
+
+  Similarly, we say a property $P$ of affine schemes is a *local property* if the following conditions hold:
+
+  + For any affine scheme $X=op("Spec")(R)$ and any $f in R$, we have
+    $
+      P(X) ==> P(D(f)) .
+    $
+
+  + For any affine scheme $X=op("Spec")(R)$ and any $f_i in R$ such that $union.big_(i in I) D(f_i)=X$, we have
+    $
+      (forall i , P(D(f_i))) ==> P(X).
+    $
+]
+
+
+#definition[Affine-local Property][
+  Let $P$ be a property of communitative rings and $X$ be a scheme. We say $X$ is *locally $P$* if for any $x in X$, there exists an affine open neighborhood $U$ of $x$ such that $cal(O)_X (U)$ has property $P$.
+
+  We say $Q$ is an *affine-local property* of schemes if there exists a local property $P$ of commutative rings such that for any scheme $X$,
+  $
+    Q(X) <==> X "is locally" P.
+  $
+]
+
+
+
+#proposition[Equivalent Characterizations for Affine-local Properties][
+  Let $X$ be a scheme and $P$ be a local property of commutative rings. The following are equivalent:
+
+  + $X$ is locally $P$.
+
+  + For any affine open $U subset.eq X$, $cal(O)_X (U)$ has property $P$.
+
+  + There exists an affine open cover $X = union.big_(i in I) U_i$ such that each $cal(O)_X (U_i)$ has property $P$.
+
+  + There exists an open cover $X = union.big_(j in J) X_j$ such that each open subscheme $X_j$ is locally $P$.
+]
+#proof[
+  By definition we have (i) $<==>$ (iii). And it is straightforward to check (ii) $==>$ (iii) $==>$ (iv).
+
+  (iv) $==>$ (i). Suppose there exists an open cover $X = union.big_(j in J) X_j$ where each open subscheme $X_j$ is locally $P$. Given any $x in X$, there exists some $j in J$ such that $x in X_j$. Since $X_j$ is locally $P$, there exists an affine open neighborhood $U subset.eq X_j$ of $x$ such that $cal(O)_(X_j) (U)=cal(O)_(X) (U)$ has property $P$. Since $U = X_j sect V$ for some open set $V subset.eq X$, $U$ is an affine open neighborhood of $x$ in $X$. Hence $X$ is locally $P$.
+
+  (iii) $==>$ (ii). Suppose there exists an affine open cover $X = union.big_(i in I) U_i$ where each $cal(O)_X (U_i)$ has property $P$. Given any affine open $U=spec(R) subset.eq X$,
+]
+#proposition[Stalk-local $==>$ Affine-local][
+  Let $P$ be a stalk-local property of schemes. Then $P$ is an affine-local property.
+]
+#proof[
+  Suppose $P$ is a stalk-local property of schemes. We can define a property $tilde(P)$ of commutative rings as follows: for any commutative ring $R$, $tilde(P)(R) <==> P(op("Spec")(R))$. By @equivalent_characterizations_for_stalk-local_properties, we see $tilde(P)$ is a local property of commutative rings.
+  To show $P$ is an affine-local property, it suffices to show that given any scheme $X$, $P(X) <==> X "is locally" tilde(P)$.
+
+  If $P(X)$ holds, by (iv) of @equivalent_characterizations_for_stalk-local_properties we see for any $x in X$, there exists an affine open neighborhood $U$ of $x$ such that $P(U)$ holds, which implies $tilde(P)(cal(O)_X (U))$ holds. Hence $X "is locally" tilde(P)$.
+
+  If $X "is locally" tilde(P)$, then for any $x in X$, there exists an affine open neighborhood $U$ of $x$ such that $tilde(P)(cal(O)_X (U))$ holds, which implies $P(U)$ holds. Since $X$ has an open cover by affine open subsets that have property $P$, by (v) of @equivalent_characterizations_for_stalk-local_properties we see $P(X)$ holds.
+]
 
 === Quasi-compact Schemes
 #definition[Quasi-compact Scheme][
@@ -1827,6 +2172,10 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
   where $J subset.eq I$ is a finite set. Hence $X$ can be written as a finite union of affine open subsets.
 
   (ii) $==>$ (i). Suppose $X$ can be written as a finite union of affine open subsets $X = union.big_(i = 1)^n U_i$. Since finite unions of quasi-compact subset of $X$ is quasi-compact and each $U_i$ is quasi-compact, we see $X$ is quasi-compact.
+
+  (iii) $==>$ (i). Suppose $f:X arrow.r op("Spec") (R)$ is quasi-compact. Since preimages of quasi-compact sets are quasi-compact, we see $X = f^(- 1) lr((op("Spec") (R)))$ is quasi-compact.
+
+  (i) $==>$ (iii). Suppose $X$ is quasi-compact. According to @equivalent_definitions_of_quasicompact_morphism, since $op("Spec") (R)$ is an affine open cover of itself, and $f^(- 1) lr((op("Spec") (R))) = X$ is quasi-compact, we see $f$ is quasi-compact.
 ]
 
 #proposition[Quasi-compact Schemes Have Closed Points][
@@ -1843,6 +2192,7 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
 
 #proposition[Equivalent Definitions of Locally Noetherian Scheme][
   Let $X$ be a scheme. The following are equivalent:
+
   + The scheme $X$ is locally Noetherian.
 
   + For every affine open $U subset X$ the ring $cal(O)_X (U)$ is Noetherian.
@@ -1856,6 +2206,7 @@ If $X$ is locally Noetherian then every open subscheme is locally Noetherian.
 #definition[Noetherian Scheme][
   A scheme $X$ is said to be *Noetherian* if it is locally Noetherian and quasi-compact.
 ]
+Being Noetherian is an affine-local property.
 
 === Irreducible Schemes
 
@@ -1919,12 +2270,15 @@ If $X$ is locally Noetherian then every open subscheme is locally Noetherian.
 
   + Every stalk $cal(O)_(X , x)$ is reduced.
 ]
-
+#proof[
+  Since reducedness is a stalk-local property, this proposition follows from
+  @equivalent_characterizations_for_stalk-local_properties.
+]
 
 
 === Integral Schemes
 #definition[Integral Scheme][
-  A scheme $X$ is said to be *integral* if it is nonempty and for any affine open subset $U subset.eq X$, the ring $cal(O)_X (U)$ is an integral domain.
+  A scheme $X$ is said to be *integral* if it is nonempty and for any nonempty affine open subset $U subset.eq X$, the ring $cal(O)_X (U)$ is an integral domain.
 ]
 
 #proposition[Equivlent Definitions of Integral Scheme][
@@ -1933,10 +2287,26 @@ If $X$ is locally Noetherian then every open subscheme is locally Noetherian.
   + $X$ is integral.
 
   + $X$ is reduced and irreducible.
+]
+#proof[
+  (ii) $==>$ (i). Suppose $X$ is reduced and irreducible. Given any affine open subset $U =op("Spec")(R)subset.eq X$, $X$ is irreducible implies that $U$ is irreducible. Since $op("Spec")(R)=V((0))$ is irreducible closed in $op("Spec")(R)$, the corresponding ideal $I(op("Spec")(R))=(0)$ is a prime ideal of $R$. Since $X$ is reduced, $cal(O)_X (U) = R$ is reduced. Thus $R$ is a reduced ring with a minimal prime ideal $(0)$, which implies $R$ is an integral domain.
 
-  + There exists an affine open covering $X = union.big U_i$ such that each $cal(O)_X (U_i)$ is an integral domain.
+  (i) $==>$ (ii). Suppose $X$ is integral. Then for every affine open subset $U=op("Spec")(R)subset.eq X$, $R$ is an integral domain, which implies $R$ is reduced and $U$ is irreducible. Hence $X$ is reduced and irreducible.
+]
 
-  + Every stalk $cal(O)_(X , x)$ is an integral domain.
+#definition[Function Field of a Integral Scheme][
+  Let $X$ be an integral scheme and $eta in X$ is the generic point of $X$. The *function field* of $X$ is defined as the stalk $cal(O)_(X , eta)$.
+]
+
+#proposition[Function Field is a Fraction Field][
+  Let $X$ be an integral scheme. Then the function field of $X$ is a fraction field of the ring $cal(O)_X (U)$ for any nonempty affine open subset $U subset.eq X$.
+]
+#proof[
+  Suppose $eta$ is the generic point of $X$. Given any nonempty affine open subset $U=op("Spec")(R) subset.eq X$, by @generic_point_in_open_set there must be $eta in U$. According to @properties-of-function-I, we have
+  $
+    overline({(0)})=V(I({(0)}))=V((0))=op("Spec")(R).
+  $
+  By the uniqueness of generic point, we see $eta$ can be identified with $(0)in op("Spec")(R)$. Since $R$ is an integral domain, we have $cal(O)_(X , eta)=cal(O)_X|_(U,eta)=R_eta=op("Frac")(R)$. Hence the function field of $X$ is the fraction field of the ring $cal(O)_X (U)$.
 ]
 
 #pagebreak()
@@ -1959,7 +2329,7 @@ If $X$ is locally Noetherian then every open subscheme is locally Noetherian.
   + For any affine open subset $V subset.eq Y$, the preimage $f^(- 1) (V)$ is quasi-compact.
 
   + There exists an affine open covering $Y = union.big_(i in I) V_i$ such that $f^(- 1) (V_i)$ is quasi-compact for each $i in I$.
-]
+]<equivalent_definitions_of_quasicompact_morphism>
 #proof[
 
 ]
