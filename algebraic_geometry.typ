@@ -258,14 +258,14 @@ Since the continuous image of an open set is generally not open, defining the pu
     X: $V$,
     Y: $U$,
     Fg: $$,
-    FX: $injlim_(f(V) subset.eq W in tau) cal(G)(W)$,
+    FX: $injlim(f(V) subset.eq W in tau) cal(G)(W)$,
     FY: $injlim(f(U) subset.eq W in tau) cal(G)(W)$,
   )
 
   Formally, Given an open set $U$ of $X$, let $mathsf("Open")_(Y , f(U))$ be the full subcategory of $mathsf("Open")_Y$ whose
   objects are the open neighborhoods of $f(U)$ and whose morphisms are the inclusions of open sets. We see $mathsf("Open")_(Y , f(U))^(op("op"))$ is a filtered category. Therefore, $f^*cal(G)(U)$ is the filtered colimit
   $
-    f^*cal(G)(U) = injlim(f(U) subset.eq W in tau) cal(G)(W) = injlim cal(G)|_mathsf("Open")_(Y , f(U))^(op("op")).
+    f^*cal(G)(U) = injlim(f(U) subset.eq W in tau) cal(G)(W) = varinjlim cal(G)|_mathsf("Open")_(Y , f(U))^(op("op")).
   $
 
   And we can define the #strong[pullback presheaf functor] $f^* : mathsf("PSh")_(mathsf(C)) lr((Y)) arrow.r mathsf("PSh")_(mathsf(C)) lr((X))$ as follows:
@@ -294,7 +294,7 @@ Since the continuous image of an open set is generally not open, defining the pu
 #remark[
   The universal property of the colimit
   $
-    f^*cal(G)(U) = injlim(f(U) subset.eq W in tau) cal(G)(W) = injlim cal(G)|_mathsf("Open")_(Y , f(U))^(op("op")).
+    f^*cal(G)(U) = injlim(f(U) subset.eq W in tau) cal(G)(W) = varinjlim cal(G)|_mathsf("Open")_(Y , f(U))^(op("op")).
   $
   is given as follows: for any open sets $W,Z$ such that $f(U)subset.eq W subset.eq Z$, for any set $A$, and for any morphism $h_Z: cal(G)(Z) arrow.r A$ and $h_W: cal(G)(W) arrow.r A$ such that $h_W circle.stroked.tiny res(Z , W) = h_Z$, there exists a unique morphism $tilde(h):f^*cal(G)(U) arrow.r A$ such that the following diagram commutes:
 
@@ -406,7 +406,7 @@ Since the continuous image of an open set is generally not open, defining the pu
   there exists $U sect V in tau$ such that $x in U sect V$, $U supset.eq U sect V$ and $V supset.eq U sect V$, we see $mathsf("Open")_(X , x)^(op("op"))$ is
   a filtered category. Therefore, $cal(F)_x$ is a filtered colimit
   $
-    cal(F)_x = injlim cal(F) |_mathsf("Open")_(X , x)^(op("op")).
+    cal(F)_x = varinjlim cal(F) |_mathsf("Open")_(X , x)^(op("op")).
   $
   The universal property of the colimit is given as follows: for open sets $W subset.eq U$, for any set $A$, and for any morphism $f_U: cal(F)(U) arrow.r A$ and $f_U: cal(F)(U) arrow.r A$ such that $h_W circle.stroked.tiny res(U , W) = f_U$, there exists a unique morphism $tilde(f):cal(F)_x arrow.r A$ such that the following diagram commutes:
   #commutative_diagram($
@@ -423,7 +423,7 @@ Since the continuous image of an open set is generally not open, defining the pu
   exists. The stalk $cal(F)_x$ can described explicitly as the quotient set
 
   $
-    cal(F)_x = injlim cal(F) |_mathsf("Open")_(X , x)^(op("op"))=( product.co_(U in tau , U in.rev x) cal(F) (U) ) \/ tilde.op = {(U , f) divides x in U in tau , f in cal(F) (U)} \/ tilde.op
+    cal(F)_x = varinjlim cal(F) |_mathsf("Open")_(X , x)^(op("op"))=( product.co_(U in tau , U in.rev x) cal(F) (U) ) \/ tilde.op = {(U , f) divides x in U in tau , f in cal(F) (U)} \/ tilde.op
   $
 
   where $tilde.op$ is the equivalence relation defined as follows: for any open neighborhoods $U , V$ of $x$ and any $f in cal(F) lr((U))$, $g in cal(F) lr((V))$,
@@ -544,7 +544,7 @@ Since the continuous image of an open set is generally not open, defining the pu
   Since for any $B , C in cal(B)$ such that $x in B sect C$, there exists $D in cal(B)$ such that $x in D subset.eq B sect C$,
   we see $mathsf(B)_x^(op("op"))$ is a filtered category. Therefore, $cal(F)_x$ is a filtered colimit
   $
-    cal(F)_x = injlim cal(F) |_mathsf(B)_(x)^(op("op"))
+    cal(F)_x = varinjlim cal(F) |_mathsf(B)_(x)^(op("op"))
   $
 ]
 
@@ -556,7 +556,7 @@ Since the continuous image of an open set is generally not open, defining the pu
   for any $x in X$, the #strong[stalk] of $cal(F)$ at a point $x in X$ always exists because in $mathsf("Set")$ all
   filtered colimits exists. The stalk $cal(F)_x$ can described explicitly as the quotient set
   $
-    cal(F)_x = injlim cal(F) |_mathsf(B)_(x)^(op("op"))= ( product.co_(B in cal(B) , x in B) cal(F) (B) ) \/ op(tilde.op) = {(B , f) divides x in B in cal(B) , f in cal(F) (B)} \/ tilde.op
+    cal(F)_x = varinjlim cal(F) |_mathsf(B)_(x)^(op("op"))= ( product.co_(B in cal(B) , x in B) cal(F) (B) ) \/ op(tilde.op) = {(B , f) divides x in B in cal(B) , f in cal(F) (B)} \/ tilde.op
   $
   where $tilde.op$ is the equivalence relation defined as follows: for any $B , C in cal(B)$ such that $x in B sect C$ and
   any $f in cal(F) lr((B))$, $g in cal(F) lr((C))$,
@@ -588,7 +588,7 @@ follows:
 )
 
 #par(first-line-indent: 0pt)[
-  We can check that $injlim K_I tilde.equiv union.big_(i in I) U_i$.
+  We can check that $varinjlim K_I tilde.equiv union.big_(i in I) U_i$.
 ]
 
 
@@ -600,7 +600,7 @@ follows:
 
     + #block[for any tuple of open sets $lr((U_i))_(i in I)$, $cal(F)$ preserves the limit of $K_I^(op("op"))$, i.e., $cal(F)$ maps a colimit of $K_I$ to a limit of $cal(F) circle.stroked.tiny K_I^(op("op"))$
         $
-          cal(F)lr((injlim K_I)) = projlim cal(F) circle.stroked.tiny K_I^(op("op"))
+          cal(F)lr((varinjlim K_I)) = varprojlim cal(F) circle.stroked.tiny K_I^(op("op"))
         $
         If we denote $U = union.big_(i in I) U_i$, then the limit cone of $cal(F) circle.stroked.tiny K_I^(op("op"))$ is
         #commutative_diagram($
@@ -1296,7 +1296,7 @@ This lemma justifies the following definition.
   )
   Since $iota^(op("op"))$ is a final functor, we have
   $
-    tildecal(F)_x = injlim cal(F)|_(mathsf(B)_(x)^(op("op"))) = injlim cal(F)|_(mathsf("Open")_(X , x)^(op("op")))circle.tiny iota^(op("op")) tilde.equiv injlim cal(F)|_(mathsf("Open")_(X , x)^(op("op"))) = cal(F)_x
+    tildecal(F)_x = varinjlim cal(F)|_(mathsf(B)_(x)^(op("op"))) = varinjlim cal(F)|_(mathsf("Open")_(X , x)^(op("op")))circle.tiny iota^(op("op")) tilde.equiv varinjlim cal(F)|_(mathsf("Open")_(X , x)^(op("op"))) = cal(F)_x
   $.
 ]
 
