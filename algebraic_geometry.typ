@@ -1,5 +1,5 @@
-#import "@preview/cetz:0.3.1"
-#import "@preview/fletcher:0.5.4" as fletcher: diagram, node, edge
+#import "@preview/cetz:0.3.2"
+#import "@preview/fletcher:0.5.5" as fletcher: diagram, node, edge
 
 #import "@local/math-notes:0.2.0": *
 
@@ -38,6 +38,11 @@
 #let projlim(subscript) = $varprojlim_movebase(#(-2.8pt), subscript)$
 
 #let xrightarrow = $stretch(->, size: #150%)$
+
+#let noindent(body) = {
+  set par(first-line-indent: 0pt)
+  body
+}
 
 
 = Sheaf Theory <sheaf-theory>
@@ -132,6 +137,7 @@ If $mathsf(C)$ is an abelian category, then $mathsf("PSh")_(mathsf(C)) lr((X))$ 
 
 $Gamma lr((U , cal(F)))$ is another notation often used to indicate sections, which means we have the tautological
 equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
+
 
 #example[Constant Presheaf][
   Let $X$ be a topological space and $mathsf(C)$ be a category. Suppose $A in upright(O b) lr((mathsf(C)))$. The #strong[constant presheaf on $X$ with value $A$] is
@@ -387,8 +393,19 @@ Since the continuous image of an open set is generally not open, defining the pu
     i^* circle.tiny i_* cal(F)(V)= i^* cal(F)(V sect U) = cal(F)(V sect U) = cal(F)(V),
   $
   which implies $i^* circle.tiny i_* = op("id")_(mathsf("PSh")_mathsf("Set")(U))$.
-
 ]<pullback-presheaf-along-inclusion>
+
+==== Presheaf of $cal(O)$-modules
+
+#definition[Presheaf of $cal(O)$-modules][
+  Let $X$ be a topological space and $cal(O)$ be a $sans("Ring")$-valued presheaf on $X$. A *presheaf of $cal(O)$-modules on $X$* is an $sans("Ab")$-valued presheaf on $X$ to together with maps
+  $
+    q_U: cal(O(U)) times cal(F)(U) --> cal(F)(U)
+  $
+  for each open set $U subset.eq X$ such that each $cal(F)(U)$ is an $cal(O(U))$-module under the action of $q_U$.
+]<presheaf-of-O-modules>
+
+
 
 
 === Stalk of a Presheaf <stalk-of-a-presheaf>
@@ -432,8 +449,8 @@ Since the continuous image of an open set is generally not open, defining the pu
   $
   The image under the map $op("res")_(U,x):cal(F) lr((U)) arrow.r cal(F)_x$ of a section $f in cal(F) lr((U))$ is the equivalence
   class of $lr((U , f))$, denoted as $lr([lr((U , f))])_x$, called the #strong[germ] of $f$ at $x$.
-
 ]<stalk-of-a-set-valued-presheaf>
+
 #proposition[][
   Let $mathsf(C)$ be a category. Let $F : mathsf(C) arrow.r mathsf(S e t)$ be a functor. Assume that
 
@@ -450,7 +467,6 @@ Since the continuous image of an open set is generally not open, defining the pu
     cal(F)_x := injlim(x in U in tau) cal(F) lr((U)) .
   $
   exists in $mathsf(C)$. Its underlying set is equal to the stalk of the underlying presheaf of sets of $cal(F)$, i.e. $F lr((cal(F)_x)) = lr((F circle.stroked.tiny cal(F)))_x$.
-
 ]
 
 #proposition[Stalk of Pullback Presheaf][
@@ -468,6 +484,9 @@ Since the continuous image of an open set is generally not open, defining the pu
     &tilde.equiv cal(G)_(f(x)).
   $
 ]
+
+
+
 
 
 #definition[
@@ -488,7 +507,7 @@ Since the continuous image of an open set is generally not open, defining the pu
           F: $injlim(x in U in tau)$,
           C: $mathsf("PSh")_(mathsf(C))(X)$,
           D: $mathsf(C)$,
-          g: $phi$,
+          g: $ phi $,
           X: $cal(F)$,
           Y: $cal(G)$,
           Fg: $$,
@@ -517,8 +536,34 @@ Since the continuous image of an open set is generally not open, defining the pu
       ),
     ),
   )
-
 ]<stalk-functor>
+
+==== Stalks of Presheaves of $cal(O)$-modules
+#definition[Stalks of Presheaves of $cal(O)$-modules ][
+  Let $X$ be a topological space and $cal(O)$ be a $sans("Ring")$-valued presheaf on $X$. Let $cal(F)$ be a presheaf of $cal(O)$-modules on $X$. For any $x in X$, the #strong[stalk] of $cal(F)$ at a point $x in X$ is the stalk of the underlying presheaf of abelian groups of $cal(F)$. There exists a canonical map
+  $
+    cal(O)_x times cal(F)_x &--> cal(F)_x \
+    (f , [U , g]) &--> [U , f g] ,
+  $
+  which makes $cal(F)_x$ an $cal(O)_x$-module.
+
+]
+
+#definition[Category of Presheaves of $cal(O)$-modules][
+  Let $X$ be a topological space and $cal(O)$ be a $sans("Ring")$-valued presheaf on $X$. The #strong[category of presheaves of $cal(O)$-modules] on $X$ is defined as follows:
+
+  - Objects: presheaves of $cal(O)$-modules on $X$.
+
+  - Morphisms: a morphism between two presheaves of $cal(O)$-modules $cal(F)$ and $cal(G)$ is a morphism of presheaves of abelian groups $phi:cal(F) arrow.r cal(G)$ such that the following diagram commutes
+  #commutative_diagram($
+    cal(O) times cal(F) edge("r",->) edge("d",op("id")_(cal(O)) times phi,->) &cal(F) edge("d",#left, phi,->)\
+    cal(O) times cal(G) edge("r",#right,->)& cal(G)
+  $)
+]
+
+#proposition[
+  Let $X$ be a topological space and $cal(O)$ be a $sans("Ring")$-valued presheaf on $X$. If $cal(F)$ and $cal(G)$ are two presheaves of $cal(O)$-modules on $X$, and $phi:cal(F) -> cal(G)$ is a morphism of presheaves of $cal(O)$-modules, then the induced map $phi_x:cal(F)_x -> cal(G)_x$ is a morphism of $cal(O)_x$-modules.
+]
 
 
 === Presheaf on Topological Base
@@ -529,7 +574,6 @@ Since the continuous image of an open set is generally not open, defining the pu
   Let $X$ be a topological space. Let $cal(B)$ be a base for the topology on $X$. The #strong[category of $mathsf(C)$-valued presheaves on $cal(B)$] is
   defined as $ mathsf("PSh")_(mathsf(C)) lr((cal(B))) := lr([mathsf(B)^(op("op")) , mathsf(C)]) , $ where $mathsf(B)$ is the
   category whose objects are the elements of $cal(B)$ and whose morphisms are the inclusions of elements of $cal(B)$.
-
 ]
 #definition[
   Stalk of a $mathsf(C)$-valued Presheaf on a Base for Topology
@@ -563,10 +607,7 @@ Since the continuous image of an open set is generally not open, defining the pu
   $
     lr((B , f)) tilde.op lr((C , g)) <==> "there exists an element" D in cal(B) upright("such that") x in D subset.eq B sect C "and" f lr(|""_D = g|)_D .
   $
-
 ]
-
-
 
 == Sheaf <sheaf>
 === Sheaf on Topological Space <sheaf-on-topological-space>
@@ -587,7 +628,7 @@ follows:
   FY: $U_(i_1)$,
 )
 
-#par(first-line-indent: 0pt)[
+#noindent[
   We can check that $varinjlim K_I tilde.equiv union.big_(i in I) U_i$.
 ]
 
@@ -1237,6 +1278,17 @@ This lemma justifies the following definition.
 
 ]
 
+==== Sheaf of $cal(O)$-modules
+
+#definition[Sheaf of $cal(O)$-modules][
+  Let $X$ be a topological space and $cal(O)$ be a $sans("Ring")$-valued sheaf on $X$. A sheaf of $cal(O)$-modules is a #link(<presheaf-of-O-modules>)[presheaf $cal(F)$ of $cal(O)$-modules] such that the underlying $sans("Ab")$-valued presheaf of $cal(F)$ is a sheaf.
+]
+#example[][
+  A sheaf of abelian groups on $X$ can be identified with a sheaf of $underline(ZZ)$-modules on $X$, where $underline(ZZ)$ is the #link(<constant-sheaf>)[constant sheaf] on $X$ with value $ZZ$.
+]
+
+
+
 
 === Sheaf on Topological Base
 <sheaf-on-a-base-for-topology-space>
@@ -1354,7 +1406,10 @@ This lemma justifies the following definition.
 #definition[
   Ringed Spaces][
   A #strong[ringed space] is a pair $lr((X , cal(O)_X))$, where $X$ is a topological space and $cal(O)_X$ is a sheaf of commutative rings on $X$.
+]
 
+#definition[$R$-ringed Spaces][
+  Let $R$ be a commutative ring. An $R$-ringed space is a pair $lr((X , cal(O)_X))$, where $X$ is a topological space and $cal(O)_X$ is a sheaf of commutative $R$-algebras on $X$.
 ]
 
 #definition[
@@ -1811,7 +1866,6 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   )\
                                                      & = V lr((phi lr((frak(a))))) , $ which means that the preimage of any closed subset of $op("Spec")(R)$ is closed in $op("Spec") lr((S))$. Hence $op("Spec") lr((phi))$ is continuous. \
   For functorality, let $phi : R arrow.r S$ and $psi : S arrow.r T$ be two ring homomorphisms. It is clear that $ lr((op("Spec")lr((phi)) circle.stroked.tiny op("Spec")lr((psi)))) lr((lr([frak(p)]))) = lr([phi^(- 1) circle.stroked.tiny psi^(- 1) lr((frak(p)))]) = lr([lr((psi circle.stroked.tiny phi))^(- 1) lr((frak(p)))]) = op("Spec") lr((psi circle.stroked.tiny phi)) lr((lr([frak(p)]))) . $
-
 ]
 #proposition[
   Quotient Map Induces Spectrum Morphism][
