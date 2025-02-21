@@ -1,20 +1,26 @@
 #import "@preview/cetz:0.3.2"
-#import "@preview/fletcher:0.5.5" as fletcher: diagram, node, edge
+#import "@preview/fletcher:0.5.5": diagram, node, edge
+#import "@preview/in-dexter:0.7.0": index
 
 #import "@local/math-notes:0.2.0": *
 
 #show: math_notes.with(title: "ALGEBRAIC GEOMETRY")
 
+#let index_math = index.with(index: "Math")
+
 
 #let cal(x) = math.class("unary", text(font: "Computer Modern Symbol", x))
 
+#let scr(it) = text(
+  features: ("ss01",),
+  box($std.math.cal(it)$),
+)
 
 #let tildecal(x) = if (x.text == "F") {
   $accent(cal(F)#h(0.3em), ~)#h(-0.3em)$
 } else {
   $tilde(cal(#x))$
 }
-
 
 #let sheafify(x) = $cal(#x)^(#h(0.2em)op("sh"))$
 
@@ -60,7 +66,7 @@
 
   - Morphisms: Inclusion maps of open sets.
 
-  Note that $lr((tau , supset.eq))$ is also a filtered set which can be seen as the filtered (0,1)-category $mathsf("Open")_X^(op("op"))$.
+  Note that $lr((tau , supset.eq))$ is also a filtered set which can be seen as the filtered (0,1)-category $mathsf("Open")_X^(op("op"))$ #index_math(display: [$mathsf("Open")_X^(op("op"))$], "Open_X").
   Therefore, $mathsf("Open")_X$ is both filtered and cofiltered.
 ]
 
@@ -71,16 +77,18 @@ Note in $mathsf("Open")_X$, all diagrams are commutative.
 #definition[
   $mathsf(C)$-valued Presheaf
 ][
-  Let $mathsf(C)$, $mathsf(D)$ be categories. A $mathsf(C)$-valued #strong[presheaf] is a functor $F : mathsf(D)^(op("op")) arrow.r mathsf(C)$.
+  Let $mathsf(C)$, $mathsf(D)$ be categories. A $mathsf(C)$-valued #strong[presheaf] #index("presheaf") is a functor $F : mathsf(D)^(op("op")) arrow.r mathsf(C)$.
 ]
 
 
 #definition[
   $mathsf(C)$-valued Presheaf on a Topological Space
 ][
-  Let $X$ be a topological space and $mathsf(C)$ be a category. The #strong[category of $mathsf(C)$-valued presheaves on $X$] is
+  Let $X$ be a topological space and $mathsf(C)$ be a category. The #strong[category of $mathsf(C)$-valued presheaves on $X$] #index(display: [$mathsf(C)$-valued], "presheaf on a topological space", "C-valued") is
   defined as
-  $ mathsf("PSh")_(mathsf(C)) lr((X)) := lr([mathsf("Open")_X^(op("op")) , mathsf(C)]) , $
+  $
+    mathsf("PSh")_(mathsf(C)) lr((X)) := lr([mathsf("Open")_X^(op("op")) , mathsf(C)]),
+  $ #index_math(display: [$mathsf("PSh")_(mathsf(C)) lr((X))$], "PSh_C(X)")
   which is the category of contravariant functors from $mathsf("Open")_X$ to $mathsf(C)$.
 
 ]
@@ -91,9 +99,11 @@ If $mathsf(C)$ is an abelian category, then $mathsf("PSh")_(mathsf(C)) lr((X))$ 
 #definition[
   $mathsf("Set")$-valued Presheaf on a Topological Space
 ][
-  Let $X$ be a topological space. The #strong[category of $mathsf("Set")$-valued presheaves on $X$] (or #strong[category of presheaves of sets on $X$])
+  Let $X$ be a topological space. The #strong[category of $mathsf("Set")$-valued presheaves on $X$] (or #strong[category of presheaves of sets on $X$]) #index(display: [$mathsf("Set")$-valued], "presheaf on a topological space", "Set-valued")
   is defined as
-  $ mathsf("PSh")_(mathsf("Set")) lr((X)) := lr([mathsf("Open")_X^(op("op")) , mathsf("Set")]) . $
+  $
+    mathsf("PSh")_(mathsf("Set")) lr((X)) := lr([mathsf("Open")_X^(op("op")) , mathsf("Set")]).
+  $ #index_math(display: [$mathsf("PSh")_(mathsf("Set")) lr((X))$], "PSh_Set(X)")
   The objects and morphisms of $mathsf("PSh")_(mathsf("Set")) lr((X))$ can be described explicitly as follows:
 
   - #block[Objects: A #strong[presheaf of sets on $X$] is a contravariant functor $cal(F)$ that can be depicted as follows:
@@ -131,7 +141,7 @@ If $mathsf(C)$ is an abelian category, then $mathsf("PSh")_(mathsf(C)) lr((X))$ 
     )
 ]
 #definition[Sections of a Presheaf][
-  Let $cal(F)$ be a presheaf of sets on a topological space $X$. A #strong[section] of $cal(F)$ over an open set $U subset.eq X$ is
+  Let $cal(F)$ be a presheaf of sets on a topological space $X$. A #strong[section] of $cal(F)$ over an open set $U subset.eq X$ #index("presheaf on a topological space", "Set-valued", "section") is
   defined as an element in $cal(F) lr((U))$.
 ]
 
@@ -140,7 +150,7 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
 
 
 #example[Constant Presheaf][
-  Let $X$ be a topological space and $mathsf(C)$ be a category. Suppose $A in upright(O b) lr((mathsf(C)))$. The #strong[constant presheaf on $X$ with value $A$] is
+  Let $X$ be a topological space and $mathsf(C)$ be a category. Suppose $A in upright(O b) lr((mathsf(C)))$. The #strong[constant presheaf on $X$ with value $A$] #index("presheaf on a topological space", "C-valued", "constant") is
   defined as follows:
 
   #functor_diagram(
@@ -180,7 +190,7 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
 #definition[
   Pushforward Presheaf
 ][
-  Let $X$ be a topological space and $cal(F)$ be a presheaf on $X$. Let $f : X arrow.r Y$ be a continuous map. The #strong[pushforward presheaf] $f_(*) cal(F)$ is the presheaf on $Y$ defined as follows:
+  Let $X$ be a topological space and $cal(F)$ be a presheaf on $X$. Let $f : X arrow.r Y$ be a continuous map. The #strong[pushforward presheaf] #index("presheaf on a topological space", "C-valued", "pushforward") $f_(*) cal(F)$ is the presheaf on $Y$ defined as follows:
 
   #functor_diagram(
     F: $f_* cal(F)$,
@@ -254,7 +264,7 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
 Since the continuous image of an open set is generally not open, defining the pushforward presheaf needs to "take outer limit" , i.e. take colimit among open sets that contain the image of the open set.
 
 #definition[Pullback Presheaf][
-  Let $X$ be a topological space and $cal(G)$ be a presheaf on $Y$. Let $f : (X,tau^') arrow.r (Y,tau)$ be a continuous map. The #strong[pullback presheaf] $f^*cal(G)$ is the presheaf on $X$ defined as follows:
+  Let $X$ be a topological space and $cal(G)$ be a presheaf on $Y$. Let $f : (X,tau^') arrow.r (Y,tau)$ be a continuous map. The #strong[pullback presheaf] $f^*cal(G)$ #index("presheaf on a topological space", "C-valued", "pullback") is the presheaf on $X$ defined as follows:
 
   #functor_diagram(
     F: $f^* cal(G)$,
@@ -398,7 +408,7 @@ Since the continuous image of an open set is generally not open, defining the pu
 ==== Presheaf of $cal(O)$-modules
 
 #definition[Presheaf of $cal(O)$-modules][
-  Let $X$ be a topological space and $cal(O)$ be a $sans("Ring")$-valued presheaf on $X$. A *presheaf of $cal(O)$-modules on $X$* is an $sans("Ab")$-valued presheaf on $X$ to together with maps
+  Let $X$ be a topological space and $cal(O)$ be a $sans("Ring")$-valued presheaf on $X$. A *presheaf of $cal(O)$-modules on $X$* #index(display: [Presheaf of $cal(O)$-modules], "presheaf of O-modules") is an $sans("Ab")$-valued presheaf on $X$ to together with maps
   $
     q_U: cal(O(U)) times cal(F)(U) --> cal(F)(U)
   $
@@ -412,8 +422,7 @@ Since the continuous image of an open set is generally not open, defining the pu
 #definition[
   Stalk of a $mathsf(C)$-valued Presheaf
 ][
-  Let $cal(F)$ be a $mathsf(C)$-valued presheaf on a topological space $lr((X , tau))$. The #strong[stalk] of $cal(F)$ at
-  a point $x in X$ is defined as the colimit
+  Let $cal(F)$ be a $mathsf(C)$-valued presheaf on a topological space $lr((X , tau))$. The #strong[stalk] of $cal(F)$ at a point $x in X$ #index("presheaf on a topological space", "C-valued", "stalk") #index_math(display: [$cal(F)_x$], "F_x") is defined as the colimit
   $
     cal(F)_x := injlim(x in U in tau) cal(F) lr((U)) .
   $
@@ -436,7 +445,7 @@ Since the continuous image of an open set is generally not open, defining the pu
   Stalk of a $mathsf(S e t)$-valued Presheaf
 ][
   Let $lr((X , tau))$ be a topological space. For any $mathsf(S e t)$-valued presheaf $cal(F)$ on $X$ and for any $x in X$,
-  the #strong[stalk] of $cal(F)$ at a point $x in X$ always exists because in $mathsf(S e t)$ all filtered colimits
+  the #strong[stalk] of $cal(F)$ at a point $x in X$ #index("presheaf on a topological space", "Set-valued", "stalk") always exists because in $mathsf(S e t)$ all filtered colimits
   exists. The stalk $cal(F)_x$ can described explicitly as the quotient set
 
   $
@@ -445,10 +454,10 @@ Since the continuous image of an open set is generally not open, defining the pu
 
   where $tilde.op$ is the equivalence relation defined as follows: for any open neighborhoods $U , V$ of $x$ and any $f in cal(F) lr((U))$, $g in cal(F) lr((V))$,
   $
-    lr((U , f)) tilde.op lr((V , g)) <==> upright("there exists an open neighborhood ") W subset.eq U sect V upright("of ") x upright("such that ") f lr(|""_W = g|)_W .
+    lr((U , f)) tilde.op lr((V , g)) <==> upright("there exists an open neighborhood") W subset.eq U sect V upright("of") x upright("such that") f lr(|""_W = g|)_W .
   $
   The image under the map $op("res")_(U,x):cal(F) lr((U)) arrow.r cal(F)_x$ of a section $f in cal(F) lr((U))$ is the equivalence
-  class of $lr((U , f))$, denoted as $lr([lr((U , f))])_x$, called the #strong[germ] of $f$ at $x$.
+  class of $lr((U , f))$, denoted as $lr([lr((U , f))])_x$, called the #strong[germ] #index("germ") of $f$ at $x$.
 ]<stalk-of-a-set-valued-presheaf>
 
 #proposition[][
@@ -540,7 +549,7 @@ Since the continuous image of an open set is generally not open, defining the pu
 
 ==== Stalks of Presheaves of $cal(O)$-modules
 #definition[Stalks of Presheaves of $cal(O)$-modules ][
-  Let $X$ be a topological space and $cal(O)$ be a $sans("Ring")$-valued presheaf on $X$. Let $cal(F)$ be a presheaf of $cal(O)$-modules on $X$. For any $x in X$, the #strong[stalk] of $cal(F)$ at a point $x in X$ is the stalk of the underlying presheaf of abelian groups of $cal(F)$. There exists a canonical map
+  Let $X$ be a topological space and $cal(O)$ be a $sans("Ring")$-valued presheaf on $X$. Let $cal(F)$ be a presheaf of $cal(O)$-modules on $X$. For any $x in X$, the #strong[stalk] of $cal(F)$ at a point $x in X$ #index("presheaf of O-modules", "stalk") is the stalk of the underlying presheaf of abelian groups of $cal(F)$. There exists a canonical map
   $
     cal(O)_x times cal(F)_x &--> cal(F)_x \
     (f , [U , g]) &--> [U , f g] ,
@@ -1405,7 +1414,7 @@ This lemma justifies the following definition.
 
 #definition[
   Ringed Spaces][
-  A #strong[ringed space] is a pair $lr((X , cal(O)_X))$, where $X$ is a topological space and $cal(O)_X$ is a sheaf of commutative rings on $X$.
+  A #strong[ringed space] #index("ringed space") is a pair $lr((X , cal(O)_X))$, where $X$ is a topological space and $cal(O)_X$ is a sheaf of commutative rings on $X$.
 ]
 
 #definition[$R$-ringed Spaces][
@@ -1443,7 +1452,7 @@ This lemma justifies the following definition.
 ]
 
 #definition[
-  Locally Ringed Spaces][A ringed space $lr((X , cal(O)_X))$ is called a #strong[locally ringed space] if for every $x in X$, the stalk $cal(O)_(X , x)$ is a local ring.
+  Locally Ringed Spaces][A ringed space $lr((X , cal(O)_X))$ is called a #strong[locally ringed space] #index("locally ringed space") if for every $x in X$, the stalk $cal(O)_(X , x)$ is a local ring.
 
 ]<locally-ringed-space>
 
@@ -1451,7 +1460,7 @@ This lemma justifies the following definition.
 #definition[
   Category of Locally Ringed Spaces
 ][
-  The #strong[category of locally ringed spaces] $mathsf("LRS")$ consists of the following data:
+  The #strong[category of locally ringed spaces] $mathsf("LRS")$ #index_math(display:[$mathsf("LRS")$], "LRS") consists of the following data:
 
   - #emph[Objects] : locally ringed spaces $lr((X , cal(O)_X))$.
 
@@ -1488,11 +1497,11 @@ This lemma justifies the following definition.
 #definition[
   Residue Field
 ][
-  Let $lr((X , cal(O)_X))$ be a locally ringed space and $x in X$. The #strong[residue field] of $X$ at $x$ is the field
+  Let $lr((X , cal(O)_X))$ be a locally ringed space and $x in X$. The #strong[residue field] of $X$ at $x$ #index("residue field") is the field
   $
     kappa(x)=cal(O)_(X , x) \/ frak(m)_(X , x) ,
-  $
-  where $frak(m)_(X , x)$ is the maximal ideal of $cal(O)_(X , x)$.
+  $ #index_math(display: [$kappa(x)$], "kappa(x)")
+  where $frak(m)_(X , x)$ #index_math(display:[$frak(m)_(X , x)$], "m_(X,x)") is the maximal ideal of $cal(O)_(X , x)$.
 
 ]<residue-field>
 
@@ -1574,7 +1583,7 @@ Affine schemes are the basic building blocks of schemes. They are locally ringed
 === Underlying Set of $op("Spec")(R)$ <undering-set-of-mathopmathrmspecleftrright>
 #definition[
   Spectrum of a Commutative Ring][
-  The #strong[spectrum] of a commutative ring $R$ is the set of all prime ideals of $R$, and is usually denoted by $op("Spec")(R)$.
+  The #strong[spectrum] of a commutative ring $R$ is the set of all prime ideals of $R$, and is usually denoted by $op("Spec")(R)$. #index_math(display:[$op("Spec")(R)$], "Spec(R)")
 
 ]
 #proposition[
@@ -1635,7 +1644,15 @@ To get an intuition, we can consider a polynomial $f in bb(C) lr([x])$, and a pr
 
 #definition[
   Vanishing Set][
-  Given a subset $S$ of a commutative ring $R$, the #strong[vanishing set] of $S$ is defined as follows: $ V lr((S)) = lr({lr([frak(p)]) in op("Spec")(R) divides S subset.eq frak(p)}) . $ In particular, if $S = { f }$, then we write $V lr((f))$ instead of $V lr(({ f }))$ and call it the #strong[vanishing set of $f$] $ V lr((f)) = lr({lr([frak(p)]) in op("Spec")(R) divides f in frak(p)}) . $ $V lr((dot.op))$ can be seen as a map from the power set of $R$ to the power set of $op("Spec")(R)$, that is
+  Given a subset $S$ of a commutative ring $R$, the #strong[vanishing set] #index("vanashing set") of $S$ is defined as follows:
+  $
+    V lr((S)) = lr({lr([frak(p)]) in op("Spec")(R) divides S subset.eq frak(p)}).
+  $ #index_math(display: [$V(S)$], "V(S)")
+  In particular, if $S = { f }$, then we write $V lr((f))$ instead of $V lr(({ f }))$ and call it the #strong[vanishing set of $f$]
+  $
+    V lr((f)) = lr({lr([frak(p)]) in op("Spec")(R) divides f in frak(p)}).
+  $ #index_math(display: [$V(f)$], "V(f)")
+  $V lr((dot.op))$ can be seen as a map from the power set of $R$ to the power set of $op("Spec")(R)$, that is
   $
     V : 2^R & --> 2^(thin op("Spec")(R))\
     S & arrow.r.bar.long lr({lr([frak(p)]) in op("Spec")(R) thin | thin S subset.eq frak(p)}) .
@@ -1647,16 +1664,23 @@ Every $f in S$ vanishes at $lr([frak(p)])$ is equivalent to $S subset.eq frak(p)
 #definition[
   Non-vanishing Set
 ][
-  Given a subset $S$ of a commutative ring $R$, the #strong[non-vanishing set] of $S$ is defined as follows: $ D lr((S)) = op("Spec")(R) - V lr((S)) = lr({lr([frak(p)]) in op("Spec")(R) divides S subset.eq.not frak(p)}) . $ In particular, if $S = { f }$, then we write $D lr((f))$ instead of $D lr(({ f }))$ and call it the #strong[non-vanishing set of $f$] $ D lr((f)) = op("Spec")(R) - V lr((f)) = { lr([frak(p)]) in op("Spec")(R) divides f in.not frak(p) } . $ $D lr((dot.op))$ can be seen as a map from the power set of $R$ to the power set of $op("Spec")(R)$, that is $ D : 2^R & arrow.r 2^(thin op("Spec")(R))\
+  Given a subset $S$ of a commutative ring $R$, the #strong[non-vanishing set] of $S$ #index("non-vanashing set") is defined as follows: $ D lr((S)) = op("Spec")(R) - V lr((S)) = lr({lr([frak(p)]) in op("Spec")(R) divides S subset.eq.not frak(p)}) . $ In particular, if $S = { f }$, then we write $D lr((f))$ instead of $D lr(({ f }))$ and call it the #strong[non-vanishing set of $f$] $ D lr((f)) = op("Spec")(R) - V lr((f)) = { lr([frak(p)]) in op("Spec")(R) divides f in.not frak(p) } . $ $D lr((dot.op))$ can be seen as a map from the power set of $R$ to the power set of $op("Spec")(R)$, that is $ D : 2^R & arrow.r 2^(thin op("Spec")(R))\
   S       & arrow.r.bar { lr([frak(p)]) in op("Spec")(R) divides S subset.eq.not frak(p) } . $
 
 ]
 === Topology on $op("Spec")(R)$<topology-on-mathopmathrmspecleftrright>
 Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
 #definition[
-  Zariski Topology][
-  Given a commutative ring $R$, the #strong[Zariski topology] on $op("Spec")(R)$ is defined by taking the collection of all vanishing sets as the closed sets, that is, $ upright("Collection of closed sets") = lr({V lr((S)) in 2^(thin op("Spec")(R)) thin | thin S subset.eq R}) . $ Or equivalently, Zariski topology can be defined by taking the collection of all non-vanishing sets as the open sets, that is, $ upright("Collection of open sets") = lr({D lr((S)) in 2^(thin op("Spec")(R)) thin | thin S subset.eq R}) . $
-
+  Zariski Topology
+][
+  Given a commutative ring $R$, the #strong[Zariski topology] #index("Zariski topology") on $op("Spec")(R)$ is defined by taking the collection of all vanishing sets as the closed sets, that is,
+  $
+    upright("Collection of closed sets") = lr({V lr((S)) in 2^(thin op("Spec")(R)) thin | thin S subset.eq R}).
+  $
+  Or equivalently, Zariski topology can be defined by taking the collection of all non-vanishing sets as the open sets, that is,
+  $
+    upright("Collection of open sets") = lr({D lr((S)) in 2^(thin op("Spec")(R)) thin | thin S subset.eq R}).
+  $
 ]
 #proposition[
   Properties of $V$
@@ -1744,7 +1768,7 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   $
     I : 2^(upright(S p e c) (R)) & arrow.r 2^R\
     Y & arrow.r sect.big_([frak(p)] in Y) frak(p)
-  $
+  $ #index_math(display: [$I(Y)$], "I(Y)")
 ]
 
 #proposition[Properties of $I$][
@@ -1764,7 +1788,11 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
 #theorem[
   Hilbert's Nullstellensatz
 ][
-  Let $upright(R a d) lr((R))$ be the collection of all radical ideals of $R$ and $ mono(C l o s e d)_(op("Spec")(R)) := lr({A subset.eq op("Spec")(R) thin | thin A upright("is closed")}) $ be the collection of closed subsets of $op("Spec")(R)$. Then by restricting $V : 2^R arrow.r 2^(thin op("Spec")(R))$ to $upright(R a d) lr((R))$, we obtain the following bijection:
+  Let $op("Rad")(R)$ #index_math(display: $op("Rad")(R)$, "Rad(R)")be the collection of all radical ideals of $R$ and
+  $
+    mono("Closed")_(op("Spec")(R)) := lr({A subset.eq op("Spec")(R) thin | thin A upright("is closed")})
+  $ #index_math(display: $mono("Closed")_(op("Spec")(R))$, "Closed_(Spec(R))")
+  be the collection of closed subsets of $op("Spec")(R)$. Then by restricting $V : 2^R arrow.r 2^(thin op("Spec")(R))$ to $upright(R a d) lr((R))$, we obtain the following bijection:
   $
     V : op("Rad")(R) & arrow.r.long^tilde.op mono("Closed")_(op("Spec") (R))\
     frak(a) & arrow.r.bar.long V (frak(a)) .
@@ -2053,7 +2081,7 @@ The second case of localization is as follows.
 #definition[
   Generic Point
 ][
-  A point $p in X$ is a #strong[generic point] for a closed subset $C$ if $overline({ p }) = C$.
+  A point $p in X$ is a #strong[generic point] #index("generic point") for a closed subset $C$ if $overline({ p }) = C$.
 ]
 
 === Topological Properties of $op("Spec")(R)$ <topological_properties_of_affine_scheme>
@@ -2205,7 +2233,7 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
 ]<structure_sheaf_on_spectrum>
 
 #definition[Affine Scheme][
-  An *affine scheme* is a locally ringed space
+  An *affine scheme* #index("affine scheme") is a locally ringed space
   $(op("Spec")(R) , cal(O)_(op("Spec")(R)))$ where $op("Spec") (R)$ is a spectrum of
   a commutative ring $R$ and $cal(O)_(op("Spec")(R))$ is the #link(<structure_sheaf_on_spectrum>)[structure sheaf]
   on $op("Spec") (R)$.
@@ -2240,7 +2268,7 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
 == Scheme
 === Definition of Scheme
 #definition[Scheme][
-  A *scheme* is a ringed space $(X , cal(O)_X)$ such that for any point $x in X$, there exists an open neighborhood $U$ of $x$ such that $(U , cal(O)_X|_U)$ is isomorphic to an #link(<affine_scheme>)[affine scheme] as a ringed space.
+  A *scheme* #index("scheme") is a ringed space $(X , cal(O)_X)$ such that for any point $x in X$, there exists an open neighborhood $U$ of $x$ such that $(U , cal(O)_X|_U)$ is isomorphic to an #link(<affine_scheme>)[affine scheme] as a ringed space.
 ]
 
 #definition[Affine Open Subsets][
@@ -2252,7 +2280,7 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
 ]
 
 #definition[Open Subscheme][
-  Let $X$ be a scheme. If $U$ is an #link(<open-subspace-of-locally-ringed-spaces>)[open subspace of $X$], then $U$ is a scheme, and is called an *open subscheme* of $X$.
+  Let $X$ be a scheme. If $U$ is an #link(<open-subspace-of-locally-ringed-spaces>)[open subspace of $X$], then $U$ is a scheme, and is called an *open subscheme* #index("open subscheme") of $X$.
 ]
 
 === Zariski Topology of Schemes
@@ -2278,17 +2306,17 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
 ]
 
 #definition[Dimension of a Scheme][
-  Let $X$ be a scheme. The *dimension* of $X$ is the supremum of the lengths of chains of irreducible closed subsets of $X$, denote by
+  Let $X$ be a scheme. The *dimension* of $X$ #index("scheme", "dimension") is the supremum of the lengths of chains of irreducible closed subsets of $X$, denote by
   $
     dim(X) = sup {n | Z_0 subset.neq Z_1 subset.neq dots.h.c subset.neq Z_n subset.eq X, quad Z_i "is irreducible closed"}
   $
-
+  #index_math(display: $dim(X)$, "dim(X)")
 ]
 
 === Base Change of Schemes
 
 #definition[Category of Schemes over $S$][
-  Let $S$ be a scheme. The category of schemes over $S$ is the slice category $mathsf("Sch")_(S) = (mathsf("Sch")\/ S)$,
+  Let $S$ be a scheme. The category of schemes over $S$ is the slice category $mathsf("Sch")_(S) = (mathsf("Sch")\/ S)$ #index_math($mathsf("Sch")_(S)$, "Sch_S(X)").
 
   - A *scheme over $S$* is an object $X$ in $mathsf("Sch")_(S)$, namely a
     scheme $X$ together with a morphism $g : X arrow.r S$.
@@ -2713,5 +2741,8 @@ The category of schemes $mathsf("Sch")$ is a full subcategory of the category of
 = Algebraic Curves
 
 In this chapter, by curve we mean a smooth, projective, algebraic variety of dimension 1.
+
+
+
 
 
