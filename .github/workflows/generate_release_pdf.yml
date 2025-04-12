@@ -1,79 +1,15 @@
 name: Generate Release PDF
 
-on: 
+on:
   push:
     branches:
-      - master
+      - main
     paths-ignore:
       - '.gitignore'
-      - '**.md'
-
-env:
-  TYPST_FILE_NAME: algebraic_geometry
+      - '**/*.md'
 
 jobs:
-  build_typst:
-    if: "!contains(github.event.head_commit.message, '[skip-ci]')"
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Set up Git repository for secondary repo
-        uses: actions/checkout@v4
-
-      - name: Prepare Typst environment
-        uses: typst-community/setup-typst@v3
-
-      - name: Clone Typst Math Notes Repository
-        run: |
-          git clone https://github.com/hooyuser/typst_math_notes.git $HOME/.local/share/typst/packages/local/math-notes
-
-      - name: Download Typfont from the Release File of Repo typst_font_manager 
-        run: |
-          curl -L -o typfont https://github.com/hooyuser/typst_font_manager/releases/latest/download/typfont_linux
-          chmod +x typfont
-          echo "$(pwd)" >> $GITHUB_PATH
-
-      - name: Cache Fonts
-        uses: actions/cache@v4
-        with:
-          path: fonts
-          key: ${{ runner.os }}-typst-fonts-${{ hashFiles('**/typfont') }}
-          restore-keys: |
-            ${{ runner.os }}-typst-fonts-
-          
-      - name: Check Fonts with Typfont
-        run: |
-          export CLICOLOR=1
-          export CLICOLOR_FORCE=1
-          ./typfont update -l "hooyuser/Font_Library" -g 
-          ./typfont check -l "hooyuser/Font_Library" -g 
-      
-      - name: Compile Typst document
-        run: |
-          typst fonts --ignore-system-fonts --variants --font-path fonts 
-          typst compile ${{ env.TYPST_FILE_NAME }}.typ ${{ env.TYPST_FILE_NAME }}.pdf --ignore-system-fonts --font-path fonts 
-
-      - name: Delete old Release
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { owner, repo } = context.repo
-            try {
-              const { data: { id } } = await github.rest.repos.getLatestRelease({ owner, repo })
-              await github.rest.repos.deleteRelease({ owner, repo, release_id: id })
-            } catch {}
-
-      - name: Generate release tag
-        id: tag
-        run: |
-          echo "release_tag=latest_$(date +"%Y-%m-%d_%H-%M")" >> $GITHUB_OUTPUT
-
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: latest version
-          body: Latest version of `${{ env.TYPST_FILE_NAME }}.pdf`
-          tag_name: ${{ steps.tag.outputs.release_tag }}
-          files: ${{ env.TYPST_FILE_NAME }}.pdf
+  release_pdf:
+    uses: hooyuser/pdf-ci-templates/.github/workflows/typst-pdf-release.yml@main
+    with:
+      TYPST_FILE_NAME: algebraic_geometry
