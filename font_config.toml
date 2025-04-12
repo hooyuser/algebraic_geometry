@@ -38,6 +38,9 @@ family_name = "STIX Two Text"
 style = "Italic"
 weight = 400
 
+[[fonts]]
+family_name = "Icon Design"
+
 # math fonts
 [[fonts]]
 family_name = "New Computer Modern Math"
