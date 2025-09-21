@@ -1,5 +1,5 @@
 #import "@preview/cetz:0.3.4"
-#import "@preview/fletcher:0.5.7": diagram, node, edge
+#import "@preview/fletcher:0.5.8": diagram, node, edge
 #import "@preview/in-dexter:0.7.0": index
 
 #import "@local/math-notes:0.3.0": *
