@@ -1,5 +1,5 @@
 #import "@preview/cetz:0.3.4"
-#import "@preview/fletcher:0.5.8": diagram, node, edge
+#import "@preview/fletcher:0.5.8": diagram, edge, node
 #import "@preview/in-dexter:0.7.0": index
 
 #import "@local/math-notes:0.3.0": *
@@ -13,7 +13,7 @@
 
 #let scr(it) = math.class("unary", text(
   features: ("ss01",),
-  box($std.math.cal(it)$)
+  box($std.math.cal(it)$),
 ))
 
 #let tildecal(x) = if (x.text == "F") {
@@ -38,7 +38,7 @@
 
 #let movebase(size, x) = text(baseline: size)[#x]
 
-#let (varprojlim, varinjlim) = (leftarrow, rightarrow).map(arrow => $display(limits(lim_(movebase(#(-1.9pt),arrow))))$)
+#let (varprojlim, varinjlim) = (leftarrow, rightarrow).map(arrow => $display(limits(lim_(movebase(#(-1.9pt), arrow))))$)
 
 #let injlim(subscript) = $varinjlim_movebase(#(-2.8pt), subscript)$
 #let projlim(subscript) = $varprojlim_movebase(#(-2.8pt), subscript)$
@@ -118,12 +118,12 @@ If $mathsf(C)$ is an abelian category, then $mathsf("PSh")_(mathsf(C)) lr((X))$ 
         FX: $cal(F)(V)$,
         FY: $cal(F)(U)$,
       )
-      Therefore, for any open sets $U , V$ of $X$ such that $U subset.eq V$, there is a map $res(V , U) : cal(F) lr((V)) arrow.r cal(F) lr((U))$#index_math(display: $res(V , U)$, "res(V,U)"),
+      Therefore, for any open sets $U , V$ of $X$ such that $U subset.eq V$, there is a map $res(V, U) : cal(F) lr((V)) arrow.r cal(F) lr((U))$#index_math(display: $res(V, U)$, "res(V,U)"),
       called the #strong[restriction map], satisfying the following conditions:
 
-      + $res(U , U) = op("id")_(cal(F) lr((U)))$.
+      + $res(U, U) = op("id")_(cal(F) lr((U)))$.
 
-      + $res(W , U) = res(V, U) circle.stroked.tiny res(W , V)$ whenever $U subset.eq V subset.eq W$.
+      + $res(W, U) = res(V, U) circle.stroked.tiny res(W, V)$ whenever $U subset.eq V subset.eq W$.
     ]
 
   - Morphisms: A #strong[morphism of presheaves of sets on $X$] is a natural transformation $phi : cal(F) arrow.r cal(G)$.
@@ -167,8 +167,8 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
   #index_math(display: $underline(A)_op("pre")$, "A_(pre)")
 ]<constant-presheaf>
 
-#proposition[Monomorphisms and Epimorphisms in $mathsf("PSh")_(mathsf("Set")) lr((X))$][
-  Let $X$ be topological space and $f: cal(F)->cal(G)$ be a morphism in $mathsf("PSh")_(mathsf("Set")) lr((X))$. The following conditions on $f$ are equivalent characterizations of monomorphisms:
+#proposition[Monomorphisms and Epimorphisms in $PSh(Set, X)$][
+  Let $X$ be topological space and $f: cal(F)->cal(G)$ be a morphism in $PSh(Set, X)$. The following conditions on $f$ are equivalent characterizations of monomorphisms:
 
   + $f$ is a monomorphism.
 
@@ -200,7 +200,7 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
     g: $iota^(op("op"))$,
     X: $V$,
     Y: $U$,
-    Fg: $res(f^(-1)(V),f^(-1)(U))$,
+    Fg: $res(f^(-1)(V), f^(-1)(U))$,
     FX: $cal(F)(f^(-1)(V))$,
     FY: $cal(F)(f^(-1)(U))$,
   )
@@ -222,8 +222,8 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
     A12: $cal(F)_1(f^(-1)(U))$,
     A21: $cal(F)_2(f^(-1)(V))$,
     A22: $cal(F)_2(f^(-1)(U))$,
-    Ff: $res(f^(-1)(V),f^(-1)(U))$,
-    Gf: $res(f^(-1)(V),f^(-1)(U))$,
+    Ff: $res(f^(-1)(V), f^(-1)(U))$,
+    Gf: $res(f^(-1)(V), f^(-1)(U))$,
     theta_l: $phi_(f^(-1)(V))$,
     theta_r: $phi_(f^(-1)(U))$,
   )
@@ -255,7 +255,7 @@ equality $Gamma lr((U , cal(F))) = cal(F) lr((U))$.
     g: $iota^(op("op"))$,
     X: $V$,
     Y: $W$,
-    Fg: $res(V inter U,W inter U)$,
+    Fg: $res(V inter U, W inter U)$,
     FX: $cal(F)(i^(-1)(V))=cal(F)(V inter U)$,
     FY: $cal(F)(i^(-1)(U))=cal(F)(W inter U)$,
   )
@@ -298,35 +298,39 @@ Since the continuous image of an open set is generally not open, defining the pu
     FX: $f^* cal(G)_1$,
     FY: $f^* cal(G)_2$,
 
-    A11: $injlim(f(V) subset.eq W ) cal(G)_1(W)$,
-    A12: $injlim(f(U) subset.eq W ) cal(G)_1(W)$,
+    A11: $injlim(f(V) subset.eq W) cal(G)_1(W)$,
+    A12: $injlim(f(U) subset.eq W) cal(G)_1(W)$,
     A21: $injlim(f(V) subset.eq W) cal(G)_2(W)$,
     A22: $injlim(f(U) subset.eq W) cal(G)_2(W)$,
-    Ff: $res(f(V),f(U))$,
-    Gf: $res(f(V),f(U))$,
+    Ff: $res(f(V), f(U))$,
+    Gf: $res(f(V), f(U))$,
     theta_l: $(f^* phi)_V$,
     theta_r: $(f^* phi)_U$,
   )
-]
+]<pullback-presheaf>
 #remark[
   The universal property of the colimit
   $
     f^*cal(G)(U) = injlim(f(U) subset.eq W in tau) cal(G)(W) = varinjlim cal(G)|_mathsf("Open")_(Y , f(U))^(op("op")).
   $
-  is given as follows: for any open sets $W,Z$ such that $f(U)subset.eq W subset.eq Z$, for any set $A$, and for any morphism $h_Z: cal(G)(Z) arrow.r A$ and $h_W: cal(G)(W) arrow.r A$ such that $h_W circle.stroked.tiny res(Z , W) = h_Z$, there exists a unique morphism $tilde(h):f^*cal(G)(U) arrow.r A$ such that the following diagram commutes:
+  is given as follows: for any open sets $W,Z$ such that $f(U)subset.eq W subset.eq Z$, for any set $A$, and for any morphism $h_Z: cal(G)(Z) arrow.r A$ and $h_W: cal(G)(W) arrow.r A$ such that $h_W circle.stroked.tiny res(Z, W) = h_Z$, there exists a unique morphism $tilde(h):f^*cal(G)(U) arrow.r A$ such that the following diagram commutes:
 
-  #commutative_diagram($
-    &A&\
-    & f^*cal(G)(U) edge("u",#left,tilde(h), "-->")&\
-    cal(G)( Z )edge("ru",#right, #h(-1em)accent(op("res"),->)_(Z,f(U)),->)edge("ruu",h_Z,->) edge("rr",#right, res(Z,W),->)&& cal(G)( W )edge("lu",#left, accent(op("res"),->)_(W,f(U))#h(-1em),->)edge("luu",h_W,->)
-  $) #index_math(display: $accent(op("res"),->)_(Z,f(U))$, "res(Z,f(U))")
+  #commutative_diagram(
+    $
+      &A&\
+      & f^*cal(G)(U) edge("u", #left, tilde(h), "-->")&\
+      cal(G)( Z )edge("ru", #right, #h(-1em)accent(op("res"), ->)_(Z,f(U)), ->)edge("ruu", h_Z, ->) edge("rr", #right, res(Z, W), ->)&& cal(G)( W )edge("lu", #left, accent(op("res"), ->)_(W,f(U))#h(-1em), ->)edge("luu", h_W, ->)
+    $,
+  ) #index_math(display: $accent(op("res"), ->)_(Z,f(U))$, "res(Z,f(U))")
 
   If $U arrow.r.hook V$ is an inclusion map of open sets, then we have inclusion of sets $f(U) arrow.r.hook f(V)$ and inclusion of categories $mathsf("Open")_(Y , f(V)) arrow.r.hook mathsf("Open")_(Y , f(U))$. This induces a morphism $f^*cal(G)(V) ->f^*cal(G)(U)$ by the universal property of the colimit
 
-  #commutative_diagram($
-    cal(G)(W)edge("r",accent(op("res"),->)_(W,f(V)),->) edge("rd",#right,accent(op("res"),->)_(W,f(U)),->) & injlim(f( V ) subset.eq W in tau) cal(G)(W)edge("d",#left,f^*cal(G)(U arrow.hook V), "-->")\
-    &injlim(f(U) subset.eq W in tau) cal(G)(W)
-  $)
+  #commutative_diagram(
+    $
+      cal(G)(W)edge("r", accent(op("res"), ->)_(W,f(V)), ->) edge("rd", #right, accent(op("res"), ->)_(W,f(U)), ->) & injlim(f( V ) subset.eq W in tau) cal(G)(W)edge("d", #left, f^*cal(G)(U arrow.hook V), "-->")\
+      &injlim(f(U) subset.eq W in tau) cal(G)(W)
+    $,
+  )
 
 ]
 
@@ -351,34 +355,36 @@ Since the continuous image of an open set is generally not open, defining the pu
   $
   Let $theta: f^* cal(G) arrow.r cal(F)$ be a morphism in $mathsf("PSh")_(mathsf(C))(X)$. We can define a morphism $Phi_(cal(G), cal(F))(theta): cal(G) arrow.r f_* cal(F)$ in $mathsf("PSh")_(mathsf(C))(Y)$ as follows: for each open set $W subset.eq Y$, the morphism $(Phi_(cal(G), cal(F))(theta))_W: cal(G)(W)->f_* cal(F)(W)$ is the composition of the following morphisms
   $
-    cal(G)(W) xrightarrow^(accent(op("res"),->)_(W,f(f^(-1)(W)))) f^* cal(G)(f^(-1)(W)) xrightarrow^(theta_(f^(-1)(W))) cal(F)( f^(-1)(W) ).
+    cal(G)(W) xrightarrow^(accent(op("res"), ->)_(W,f(f^(-1)(W)))) f^* cal(G)(f^(-1)(W)) xrightarrow^(theta_(f^(-1)(W))) cal(F)( f^(-1)(W) ).
   $
   To verufy the naturality of $Phi_(cal(G), cal(F))(theta)$, we can check the following commutative diagram
   #commutative_diagram(
     $
-      cal(G)(W) edge("r",res(W, W'),->) edge("d",accent(op("res"),->)_(W,f(f^(-1)(W))),->) &cal(G)( W' )edge("d",accent(op("res"),->)_(W',f(f^(-1)(W'))),->)\
-      f^* cal(G)(f^(-1)(W)) edge("r",res(f^(-1)(W), f^(-1)(W')),->)edge("d",theta_(f^(-1)(W)),->)&f^* cal(G)( f^(-1)(W') ) edge("d",#left, theta_(f^(-1)(W')),->)\
-      cal(F)(f^(-1)(W)) edge("r",#right,res(f^(-1)(W), f^(-1)(W')),->) &cal(F)(f^(-1)(W'))\
+      cal(G)(W) edge("r", res(W, W'), ->) edge("d", accent(op("res"), ->)_(W,f(f^(-1)(W))), ->) &cal(G)( W' )edge("d", accent(op("res"), ->)_(W',f(f^(-1)(W'))), ->)\
+      f^* cal(G)(f^(-1)(W)) edge("r", res(f^(-1)(W), f^(-1)(W')), ->)edge("d", theta_(f^(-1)(W)), ->)&f^* cal(G)( f^(-1)(W') ) edge("d", #left, theta_(f^(-1)(W')), ->)\
+      cal(F)(f^(-1)(W)) edge("r", #right, res(f^(-1)(W), f^(-1)(W')), ->) &cal(F)(f^(-1)(W'))\
     $,
     spacing: (7em, 3em),
   )
-  #par(first-line-indent: 0em)[which follows from the naturality of $injlim$ and $theta$.]
+  #par(first-line-indent: 0em)[which follows from the naturality of $injlim(zws)$ and $theta$.]
 
   Let $xi: cal(G) arrow.r f_* cal(F)$ be a morphism in $mathsf("PSh")_(mathsf(C))(Y)$. We can define a morphism $Psi_(cal(G), cal(F))(xi): f^* cal(G) arrow.r cal(F)$ in $mathsf("PSh")_(mathsf(C))(X)$ as follows: for each open set $U subset.eq X$, the morphism $(Psi_(cal(G), cal(F))(xi))_U: f^* cal(G)(U)->cal(F)(U)$ is defined through the universal property
 
-  #commutative_diagram($
-    cal(G)(W)edge("r",accent(op("res"),->)_(W,f(U)),->) edge("d",#right,xi_(W),->) & injlim(f( U ) subset.eq W in tau) cal(G)(W)edge("d",#left,(Psi_(cal(G), cal(F))(xi))_U, "-->")\
-    cal(F)(f^(-1)(W)) edge("r",#right, res(f^(-1)(W), U),->)&cal(F)(U)
-  $)
+  #commutative_diagram(
+    $
+      cal(G)(W)edge("r", accent(op("res"), ->)_(W,f(U)), ->) edge("d", #right, xi_(W), ->) & injlim(f( U ) subset.eq W in tau) cal(G)(W)edge("d", #left, (Psi_(cal(G), cal(F))(xi))_U, "-->")\
+      cal(F)(f^(-1)(W)) edge("r", #right, res(f^(-1)(W), U), ->)&cal(F)(U)
+    $,
+  )
 
   The naturality of $Psi_(cal(G), cal(F))(xi)$ follows from the naturality of $xi$ and $injlim$.
 
   Now we check that $Phi_(cal(G), cal(F))$ and $Psi_(cal(G), cal(F))$ are inverse to each other. Let $theta: f^* cal(G) arrow.r cal(F)$ be a morphism in $mathsf("PSh")_(mathsf(C))(X)$. We are going to check that $Psi_(cal(G), cal(F))(Phi_(cal(G), cal(F))(theta)) = theta$. For any open set $U subset.eq X$, and for any $W supset.eq f(U)$, we have $U subset.eq f^(-1)(W)$ and the following commutative diagram
   #commutative_diagram(
     $
-      cal(G)( W ) edge("r",accent(op("res"),->)_(W,f(U)),->) edge("d",#right, accent(op("res"),->)_(W,f(f^(-1)(W))),->) & injlim(f( U ) subset.eq W in tau) cal(G)(W)edge("dd",#left, (Psi_(cal(G), cal(F))(Phi_(cal(G), cal(F))(theta)))_U, "-->")\
-      injlim(f(f^(-1)(W)) subset.eq Z in tau) cal(G)( Z )edge("ru",#right,f^*cal(G)(U arrow.hook f^(-1)(W)),->) edge("d",#right,theta_(f^(-1)(W)),->)&\
-      cal(F)(f^(-1)(W)) edge("r",#right, res(f^(-1)(W), U),->) &cal(F)(U)\
+      cal(G)( W ) edge("r", accent(op("res"), ->)_(W,f(U)), ->) edge("d", #right, accent(op("res"), ->)_(W,f(f^(-1)(W))), ->) & injlim(f( U ) subset.eq W in tau) cal(G)(W)edge("dd", #left, (Psi_(cal(G), cal(F))(Phi_(cal(G), cal(F))(theta)))_U, "-->")\
+      injlim(f(f^(-1)(W)) subset.eq Z in tau) cal(G)( Z )edge("ru", #right, f^*cal(G)(U arrow.hook f^(-1)(W)), ->) edge("d", #right, theta_(f^(-1)(W)), ->)&\
+      cal(F)(f^(-1)(W)) edge("r", #right, res(f^(-1)(W), U), ->) &cal(F)(U)\
     $,
     spacing: (7em, 3em),
   )
@@ -386,10 +392,12 @@ Since the continuous image of an open set is generally not open, defining the pu
 
   Similarly, we can show that $Phi_(cal(G), cal(F))circle.tiny Psi_(cal(G), cal(F))=op("id")$. Let $xi: cal(G) arrow.r f_* cal(F)$ be a morphism in $mathsf("PSh")_(mathsf(C))(Y)$. We are going to check that $Phi_(cal(G), cal(F))(Psi_(cal(G), cal(F))(xi)) = xi$. For any open set $W subset.eq Y$, we have the following commutative diagram
 
-  #commutative_diagram($
-    cal(G)( W )edge("r",accent(op("res"),->)_(W,f(f^(-1)(W))),->) edge("d",#right,xi_(W),->) edge("rd",#right,xi_(W),->) & injlim(f( f^(-1)(W)) subset.eq W in tau) cal(G)(W)edge("d",#left,(Psi_(cal(G), cal(F))(xi))_(f^(-1)(W)), "-->")\
-    cal(F)(f^(-1)(W)) edge("r",#right, res(f^(-1)(W), f^(-1)(W)),->)&cal(F)(f^(-1)(W))
-  $)
+  #commutative_diagram(
+    $
+      cal(G)( W )edge("r", accent(op("res"), ->)_(W,f(f^(-1)(W))), ->) edge("d", #right, xi_(W), ->) edge("rd", #right, xi_(W), ->) & injlim(f( f^(-1)(W)) subset.eq W in tau) cal(G)(W)edge("d", #left, (Psi_(cal(G), cal(F))(xi))_(f^(-1)(W)), "-->")\
+      cal(F)(f^(-1)(W)) edge("r", #right, res(f^(-1)(W), f^(-1)(W)), ->)&cal(F)(f^(-1)(W))
+    $,
+  )
 
   Hence we have $(Phi_(cal(G), cal(F))(Psi_(cal(G), cal(F))(xi)))_W = xi_W$. Therefore, we have shown that $Phi_(cal(G), cal(F))$ and $Psi_(cal(G), cal(F))$ are inverse to each other.
 ]
@@ -435,12 +443,14 @@ Since the continuous image of an open set is generally not open, defining the pu
   $
     cal(F)_x = varinjlim cal(F) |_mathsf("Open")_(X , x)^(op("op")).
   $
-  The universal property of the colimit is given as follows: for open sets $W subset.eq U$, for any set $A$, and for any morphism $f_U: cal(F)(U) arrow.r A$ and $f_U: cal(F)(U) arrow.r A$ such that $h_W circle.stroked.tiny res(U , W) = f_U$, there exists a unique morphism $tilde(f):cal(F)_x arrow.r A$ such that the following diagram commutes:
-  #commutative_diagram($
-    &A&\
-    &cal(F)_x edge("u",#left,tilde(f), "-->")&\
-    cal(F)( U )edge("ru",#right, op("res")_(U,x),->)edge("ruu",f_U,->) edge("rr",#right, op("res")_(U arrow.l.hook W),->)&& cal(F)( W )edge("lu",#left, op("res")_(W,x),->)edge("luu",h_W,->)
-  $)
+  The universal property of the colimit is given as follows: for open sets $W subset.eq U$, for any set $A$, and for any morphism $f_U: cal(F)(U) arrow.r A$ and $f_U: cal(F)(U) arrow.r A$ such that $h_W circle.stroked.tiny res(U, W) = f_U$, there exists a unique morphism $tilde(f):cal(F)_x arrow.r A$ such that the following diagram commutes:
+  #commutative_diagram(
+    $
+      &A&\
+      &cal(F)_x edge("u", #left, tilde(f), "-->")&\
+      cal(F)( U )edge("ru", #right, op("res")_(U,x), ->)edge("ruu", f_U, ->) edge("rr", #right, op("res")_(U arrow.l.hook W), ->)&& cal(F)( W )edge("lu", #left, op("res")_(W,x), ->)edge("luu", h_W, ->)
+    $,
+  )
 ]
 #definition[
   Stalk of a $mathsf(S e t)$-valued Presheaf
@@ -488,10 +498,10 @@ Since the continuous image of an open set is generally not open, defining the pu
 #proof[
   The basic idea is
   $
-    (f^* cal(G))_x &tilde.equiv injlim(x in U in tau^') (f^* cal(G)) (U)\
-    &tilde.equiv injlim(x in U in tau^') injlim(f(U) subset.eq W in tau) cal(G)(W)\
-    &tilde.equiv injlim(f(x) subset.eq W in tau) cal(G)(W) \
-    &tilde.equiv cal(G)_(f(x)).
+    (f^* cal(G))_x & tilde.equiv injlim(x in U in tau^') (f^* cal(G)) (U) \
+                   & tilde.equiv injlim(x in U in tau^') injlim(f(U) subset.eq W in tau) cal(G)(W) \
+                   & tilde.equiv injlim(f(x) subset.eq W in tau) cal(G)(W) \
+                   & tilde.equiv cal(G)_(f(x)).
   $
 ]
 
@@ -552,8 +562,8 @@ Since the continuous image of an open set is generally not open, defining the pu
 #definition[Stalks of Presheaves of $cal(O)$-modules ][
   Let $X$ be a topological space and $cal(O)$ be a $sans("Ring")$-valued presheaf on $X$. Let $cal(F)$ be a presheaf of $cal(O)$-modules on $X$. For any $x in X$, the #strong[stalk] of $cal(F)$ at a point $x in X$ #index("presheaf of O-modules", "stalk") is the stalk of the underlying presheaf of abelian groups of $cal(F)$. There exists a canonical map
   $
-    cal(O)_x times cal(F)_x &--> cal(F)_x \
-    (f , [U , g]) &--> [U , f g] ,
+    cal(O)_x times cal(F)_x & --> cal(F)_x \
+              (f , [U , g]) & --> [U , f g] ,
   $
   which makes $cal(F)_x$ an $cal(O)_x$-module.
 
@@ -565,10 +575,12 @@ Since the continuous image of an open set is generally not open, defining the pu
   - Objects: presheaves of $cal(O)$-modules on $X$.
 
   - Morphisms: a morphism between two presheaves of $cal(O)$-modules $cal(F)$ and $cal(G)$ is a morphism of presheaves of abelian groups $phi:cal(F) arrow.r cal(G)$ such that the following diagram commutes
-  #commutative_diagram($
-    cal(O) times cal(F) edge("r",->) edge("d",op("id")_(cal(O)) times phi,->) &cal(F) edge("d",#left, phi,->)\
-    cal(O) times cal(G) edge("r",#right,->)& cal(G)
-  $)
+  #commutative_diagram(
+    $
+      cal(O) times cal(F) edge("r", ->) edge("d", op("id")_(cal(O)) times phi, ->) & cal(F) edge("d", #left, phi, ->) \
+                                         cal(O) times cal(G) edge("r", #right, ->) & cal(G)
+    $,
+  )
 ]
 
 #proposition[
@@ -657,15 +669,17 @@ follows:
           cal(F)lr((varinjlim K_I)) = varprojlim cal(F) circle.stroked.tiny K_I^(op("op"))
         $
         If we denote $U = union.big_(i in I) U_i$, then the limit cone of $cal(F) circle.stroked.tiny K_I^(op("op"))$ is
-        #commutative_diagram($
-          &cal(F)( U ) edge("ld",op("res")_(U arrow.l.hook  U_(i_1)),->)edge("rd",op("res")_(U arrow.l.hook U_(i_1) inter thick U_(i_2)),"->")& \
-          cal(F)(U_(i_1))edge("rr",op("res")_(U_(i_1)arrow.l.hook U_(i_1) inter thick U_(i_2)),->, #right)&&cal(F)( U_(i_1) inter thick U_(i_2) )
-        $)
+        #commutative_diagram(
+          $
+            &cal(F)( U ) edge("ld", op("res")_(U arrow.l.hook U_(i_1)), ->)edge("rd", op("res")_(U arrow.l.hook U_(i_1) inter thick U_(i_2)), "->")& \
+            cal(F)(U_(i_1))edge("rr", op("res")_(U_(i_1)arrow.l.hook U_(i_1) inter thick U_(i_2)), ->, #right)&&cal(F)( U_(i_1) inter thick U_(i_2) )
+          $,
+        )
       ]
 
     + #block[for any open set $U subset.eq X$, for any open covering $U = union.big_(i in I) U_i$, the diagram
         $
-          cal(F)(U)stretch(->, size: #3em) product_(i in I ) cal(F)( U_i ) stretch(arrows.rr , size: #3em)^(alpha_1)_(alpha_2) product_((i_1 , i_2) in I times I) cal(F) ( U_(i_1) inter U_(i_2) )
+          cal(F)(U)stretch(->, size: #3em) product_(i in I ) cal(F)( U_i ) stretch(arrows.rr, size: #3em)^(alpha_1)_(alpha_2) product_((i_1 , i_2) in I times I) cal(F) ( U_(i_1) inter U_(i_2) )
         $
         is an equalizer diagram in the category $mathsf(C)$. Here $alpha_1$ and $alpha_2$ are the morphisms induced by the unversal property of product as follows:
 
@@ -725,7 +739,7 @@ follows:
 #proof[
   If we take $I = diameter$, the empty union $union.big_(i in diameter) U_i$ is the initial object $diameter$ in $mathsf(S e t)$, and the empty product $product_(i in diameter) cal(F) lr((U_i))$ is the terminal object $T$ in $mathsf(C)$. Therefore, the equalizer diagram above becomes
   $
-    cal(F)(emptyset)stretch(->, size: #3em) T stretch(arrows.rr , size: #3em)^(op("id")_T)_(op("id")_T) T
+    cal(F)(emptyset)stretch(->, size: #3em) T stretch(arrows.rr, size: #3em)^(op("id")_T)_(op("id")_T) T
   $
   which means $cal(F) lr((diameter))$ is a terminal object in $mathsf(C)$.
 
@@ -736,15 +750,15 @@ follows:
 ][
   Let $X$ be a topological space and $cal(F)$ is a presheaf of sets on $X$. $cal(F)$ is a #strong[sheaf of sets on $X$] if one of the following equivalent condition holds:
 
-  + #block[#strong[Identity axiom]. If $U = union.big_(i in I) U_i$ is an open cover of an open set $U$, and $f , g in cal(F) lr((U))$ satisfy $ res(U , U_i) lr((f)) = res(U , U_i) lr((g)) upright("for all ") i in I , $ then $f = g$.
+  + #block[#strong[Identity axiom]. If $U = union.big_(i in I) U_i$ is an open cover of an open set $U$, and $f , g in cal(F) lr((U))$ satisfy $ res(U, U_i) lr((f)) = res(U, U_i) lr((g)) upright("for all ") i in I , $ then $f = g$.
 
-      #strong[Gluability axiom]. If $U = union.big_(i in I) U_i$ is an open cover of an open set $U$, and $lr((f_i))_(i in I) in product_(i in I) cal(F) lr((U_i))$ is a family of sections satisfying that $ res(U_i , U_i inter U_j) lr((f_i)) = res(U_j , U_i inter U_j) lr((f_j)) upright("for all ") i , j in I , $ then there exists $f in cal(F) lr((U))$ such that $res(U , U_i) lr((f)) = f_i$ for all $i in I$.]
+      #strong[Gluability axiom]. If $U = union.big_(i in I) U_i$ is an open cover of an open set $U$, and $lr((f_i))_(i in I) in product_(i in I) cal(F) lr((U_i))$ is a family of sections satisfying that $ res(U_i, U_i inter U_j) lr((f_i)) = res(U_j, U_i inter U_j) lr((f_j)) upright("for all ") i , j in I , $ then there exists $f in cal(F) lr((U))$ such that $res(U, U_i) lr((f)) = f_i$ for all $i in I$.]
 
   + For any open set $U subset.eq X$, any open cover $U = union.big_(i in I) U_i$ and any family of sections $lr((f_i))_(i in I) in product_(i in I) cal(F) lr((U_i))$ such that $ f_i\|_(U_i inter U_j) = f_j\|_(U_i inter U_j) upright("for all ") i , j in I , $ then there exists a unique section $f in cal(F) lr((U))$ such that $f_i = f\|_(U_i)$ for all $i in I$.
 
   + For any open set $U subset.eq X$, and any open covering $U = union.big_(i in I) U_i$, the diagram
     $
-      cal(F)(U) stretch(->, size: #3em) product_(i in I ) cal(F)( U_i )stretch(arrows.rr , size: #3em)^(j_1)_(j_2) product_((i_1 , i_2) in I times I) cal(F) (U_(i_1) inter U_(i_2))
+      cal(F)(U) stretch(->, size: #3em) product_(i in I ) cal(F)( U_i )stretch(arrows.rr, size: #3em)^(j_1)_(j_2) product_((i_1 , i_2) in I times I) cal(F) (U_(i_1) inter U_(i_2))
     $
     is an equalizer diagram.
 ]
@@ -804,7 +818,7 @@ follows:
     g: $iota^(op("op"))$,
     X: $V$,
     Y: $U$,
-    Fg: $res(V,U)=iota^*$,
+    Fg: $res(V, U)=iota^*$,
     FX: ${f : V --> A divides f "is locally constant"}$,
     FY: ${f : U --> A divides f "is locally constant"}$,
   )
@@ -823,13 +837,13 @@ follows:
     g: $iota^(op("op"))$,
     X: $V$,
     Y: $U$,
-    Fg: $res(V,U)$,
+    Fg: $res(V, U)$,
     FX: $limits(product)_(x in V) A_x$,
     FY: $limits(product)_(x in U) A_x$,
     FX_e: $(a_x)_(x in V)$,
     FY_e: $(a_x)_(x in U)$,
   )
-  where $res(V , U)$ is induced by the universal property of product. Now we check this is a sheaf.
+  where $res(V, U)$ is induced by the universal property of product. Now we check this is a sheaf.
 
   - Identity axiom: Suppose $U = union.big_(i in I) U_i$ is an open covering of an open set $U subset.eq X$. Let $s , s^prime in Pi lr((U))$ be two sections on $U$ such that $s\|_(U_i) = s^prime\|_(U_i)$ for all $i in I$. Assume $s = lr((a_x))_(x in U) , s^prime = lr((a_x^prime))_(x in U)$. Then we have $ forall i in I , #h(0em) forall x in U_i , #h(0em) a_x = a_x^prime arrow.r.double.long forall x in U , #h(0em) a_x = a_x^prime arrow.r.double.long s = s^prime . $
 
@@ -845,17 +859,21 @@ follows:
 ][
   Let $X$ be a topological space and $cal(F)$ be a $mathsf(S e t)$-valued sheaf on $X$. For any open set $U subset.eq X$, the map $iota$ induced by the universal property of product is injective.
 
-  #commutative_diagram($
-    cal(F)( U ) edge(iota, "-->") edge("dr", injlim(x in U in tau), #right, "->") & limits(product)_(x in U) cal(F)_x edge("d", pi_x, #left, "->") \
-    & cal(F)_x
-  $)
+  #commutative_diagram(
+    $
+      cal(F)( U ) edge(iota, "-->") edge("dr", injlim(x in U in tau), #right, "->") & limits(product)_(x in U) cal(F)_x edge("d", pi_x, #left, "->") \
+      & cal(F)_x
+    $,
+  )
 
   And we have the following commutative diagram
 
-  #commutative_diagram($
-    cal(F)(U) edge(f, "->") edge("d", iota, #right, "->") & cal(G)(U) edge("d", iota, #left, "->") \
-    limits(product)_(x in U) cal(F)_x edge((f_x)_(x in U), #right, "->")& limits(product)_(x in U) cal(G)_x
-  $)
+  #commutative_diagram(
+    $
+                     cal(F)(U) edge(f, "->") edge("d", iota, #right, "->") & cal(G)(U) edge("d", iota, #left, "->") \
+      limits(product)_(x in U) cal(F)_x edge((f_x)_(x in U), #right, "->") & limits(product)_(x in U) cal(G)_x
+    $,
+  )
 
 ]<section_is_determined_by_its_germs_at_all_points>
 #proof[
@@ -867,16 +885,19 @@ follows:
 #definition[
   Sheafification of a $mathsf("Set")$-valued Presheaf
 ][
-  Let $X$ be a topological space and $cal(F)$ be a $mathsf("Set")$-valued presheaf on $X$. The #strong[sheafification of $cal(F)$] is a sheaf $sheafify(F)$ on $X$ together with a presheaf morphism $phi : cal(F) arrow.r cal(F)^(" sh")$ such that for any sheaf $cal(G)$ and any morphism $psi : cal(F) arrow.r cal(G)$, there exists a unique morphism $psi^(+) : sheafify(F) arrow.r cal(G)$ #index_math(display:$psi^(+)$, "psi^(+)" ) such that the following diagram commutes:
+  Let $X$ be a topological space and $cal(F)$ be a $mathsf("Set")$-valued presheaf on $X$. The #strong[sheafification of $cal(F)$] is a sheaf $sheafify(F)$ on $X$ together with a presheaf morphism $phi : cal(F) arrow.r cal(F)^(" sh")$ such that for any sheaf $cal(G)$ and any morphism $psi : cal(F) arrow.r cal(G)$, there exists a unique morphism $psi^(+) : sheafify(F) arrow.r cal(G)$ #index_math(display: $psi^(+)$, "psi^(+)") such that the following diagram commutes:
 
-  #commutative_diagram($
-    sheafify(F) edge(psi^(+), "-->") & cal(G) \
-    cal(F)edge("u",phi, #left, "->") edge("ur", psi, #right, "->") &
-  $)
-  A construction of $phi:cal(F)->sheafify(F)$ can be given as follows: for any open set $U subset.eq X$, we define the set of #strong[compatible germs] of $cal(F)$ on $U$ as $ sheafify(F) lr((U)) := lr(size:#115%,
+  #commutative_diagram(
+    $
+                                     sheafify(F) edge(psi^(+), "-->") & cal(G) \
+      cal(F)edge("u", phi, #left, "->") edge("ur", psi, #right, "->") &
+    $,
+  )
+  A construction of $phi:cal(F)->sheafify(F)$ can be given as follows: for any open set $U subset.eq X$, we define the set of #strong[compatible germs] of $cal(F)$ on $U$ as $ sheafify(F) lr((U)) := lr(
+    size: #115%,
     {(s_x)_(x in U) in product_(x in U) cal(F)_x thin mid(|) #box(baseline: 50%, $thin &"for any" x in U , "there exists an open neighborhood" x in V subset.eq U\
-            &"and a section" f in cal(F)(V) "such that for all" y in V,  s_y = op("res")_(V,y)(f)$)}
-  ) . $ If $U subset.eq V subset.eq  X$, then the image of $sheafify(F) lr((V)) arrow.r.hook product_(x in V) cal(F)_x arrow.r.twohead product_(x in U) cal(F)_x$ still lies in $sheafify(F) lr((U))$, which gives a well-defined restriction map $res(V , U) : sheafify(F) lr((V)) arrow.r sheafify(F) lr((U))$. So we can define a presheaf of sets on $X$ as follows
+      &"and a section" f in cal(F)(V) "such that for all" y in V, s_y = op("res")_(V,y)(f)$)}
+  ) . $ If $U subset.eq V subset.eq X$, then the image of $sheafify(F) lr((V)) arrow.r.hook product_(x in V) cal(F)_x arrow.r.twohead product_(x in U) cal(F)_x$ still lies in $sheafify(F) lr((U))$, which gives a well-defined restriction map $res(V, U) : sheafify(F) lr((V)) arrow.r sheafify(F) lr((U))$. So we can define a presheaf of sets on $X$ as follows
   #functor_diagram(
     F: $sheafify(F)$,
     C: $mathsf("Open")_X^(op("op"))$,
@@ -884,32 +905,34 @@ follows:
     g: $iota^(op("op"))$,
     X: $V$,
     Y: $U$,
-    Fg: $res(V,U)$,
+    Fg: $res(V, U)$,
     FX: $sheafify(F)(V)$,
     FY: $sheafify(F)(U)$,
   )
   The morphism $phi: cal(F) arrow.r sheafify(F)$ is defined as
+  $ phi_U: cal(F)(U) & --> sheafify(F) (U) \
+                 f & arrow.bar.long (f_x:=op("res")_(U,x)(f))_(x in U) $ where $f_x$ is the germ of $f$ at $x$. For any sheaf $cal(G)$ and any morphism $psi : cal(F) arrow.r cal(G)$, the morphism $psi^(+) : sheafify(F) arrow.r cal(G)$ is defined as
   $
-    phi_U: cal(F)(U) &--> sheafify(F) (U)\
-    f &arrow.bar.long (f_x:=op("res")_(U,x)(f))_(x in U)
-  $ where $f_x$ is the germ of $f$ at $x$. For any sheaf $cal(G)$ and any morphism $psi : cal(F) arrow.r cal(G)$, the morphism $psi^(+) : sheafify(F) arrow.r cal(G)$ is defined as
-  $
-    psi^+_U: sheafify(F)(U) &--> cal(G)(U)\
-    (s_x)_(x in U) &arrow.bar.long psi_U (phi_U^(-1)((s_x)_(x in U)))
+    psi^+_U: sheafify(F)(U) & --> cal(G)(U) \
+             (s_x)_(x in U) & arrow.bar.long psi_U (phi_U^(-1)((s_x)_(x in U)))
   $
 
 ]<sheafification-of-a-presheaf>
 #remark[
   If $U,V$ are open sets such that $U subset.eq V$, we can check the following diagram commutes
-  #commutative_diagram($
-    cal(F)(V) edge(phi_V, "hook->") edge("d",res(V,U), #right, "->") &sheafify(F)( V ) edge("d", res(V,U), #right, "->")edge("hook->")& limits(product)_(x in V) cal(F)_x edge("d", "->>")\
-    cal(F)(U) edge(phi_U, #right, "hook->") &sheafify(F)(U) edge("hook->")& limits(product)_(x in U) cal(F)_x
-  $)
+  #commutative_diagram(
+    $
+      cal(F)(V) edge(phi_V, "hook->") edge("d", res(V, U), #right, "->") &sheafify(F)( V ) edge("d", res(V, U), #right, "->")edge("hook->")& limits(product)_(x in V) cal(F)_x edge("d", "->>")\
+      cal(F)(U) edge(phi_U, #right, "hook->") &sheafify(F)(U) edge("hook->")& limits(product)_(x in U) cal(F)_x
+    $,
+  )
   Hence the image of $sheafify(F) lr((V)) arrow.r.hook product_(x in V) cal(F)_x arrow.r.twohead product_(x in U) cal(F)_x$ lies in $sheafify(F) lr((U))$.
 
 ]
 
 #definition[Sheafification Functor][
+  $typebadge(X, Top)$
+
   Let $X$ be a topological space. The #strong[sheafification functor] $sheafify(zws) : mathsf("PSh")_(mathsf("Set")) lr((X)) arrow.r mathsf("Sh")_(mathsf("Set")) lr((X))$ is defined as follows:
   #functor_diagram(
     F: $sheafify(zws)$,
@@ -933,9 +956,7 @@ follows:
   Let $X$ be a topological space and $A$ be a set. Let $underline(A)_(op("pre"))$ be the #link(<constant-presheaf>)[constant presheaf with value $A$]. Recall that if $underline(A)_(op("pre"))$ is a sheaf, there must be $underline(A)_(op("pre"))(diameter)={*}$. Therefore, if $A$ has more than one element, $underline(A)_(op("pre"))$ is not a sheaf. We can also check that $underline(A)_(op("pre"))$ violates the gluability axiom if $A={0,1}$ and $X={0,1}$ with the discrete topology. Take sections $0 in underline(A)_(op("pre")) lr(({0}))$ and $1 in underline(A)_(op("pre")) lr(({1}))$. We cannot find a section $f in underline(A)_(op("pre")) lr((X))$ such that $f\|_({0}) = 0$ and $f\|_({1}) = 1$.
 
   The sheafification of $underline(A)_(op("pre"))$ is the #link(<constant-sheaf>)[constant sheaf with value $A$], denoted by $underline(A):=(underline(A)_(op("pre")))^op("sh")$#index_math(display: $underline(A)$, "A_underline"). That's because the #link(<stalk-of-a-set-valued-presheaf>)[stalk] of $underline(A)_(op("pre"))$ at any point $x in X$ is
-  $
-    (underline(A)_(op("pre")))_x = injlim(x in U in op("Ob")(mathsf("Open")_X)) underline(A) lr((U)) = A .
-  $ and the
+  $ (underline(A)_(op("pre")))_x = injlim(x in U in op("Ob")(mathsf("Open")_X)) underline(A) lr((U)) = A . $ and the
   compatible germs of $underline(A)_(op("pre"))$ on an open set $U subset.eq X$ are just locally constant functions $f: U arrow.r A$.
 ]
 
@@ -949,10 +970,12 @@ follows:
 
   + For any $mathsf(C)$-valued sheaf $cal(G)$ and any morphism $psi:cal(F) arrow.r cal(G)$ in $mathsf("PSh")_mathsf(C)(X)$, $cal(F) arrow.r cal(G)$ factors uniquely through $cal(F) arrow.r sheafify(F) arrow.r cal(G)$
 
-  #commutative_diagram($
-    sheafify(F) edge(psi^(+), "-->") & cal(G) \
-    cal(F)edge("u",phi, #left, "->") edge("ur", psi, #right, "->") &
-  $)
+  #commutative_diagram(
+    $
+                                     sheafify(F) edge(psi^(+), "-->") & cal(G) \
+      cal(F)edge("u", phi, #left, "->") edge("ur", psi, #right, "->") &
+    $,
+  )
 ]
 
 
@@ -962,7 +985,7 @@ follows:
 #proof[
   For any open set $U subset.eq Y$, for any open covering $U = union.big_(i in I) U_i$, we see $f^(-1)(U)=union.big_(i in I) f^(-1)(U_i)$ is an open covering of $f^(-1)(U)$. Thus we have the following equalizer diagram
   $
-    cal(F)(f^(-1)(U))stretch(->, size: #3em) product_(i in I ) cal(F)( f^(-1)(U_i) )stretch(arrows.rr , size: #3em)^(alpha_1)_(alpha_2) product_((i_1 , i_2) in I times I) cal(F) ( f^(-1)(U_(i_1) inter U_(i_2)) )
+    cal(F)(f^(-1)(U))stretch(->, size: #3em) product_(i in I ) cal(F)( f^(-1)(U_i) )stretch(arrows.rr, size: #3em)^(alpha_1)_(alpha_2) product_((i_1 , i_2) in I times I) cal(F) ( f^(-1)(U_(i_1) inter U_(i_2)) )
   $
   which means $f_(*) cal(F)$ is a sheaf on $Y$.
 ]
@@ -971,6 +994,11 @@ This lemma justifies the following definition.
 #definition[
   Pushforward Sheaf
 ][
+  $typebadge(
+    X\,Y, Top;
+    cal(F), Sh(mathsf(C), X)
+  )$
+
   Let $X$ be a topological space and $cal(F)$ be a $mathsf(C)$-valued sheaf on $X$. Let $f : X arrow.r Y$ be a continuous map. The #strong[pushforward sheaf] $f_(*) cal(F)$ is the pushforward presheaf $f_(*) cal(F)$ and defined explicitly as follows:
 
   #functor_diagram(
@@ -980,7 +1008,7 @@ This lemma justifies the following definition.
     g: $iota^(op("op"))$,
     X: $V$,
     Y: $U$,
-    Fg: $res(f^(-1)(V),f^(-1)(U))$,
+    Fg: $res(f^(-1)(V), f^(-1)(U))$,
     FX: $cal(F)(f^(-1)(V))$,
     FY: $cal(F)(f^(-1)(U))$,
   )
@@ -997,7 +1025,7 @@ This lemma justifies the following definition.
     let Fg = $f_* phi$
     let FX = $f_* cal(F)$
     let FY = $f_* cal(G)$
-    let Fg_e = $res(V,U)$
+    let Fg_e = $res(V, U)$
     let FX_e = $(U,f)$
     let FY_e = $lr((U, f))$
     let g_arrow = "=>"
@@ -1035,8 +1063,8 @@ This lemma justifies the following definition.
     let A12 = $cal(F)(f^(-1)(U))$
     let A21 = $cal(G)(f^(-1)(V))$
     let A22 = $cal(G)(f^(-1)(U))$
-    let Ff = $res(f^(-1)(V),f^(-1)(U))$
-    let Gf = $res(f^(-1)(V),f^(-1)(U))$
+    let Ff = $res(f^(-1)(V), f^(-1)(U))$
+    let Gf = $res(f^(-1)(V), f^(-1)(U))$
     let theta_l = $phi_(f^(-1)(V))$
     let theta_r = $phi_(f^(-1)(U))$
     let Ff_arrow = "->"
@@ -1071,7 +1099,7 @@ This lemma justifies the following definition.
 #example[
   Skyscraper Sheaf
 ][
-  Suppose $X$ is a topological space with $x in X$, and $S$ is a set. Let $i_x : { x } arrow.r X$ be the inclusion. Then we can define a functor $i_(x , *) S : mathsf("Open")_X^(op("op")) arrow.r mathsf("Set")$#index_math(display:$i_(x , *) S$, "i_(x,*)S") as follows:
+  Suppose $X$ is a topological space with $x in X$, and $S$ is a set. Let $i_x : { x } arrow.r X$ be the inclusion. Then we can define a functor $i_(x , *) S : mathsf("Open")_X^(op("op")) arrow.r mathsf("Set")$#index_math(display: $i_(x , *) S$, "i_(x,*)S") as follows:
 
   - Map on objects:
   $
@@ -1079,19 +1107,17 @@ This lemma justifies the following definition.
       delim: "{",
       S & upright("if ") x in U,
       , { * } & upright("if ") x in.not U .,
-
     )
   $
 
   - Map on morphisms: for any inclusion $iota : U arrow.r.hook V$, the image $op("res")_(V arrow.l.hook U) := i_(x , *) S lr((iota))$ is given by
   $
-    op("res")_(V arrow.l.hook U) : i_(x , *) S lr((V)) & arrow.r.long i_(x , *) S lr((U))\
-    s & arrow.r.bar.long cases(
-      delim: "{",
-      s & upright("if ") x in U,
-      , { * } & upright("if ") x in.not U .,
-
-    )
+    op("res")_(V arrow.l.hook U) : i_(x , *) S lr((V)) & arrow.r.long i_(x , *) S lr((U)) \
+                                                     s & arrow.r.bar.long cases(
+                                                           delim: "{",
+                                                           s & upright("if ") x in U,
+                                                           , { * } & upright("if ") x in.not U .,
+                                                         )
   $
 
   We can check that $i_(x , *) S$ is a sheaf on $X$, called the #strong[skyscraper sheaf] at $x$ with value $S$. It is the pushforward sheaf of the constant sheaf $underline(S)$ on ${ x }$ along the inclusion $i_x : { x } arrow.r.hook X$.
@@ -1101,14 +1127,24 @@ This lemma justifies the following definition.
 
 
 #definition[Pullback Sheaf][
-  Let $X$ and $Y$ be topological spaces and $f : X arrow.r Y$ be a continuous map. Let $(mathsf(C), F)$ be a type of algebraic structure and $cal(G)$ be a $mathsf(C)$-valued sheaf on $Y$. The #strong[pullback sheaf] $f^(-1) cal(G)$ is the sheafification of the pullback presheaf $f^* cal(G)$, defined by the formula
+  $typebadge(
+    X\,Y, Top;
+    cal(G), Sh(mathsf(C), Y)
+  )$
+
+  Let $X$ and $Y$ be topological spaces and $f : X arrow.r Y$ be a continuous map. Let $(mathsf(C), F)$ be a type of algebraic structure and $cal(G)$ be a $mathsf(C)$-valued sheaf on $Y$. The #strong[pullback sheaf] $f^(-1) cal(G)$ is the sheafification of the #link(<pullback-presheaf>)[pullback presheaf] $f^* cal(G)$, defined by the formula
   $
     f^(-1) cal(G)= (f^* cal(G))^op("sh").
   $
 ]<pullback-sheaf>
 
 #proposition[The Stalk of Pullback Sheaf][
-  Let $X$ and $Y$ be topological spaces and $f : X arrow.r Y$ be a continuous map. Let $(mathsf(C), F)$ be a type of algebraic structure and $cal(G)$ be a $mathsf(C)$-valued sheaf on $Y$. For any $x in X$, the stalk of the pullback sheaf $f^(-1) cal(G)$ at $x$ is given by
+  $typebadge(
+    X\,Y, Top;
+    cal(G), Sh(mathsf(C), Y)
+  )$
+
+  Let $f : X arrow.r Y$ be a continuous map. Let $(mathsf(C), F)$ be a type of algebraic structure and $cal(G)$ be a $mathsf(C)$-valued sheaf on $Y$. For any $x in X$, the stalk of the pullback sheaf $f^(-1) cal(G)$ at $x$ is given by
   $
     (f^(-1) cal(G))_x = cal(G)_(f(x)).
   $
@@ -1134,7 +1170,7 @@ This lemma justifies the following definition.
   $
     i^* cal(G)(V) = injlim(V subset.eq W in tau) cal(G)(W) = cal(G)(V).
   $
-  Since $i^* cal(F)$ is already a sheaf, we have $  i^(-1) cal(G)=i^* cal(G)=cal(G)|_U$. For any $cal(F) in op("Ob")(mathsf("Sh")_mathsf("Set")(U))$ and any open set $V subset.eq U$, we have
+  Since $i^* cal(F)$ is already a sheaf, we have $i^(-1) cal(G)=i^* cal(G)=cal(G)|_U$. For any $cal(F) in op("Ob")(mathsf("Sh")_mathsf("Set")(U))$ and any open set $V subset.eq U$, we have
   $
     i^(-1) circle.tiny i_* cal(F)(V)= i^(-1) cal(F)(V inter U) = cal(F)(V inter U) = cal(F)(V),
   $
@@ -1231,22 +1267,20 @@ This lemma justifies the following definition.
 #definition[
   Étale Space
 ][
-  An #strong[étale map] over a topological space $X$ is an object $p : E arrow.r X$ in slice category $mathsf("Top")\/ X$ such that $p$ is a local homeomorphism. The topological space $E$ is called an #strong[étale space] over $X$. The set $E_x = p^(- 1) lr((x))$ where $x in X$ is called the #strong[stalk] of $p$ over $x$. The category of étale maps over $X$ is the full subcategory of $mathsf("Top")\/ X$ consisting of étale spaces over $X$, denoted $mathsf("Et")_X$. #index_math(display:$op("Et")_X$, "Et_X")
+  An #strong[étale map] over a topological space $X$ is an object $p : E arrow.r X$ in slice category $mathsf("Top")\/ X$ such that $p$ is a local homeomorphism. The topological space $E$ is called an #strong[étale space] over $X$. The set $E_x = p^(- 1) lr((x))$ where $x in X$ is called the #strong[stalk] of $p$ over $x$. The category of étale maps over $X$ is the full subcategory of $mathsf("Top")\/ X$ consisting of étale spaces over $X$, denoted $mathsf("Et")_X$. #index_math(display: $op("Et")_X$, "Et_X")
 
 ]
 #definition[
   Étale Space of a Presheaf
 ][
-  Let $X$ be a topological space and $cal(F)$ be a presheaf on $X$. The #strong[étale space] of $cal(F)$, denoted $op("Et")lr((cal(F)))$#index_math(display:$op("Et")lr((cal(F)))$, "Et(F)"), is defined as follows:
+  Let $X$ be a topological space and $cal(F)$ be a presheaf on $X$. The #strong[étale space] of $cal(F)$, denoted $op("Et")lr((cal(F)))$#index_math(display: $op("Et")lr((cal(F)))$, "Et(F)"), is defined as follows:
 
   - The underlying set of $op("Et")lr((cal(F)))$ is the disjoint union of all stalks of $cal(F)$
   $ product.co_(x in X) cal(F)_x = lr({lr((x , s)) thin | thin x in X , s in cal(F)_x}) . $
 
   - The topology on $op("Et")lr((cal(F)))$ is generated by the following basis:
   $
-    lr(
-      {lr({lr((x , s)) in product.co_(x in X) cal(F)_x mid(|) x in U}) mid(|) U upright("is open in ") X}
-    ) .
+    lr({lr({lr((x , s)) in product.co_(x in X) cal(F)_x mid(|) x in U}) mid(|) U upright("is open in ") X}) .
   $
 
   Define a map $p : op("Et")lr((cal(F))) arrow.r X$ by $p lr((x , s)) = x$. Then $p$ is a local homeomorphism. Therefore, $p_cal(F) : op("Et")lr((cal(F))) arrow.r X$ is an étale map over $X$, which justifies the notation.
@@ -1320,7 +1354,7 @@ This lemma justifies the following definition.
 #definition[
   $mathsf(C)$-valued Sheaves on a Topological Base][Let $X$ be a topological space and $mathsf(C)$ be a complete category. Let $scr(B)$ be a basis for the topology on $X$. A $mathsf(C)$-valued sheaf on $scr(B)$ is a $mathsf(C)$-valued presheaf on $scr(B)$ which satisfies the one of the following equivalent conditions: If $B in scr(B)$ is a basic open set, $B = union.big_(i in I) B_i$ is a cover of a $B$ with $B_i in scr(B)$, and $B_i inter B_j = union.big_(k in I_(i j)) V_k^(i j)$ is a cover of $B_i inter B_j$ with $V_k^(i j) in scr(B)$, then the diagram
   $
-    cal(F)(B)stretch(->, size: #3em) product_(i in I ) cal(F)( B_i )stretch(arrows.rr , size: #3em)^(alpha_1)_(alpha_2) product_(( i , j ) in I times I) product_(k in I_(i j)) cal(F) (V_k^(i j))
+    cal(F)(B)stretch(->, size: #3em) product_(i in I ) cal(F)( B_i )stretch(arrows.rr, size: #3em)^(alpha_1)_(alpha_2) product_(( i , j ) in I times I) product_(k in I_(i j)) cal(F) (V_k^(i j))
   $
   is an equalizer diagram in the category $mathsf(C)$.
 
@@ -1360,9 +1394,7 @@ This lemma justifies the following definition.
     $,
   )
   Since $iota^(op("op"))$ is a final functor, we have
-  $
-    tildecal(F)_x = varinjlim cal(F)|_(mathsf(B)_(x)^(op("op"))) = varinjlim cal(F)|_(mathsf("Open")_(X , x)^(op("op")))circle.tiny iota^(op("op")) tilde.equiv varinjlim cal(F)|_(mathsf("Open")_(X , x)^(op("op"))) = cal(F)_x
-  $.
+  $ tildecal(F)_x = varinjlim cal(F)|_(mathsf(B)_(x)^(op("op"))) = varinjlim cal(F)|_(mathsf("Open")_(X , x)^(op("op")))circle.tiny iota^(op("op")) tilde.equiv varinjlim cal(F)|_(mathsf("Open")_(X , x)^(op("op"))) = cal(F)_x $.
 ]
 
 == Ringed Space <ringed-space>
@@ -1371,7 +1403,7 @@ This lemma justifies the following definition.
 #definition[$f$-map between Sheaves][
   Let $f : (X,tau) arrow.r (Y,tau')$ be a continuous map and $(mathsf(C), F)$ be a type of algebraic structure. Suppose $cal(F) in op("Ob")(mathsf("Sh")_mathsf(C)(X))$ and $cal(G)in op("Ob")(mathsf("Sh")_mathsf(C)(Y))$. An $f$-map $xi : cal(G) arrow.r cal(F)$ is a collections of maps
   $
-    xi=(xi_(V, U) : cal(G) (V) arrow.r cal(F) (U))_(U in tau, f(U) subset.eq V in tau')
+    xi=(xi_(V, U) : cal(G) (V) --> cal(F) (U))_(U in tau, f(U) subset.eq V in tau')
   $
   such that for all open sets $U' subset.eq U subset.eq X$ and $V' subset.eq V subset.eq Y$ such that $f(U) subset.eq V$ and $f(U') subset.eq V'$, the following diagram commutes
   #square_cd(
@@ -1390,9 +1422,13 @@ This lemma justifies the following definition.
 
 
 #proposition[][
-  Let $f : X arrow.r Y$ be a continuous map. Let
-  $cal(F)$ be a $mathsf("Set")$-valued sheaf on $X$ and let $cal(G)$ be a $mathsf("Set")$-valued sheaf on $Y$. There are
-  bijections between the following 3 sets
+  $typebadge(
+    X\,Y, Top;
+    cal(F), Sh(Set, X);
+    cal(G), Sh(Set, Y)
+  )$
+
+  Let $f : X arrow.r Y$ be a continuous map. Let $cal(F)$ be a $mathsf("Set")$-valued sheaf on $X$ and let $cal(G)$ be a $mathsf("Set")$-valued sheaf on $Y$. There are bijections between the following 3 sets
 
   + $"Hom"_(mathsf("Sh")_(mathsf(C)) lr((Y))) lr((cal(G) , f_* cal(F)))$,
 
@@ -1407,7 +1443,13 @@ This lemma justifies the following definition.
 ]
 
 #proposition[$f$-maps Induces Morphisms between Stalks][
-  Let $f : X arrow.r Y$ be a continuous map. Let $(mathsf(C), F)$ be a type of algebraic structure. Suppose $cal(F) in op("Ob")(mathsf("Sh")_mathsf(C)(X))$, $cal(G)in op("Ob")(mathsf("Sh")_mathsf(C)(Y))$ and $xi: cal(G) arrow.r cal(F)$ be an $f$-map. Then we have a sheaf morphism $xi: f^(-1)cal(G) arrow.r  cal(F)$, which induces a morphism between stalks
+  $typebadge(
+    X\,Y, Top;
+    cal(F), Sh(mathsf(C), X);
+    cal(G), Sh(mathsf(C), Y)
+  )$
+
+  Let $f : X arrow.r Y$ be a continuous map. Let $(mathsf(C), F)$ be a type of algebraic structure. Suppose $xi: cal(G) arrow.r cal(F)$ be an $f$-map. Then we have a sheaf morphism $xi: f^(-1)cal(G) arrow.r cal(F)$, which induces a morphism between stalks
   $
     xi_x : cal(G)_(f(x))stretch(->, size: #2em)^(tilde)(f^(-1)cal(G))_x stretch(->, size: #2em)cal(F)_(x).
   $
@@ -1431,7 +1473,7 @@ This lemma justifies the following definition.
 
   - #emph[Objects] : ringed spaces $lr((X , cal(O)_X))$.
 
-  - #emph[Morphisms] : morphisms of ringed spaces $lr((f , f^(♯))) : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$, where $f : X arrow.r Y$ is a continuous map and $f^(♯):cal(O)_Y ->cal(O)_X$ is an $f$-map. By @equivalent-characterization-f-map-between-ringed-spaces, this is equivalent to a morphism of sheaves $f^(♯)_* : cal(O)_Y arrow.r f_(*) cal(O)_X$, where $f_(*) cal(O)_X$ is the #link(<pushforward-sheaf>,"pushforward sheaf") of $cal(O)_X$ along $f$. The naturality of $f^(♯)$ is given by the following commutative diagram:
+  - #emph[Morphisms] : morphisms of ringed spaces $lr((f , f^(♯))) : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$, where $f : X arrow.r Y$ is a continuous map and $f^(♯):cal(O)_Y ->cal(O)_X$ is an $f$-map. By @equivalent-characterization-f-map-between-ringed-spaces, this is equivalent to a morphism of sheaves $f^(♯)_* : cal(O)_Y arrow.r f_(*) cal(O)_X$, where $f_(*) cal(O)_X$ is the #link(<pushforward-sheaf>, "pushforward sheaf") of $cal(O)_X$ along $f$. The naturality of $f^(♯)$ is given by the following commutative diagram:
     #square_cd(
       A11: $cal(O)_Y (V)$,
       A12: $cal(O)_Y (U)$,
@@ -1446,7 +1488,7 @@ This lemma justifies the following definition.
 ]
 
 #proposition[Morphisms between Ringed Spaces Induce Morphisms between Stalks][
-  Let $f : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$ be a morphism of ringed spaces. Then we have a sheaf morphism $f^(♯) : f^(-1)cal(O)_Y arrow.r  cal(O)_X$, which induces a ring homomorphism between stalks
+  Let $f : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$ be a morphism of ringed spaces. Then we have a sheaf morphism $f^(♯) : f^(-1)cal(O)_Y arrow.r cal(O)_X$, which induces a ring homomorphism between stalks
   $
     f^(♯)_x: cal(O)_(Y,f(x))--> cal(O)_(X,x).
   $#index_math(display: $f^(♯)_x$, "f^♯_x")
@@ -1463,20 +1505,20 @@ This lemma justifies the following definition.
 #definition[
   Category of Locally Ringed Spaces
 ][
-  The #strong[category of locally ringed spaces] $mathsf("LRS")$ #index_math(display:[$mathsf("LRS")$], "LRS") consists of the following data:
+  The #strong[category of locally ringed spaces] $mathsf("LRS")$ #index_math(display: [$mathsf("LRS")$], "LRS") consists of the following data:
 
   - #emph[Objects] : locally ringed spaces $lr((X , cal(O)_X))$.
 
   - #emph[Morphisms] : a *morphism of locally ringed spaces* $lr((f , f^(♯))) : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$ is a morphism of ringed spaces such that for every $x in X$, the #link(<morphisms-between-ringed-spaces-induce-morphisms-between-stalks>)[induced ring homomorphism] $f_x^(♯) : cal(O)_(Y , f lr((x))) arrow.r cal(O)_(X , x)$ is a local ring homomorphism.
 ]
 #remark[
-  Denote the maximal ideal of $cal(O)_(X , x)$ by $frak(m)_(X , x)$#index_math(display:[$frak(m)_(X , x)$], "m_(X,x)"). Recall that $f_x^(♯) : cal(O)_(Y , f lr((x))) arrow.r cal(O)_(X , x)$ is a local ring homomorphism if and only if $f_x^(♯)(frak(m)_(Y , f(x))) subset.eq frak(m)_(X , x)$. Geometrically, this means the functions vanishing at $f(x)$ must be pulled back to functions vanishing at $x$ by $f$.
+  Denote the maximal ideal of $cal(O)_(X , x)$ by $frak(m)_(X , x)$#index_math(display: [$frak(m)_(X , x)$], "m_(X,x)"). Recall that $f_x^(♯) : cal(O)_(Y , f lr((x))) arrow.r cal(O)_(X , x)$ is a local ring homomorphism if and only if $f_x^(♯)(frak(m)_(Y , f(x))) subset.eq frak(m)_(X , x)$. Geometrically, this means the functions vanishing at $f(x)$ must be pulled back to functions vanishing at $x$ by $f$.
 ]
 
 #example[
   Continuous Real-valued Functions Structure Sheaf
 ][
-  Let $X$ be a topological space. According to @sheaf-of-real-valued-continuous-functions, $(X, C^0_X)$ is a locally ringed space, where $C^0_X (U)$ #index_math(display:$C^0_X$, "C^0_X") is the sheaf of continuous real-valued functions on open set $U subset.eq X$. The stalk $C^0_(X,x)$ at $x in X$ is the ring of germs of continuous real-valued functions at $x$. The maximal ideal of $C^0_(X,x)$ is the set of germs of continuous real-valued functions vanishing at $x$, i.e.
+  Let $X$ be a topological space. According to @sheaf-of-real-valued-continuous-functions, $(X, C^0_X)$ is a locally ringed space, where $C^0_X (U)$ #index_math(display: $C^0_X$, "C^0_X") is the sheaf of continuous real-valued functions on open set $U subset.eq X$. The stalk $C^0_(X,x)$ at $x in X$ is the ring of germs of continuous real-valued functions at $x$. The maximal ideal of $C^0_(X,x)$ is the set of germs of continuous real-valued functions vanishing at $x$, i.e.
   $
     frak(m)_(X , x) = {[g]_x in C^0_(X,x) mid(|) g(x) = 0}.
   $
@@ -1486,8 +1528,8 @@ This lemma justifies the following definition.
   $
   If $f : X arrow.r Y$ is a continuous map, then we can define a morphism $f^♯ : C^0_Y arrow.r f_* C^0_X$ as follows: for any open set $V subset.eq Y$,
   $
-    f^♯_V : C^0_Y (V) &arrow.r.long C^0_X (f^(-1)(V)),\
-    h &arrow.r.long.bar h circle.tiny f|_(f^(-1)(V)).
+    f^♯_V : C^0_Y (V) & arrow.r.long C^0_X (f^(-1)(V)), \
+                    h & arrow.r.long.bar h circle.tiny f|_(f^(-1)(V)).
   $
   We can check that $f^♯$ is a local ring homomorphism: for any $x in X$,
   $
@@ -1513,7 +1555,7 @@ This lemma justifies the following definition.
 ][
   Let $f: (X, cal(O)_X) arrow.r (Y, cal(O)_Y)$ be a morphism of locally ringed spaces. We say that $f$ is an #strong[open immersion] if the following conditions are satisfied:
   - $f$ is a homeomorphism onto its image $f(X)$ where $f(X)$ is equipped with the subspace topology induced by $Y$,
-  - $f^♯: f^(-1)cal(O)_Y arrow.r  cal(O)_X$ is an isomorphism of sheaves on $X$.
+  - $f^♯: f^(-1)cal(O)_Y arrow.r cal(O)_X$ is an isomorphism of sheaves on $X$.
 ]<open-immersion-of-locally-ringed-spaces>
 
 
@@ -1532,15 +1574,13 @@ This lemma justifies the following definition.
     g: $iota^(op("op"))$,
     X: $V$,
     Y: $W$,
-    Fg: $res(V inter U,W inter U)$,
+    Fg: $res(V inter U, W inter U)$,
     FX: $cal(O)_X|_U (i^(-1)(V))=cal(O)_X (V inter U)$,
     FY: $cal(O)_X|_U (i^(-1)(U))=cal(O)_X (W inter U)$,
   )
   $i^♯_*: cal(O)_X arrow.r i_(*)(cal(O)_X|_U)$ is defined as follows:
   For each open set $V$ of $X$, the map
-  $
-    i^♯_*(V): cal(O)_X (V) arrow.r cal(O)_X (V inter U)
-  $ is the restriction map $res(V inter U,V): cal(O)_X (V) arrow.r cal(O)_X (V inter U)$. And we can check the naturality of $i^♯_*$ by the following commutative diagram:
+  $ i^♯_*(V): cal(O)_X (V) arrow.r cal(O)_X (V inter U) $ is the restriction map $res(V inter U, V): cal(O)_X (V) arrow.r cal(O)_X (V inter U)$. And we can check the naturality of $i^♯_*$ by the following commutative diagram:
 
   #square_cd(
     A11: $cal(O)_Y (V)$,
@@ -1586,7 +1626,7 @@ Affine schemes are the basic building blocks of schemes. They are locally ringed
 === Underlying Set of $op("Spec")(R)$ <undering-set-of-mathopmathrmspecleftrright>
 #definition[
   Spectrum of a Commutative Ring][
-  The #strong[spectrum] of a commutative ring $R$ is the set of all prime ideals of $R$, and is usually denoted by $op("Spec")(R)$. #index_math(display:[$op("Spec")(R)$], "Spec(R)")
+  The #strong[spectrum] of a commutative ring $R$ is the set of all prime ideals of $R$, and is usually denoted by $op("Spec")(R)$. #index_math(display: [$op("Spec")(R)$], "Spec(R)")
 
 ]
 #proposition[
@@ -1606,7 +1646,7 @@ Affine schemes are the basic building blocks of schemes. They are locally ringed
 ]
 #example[
   Affine $n$-space $affine_R^n$][
-  Let $R$ be a commutative ring. The #strong[affine $n$-space] over $R$ is $op("Spec")(R[x_1 , x_2 , dots.h.c , x_n])$, denoted by $affine_(R)^n$#index_math(display:[$affine_(R)^n$], "affine_(R)^n").
+  Let $R$ be a commutative ring. The #strong[affine $n$-space] over $R$ is $op("Spec")(R[x_1 , x_2 , dots.h.c , x_n])$, denoted by $affine_(R)^n$#index_math(display: [$affine_(R)^n$], "affine_(R)^n").
 ]
 #example[
   $affine_𝕜^1 = op("Spec") lr((𝕜 lr([x])))$][
@@ -1656,8 +1696,8 @@ To get an intuition, we can consider a polynomial $f in bb(C) lr([x])$, and a pr
   $ #index_math(display: [$V(f)$], "V(f)")
   $V lr((dot.op))$ can be seen as a map from the power set of $R$ to the power set of $op("Spec")(R)$, that is
   $
-    V : 2^R & --> 2^(thin op("Spec")(R))\
-    S & arrow.r.bar.long lr({lr([frak(p)]) in op("Spec")(R) thin | thin S subset.eq frak(p)}) .
+    V : 2^R & --> 2^(thin op("Spec")(R)) \
+          S & arrow.r.bar.long lr({lr([frak(p)]) in op("Spec")(R) thin | thin S subset.eq frak(p)}) .
   $
 
 ]
@@ -1676,8 +1716,8 @@ Every $f in S$ vanishes at $lr([frak(p)])$ is equivalent to $S subset.eq frak(p)
   $ #index_math(display: [$D(f)$], "D(f)")
   $D lr((dot.op))$ can be seen as a map from the power set of $R$ to the power set of $op("Spec")(R)$, that is
   $
-    D : 2^R & arrow.r 2^(thin op("Spec")(R))\
-    S & arrow.r.bar { lr([frak(p)]) in op("Spec")(R) divides S subset.eq.not frak(p) }.
+    D : 2^R & arrow.r 2^(thin op("Spec")(R)) \
+          S & arrow.r.bar { lr([frak(p)]) in op("Spec")(R) divides S subset.eq.not frak(p) }.
   $
 ]
 === Topology on $op("Spec")(R)$<topology-on-mathopmathrmspecleftrright>
@@ -1719,15 +1759,11 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   #block[
     #set enum(numbering: "(i)", start: 1)
     + If $S_1 subset.eq S_2 subset.eq R$, then we have
-      $
-        lr([frak(p)]) in V lr((S_2)) & arrow.r.double.long S_2 subset.eq frak(p) arrow.r.double.long S_1 subset.eq frak(p) arrow.r.double.long lr([frak(p)]) in V lr((S_1)) ,
-      $ which means $V lr((S_2)) subset.eq V lr((S_1))$.
+      $ lr([frak(p)]) in V lr((S_2)) & arrow.r.double.long S_2 subset.eq frak(p) arrow.r.double.long S_1 subset.eq frak(p) arrow.r.double.long lr([frak(p)]) in V lr((S_1)) , $ which means $V lr((S_2)) subset.eq V lr((S_1))$.
 
     + Since $sqrt(lr((S)))$ is the intersection of all prime ideals containing $S$, we have $ lr([frak(p)]) in V lr((S)) & <==> S subset.eq frak(p) <==> sqrt(lr((S))) subset.eq frak(p) <==> lr([frak(p)]) in V lr((sqrt(lr((S))))) , $ which means $V lr((S)) = V lr((sqrt(lr((S)))))$. Note that $sqrt(lr((f^n))) = sqrt(lr((f))^n) = sqrt(lr((f)))$, we have $V lr((f)) = V lr((f^n))$.
 
-    + $
-        V lr((0)) = lr({lr([frak(p)]) in op("Spec")(R) divides 0 in frak(p)}) = op("Spec")(R) .
-      $ Since $lr((1)) = R$, we have $ V lr((1)) = V lr((R)) = lr({lr([frak(p)]) in op("Spec")(R) divides R subset.eq frak(p)}) = diameter . $
+    + $ V lr((0)) = lr({lr([frak(p)]) in op("Spec")(R) divides 0 in frak(p)}) = op("Spec")(R) . $ Since $lr((1)) = R$, we have $ V lr((1)) = V lr((R)) = lr({lr([frak(p)]) in op("Spec")(R) divides R subset.eq frak(p)}) = diameter . $
 
     + If $frak(a)$ is a ideal in $R$, and $V lr((frak(a))) = diameter$, then $frak(a)$ is not contained in prime ideals. Note maximal ideals are prime ideals. So $frak(a)$ is not contained in maximal ideals, which means $frak(a) = R$.
 
@@ -1740,10 +1776,10 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
       $
 
     + $
-        lr([frak(p)]) in V lr((sum_(i in I) frak(a)_i)) & <==> sum_(i in I) frak(a)_i subset.eq frak(p)\
-        & <==> frak(a)_i subset.eq frak(p) upright("for all ") i in I\
-        & <==> lr([frak(p)]) in V lr((frak(a)_i)) upright("for all ") i in I\
-        & <==> lr([frak(p)]) in inter.big_(i in I) V lr((frak(a)_i)) .
+        lr([frak(p)]) in V lr((sum_(i in I) frak(a)_i)) & <==> sum_(i in I) frak(a)_i subset.eq frak(p) \
+                                                        & <==> frak(a)_i subset.eq frak(p) upright("for all ") i in I \
+                                                        & <==> lr([frak(p)]) in V lr((frak(a)_i)) upright("for all ") i in I \
+                                                        & <==> lr([frak(p)]) in inter.big_(i in I) V lr((frak(a)_i)) .
       $
 
     + $
@@ -1778,8 +1814,8 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   commutative ring. The map $I$ assigns to each subset $Y$ of $op("Spec")(R)$
   the ideal $I (Y)$ of $R$ defined by
   $
-    I : 2^(upright(S p e c) (R)) & arrow.r 2^R\
-    Y & arrow.r inter.big_([frak(p)] in Y) frak(p)
+    I : 2^(upright(S p e c) (R)) & arrow.r 2^R \
+                               Y & arrow.r inter.big_([frak(p)] in Y) frak(p)
   $ #index_math(display: [$I(Y)$], "I(Y)")
 ]
 
@@ -1788,7 +1824,7 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   Then the non-vanishing set function $I : 2^(op("Spec")(R)) arrow.r 2^R$
   satisfies the following properties:
 
-  + $I$ is inclusion-reversing: if $Y_1 subset.eq Y_2 subset.eq op("Spec")  (R)$, then $I (Y_2) subset.eq I (Y_1)$.
+  + $I$ is inclusion-reversing: if $Y_1 subset.eq Y_2 subset.eq op("Spec") (R)$, then $I (Y_2) subset.eq I (Y_1)$.
 
   + $I (Y_1 union Y_2) = I (Y_1) inter I (Y_2)$ for any subsets $Y_1 , Y_2$ of $op("Spec") (R)$.
 
@@ -1806,8 +1842,8 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   $ #index_math(display: $mono("Closed")_(op("Spec")(R))$, "Closed_(Spec(R))")
   be the collection of closed subsets of $op("Spec")(R)$. Then by restricting $V : 2^R arrow.r 2^(thin op("Spec")(R))$ to $upright(R a d) lr((R))$, we obtain the following bijection:
   $
-    V : op("Rad")(R) & arrow.r.long^tilde.op mono("Closed")_(op("Spec") (R))\
-    frak(a) & arrow.r.bar.long V (frak(a)) .
+    V : op("Rad")(R) & arrow.r.long^tilde.op mono("Closed")_(op("Spec") (R)) \
+             frak(a) & arrow.r.bar.long V (frak(a)) .
   $
   The inverse map of $V\|_(upright(R a d) lr((R)))$ is $I\|_(mono(C l o s e d)_(op("Spec")(R)))$. Furthermore, $V$ is an order isomorphism between the partial order sets $lr((upright(R a d) lr((R)) , subset.eq))$ and $lr((mono(C l o s e d)_(op("Spec")(R)) , supset.eq))$.
 ]
@@ -1817,17 +1853,15 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
 ][
   $V: 2^R arrow.r 2^(thin op("Spec")(R))$ and $I:2^(thin op("Spec")(R))->2^R$ are mutually inverse bijections when restricting to
   $
-    V : op("Spec")(R) & arrow.long.r^tilde.op mono("Irreducible_Closed_Subset")_(op("Spec")(R))\
-    frak(p) & arrow.long.r.bar V (frak(p)) = overline({ frak(p) })
+    V : op("Spec")(R) & arrow.long.r^tilde.op mono("Irreducible_Closed_Subset")_(op("Spec")(R)) \
+              frak(p) & arrow.long.r.bar V (frak(p)) = overline({ frak(p) })
   $
   or
+  $ V : op("MinPrime") (R) & arrow.long.r^tilde.op mono("Irreducible_Component")_(op("Spec") (R)) \
+                 frak(q) & arrow.long.r.bar V (frak(q)) = overline({ frak(q) }) \ $ or
   $
-    V : op("MinPrime") (R) &arrow.long.r^tilde.op mono("Irreducible_Component")_(op("Spec") (R))\
-    frak(q)& arrow.long.r.bar V (frak(q)) = overline({ frak(q) })\
-  $ or
-  $
-    V : op("MaxSpec") (R)& arrow.long.r^tilde.op mono("Closed_Singleton")_(op("Spec") (R))\
-    frak(m) & arrow.long.r.bar V (frak(m)) = {frak(m)}\
+    V : op("MaxSpec") (R) & arrow.long.r^tilde.op mono("Closed_Singleton")_(op("Spec") (R)) \
+                  frak(m) & arrow.long.r.bar V (frak(m)) = {frak(m)} \
   $
 
 ]<algebra-geometry-dictionary>
@@ -1837,9 +1871,9 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
 
 ]<base_of_zariski_topology>
 #proof[
-  For any open set $D lr((S))$ of $op("Spec")(R)$, we have $ D lr((S)) & = op("Spec")(R) - V lr((S))\
-            & = op("Spec")(R) - inter.big_(f in S) V lr((f))\
-            & = union.big_(f in S) lr((op("Spec")(R) - V lr((f))))\
+  For any open set $D lr((S))$ of $op("Spec")(R)$, we have $ D lr((S)) & = op("Spec")(R) - V lr((S)) \
+            & = op("Spec")(R) - inter.big_(f in S) V lr((f)) \
+            & = union.big_(f in S) lr((op("Spec")(R) - V lr((f)))) \
             & = union.big_(f in S) D lr((f)) . $
 
 ]
@@ -1848,13 +1882,13 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
 ]<vanish_on_v>
 #proof[
   $
-    f in R upright("vanishes on ") V lr((frak(a))) & <==> forall lr([frak(p)]) in V lr((frak(a))) , f in frak(p)\
-    & <==> f in inter.big_(lr([frak(p)]) in V lr((frak(a)))) frak(p)\
-    & <==> f in inter.big_(lr([frak(p)]) in op("Spec")(R)\
-    frak(a) subset.eq frak(p)) frak(p) = sqrt(frak(a))\
-    & <==> f^n in frak(a) upright("for some ") n gt.eq 1\
-    & <==> lr((f)) subset.eq sqrt(frak(a))\
-    & <==> V lr((frak(a))) subset.eq V lr((f)) .
+    f in R upright("vanishes on ") V lr((frak(a))) & <==> forall lr([frak(p)]) in V lr((frak(a))) , f in frak(p) \
+                                                   & <==> f in inter.big_(lr([frak(p)]) in V lr((frak(a)))) frak(p) \
+                                                   & <==> f in inter.big_(lr([frak(p)]) in op("Spec")(R)\
+                                                     frak(a) subset.eq frak(p)) frak(p) = sqrt(frak(a)) \
+                                                   & <==> f^n in frak(a) upright("for some ") n gt.eq 1 \
+                                                   & <==> lr((f)) subset.eq sqrt(frak(a)) \
+                                                   & <==> V lr((frak(a))) subset.eq V lr((f)) .
   $
 
 ]
@@ -1864,8 +1898,8 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
 ]<distinguished_open_sets_inclusion_implies_generating_unit_ideal>
 #proof[
   Denote $frak(a) = lr((g_1 , dots.h.c , g_n))$. Then by we have $ D lr((f)) subset.eq union.big_(i = 1)^n D lr((g_i)) & <==> D lr((f)) subset.eq D lr((frak(a))) <==> V lr((frak(a))) subset.eq V lr((f))\
-                                                      & <==> f^n in frak(a) upright("for some ") n gt.eq 1 <==> f^n = sum_(i = 1)^m a_i g_i upright("for ") a_i in R\
-                                                      & <==> 1 = sum_(i = 1)^m a_i / f^n g_i / 1 <==> lr((g_1 / 1 , g_2 / 1 , dots.h.c , g_m / 1)) = R_f . $
+  & <==> f^n in frak(a) upright("for some ") n gt.eq 1 <==> f^n = sum_(i = 1)^m a_i g_i upright("for ") a_i in R\
+  & <==> 1 = sum_(i = 1)^m a_i / f^n g_i / 1 <==> lr((g_1 / 1 , g_2 / 1 , dots.h.c , g_m / 1)) = R_f . $
 
 ]
 #proposition[
@@ -1895,24 +1929,18 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   First, $phi^(- 1)$ is a well-defined map from $op("Spec") lr((S))$ to $op("Spec")(R)$ since $phi^(- 1)$ maps any prime ideal of $S$ to a prime ideal of $R$. Then we show that $phi^(- 1)$ is continuous. Let $V lr((frak(a)))$ be a closed subset of $op("Spec")(R)$. Then we can check that $ lr((spec(phi)))^(- 1) lr((V lr((frak(a))))) & = lr(
     {lr([frak(p)]) in op("Spec") lr((S)) thin | thin phi^(- 1) lr((lr([frak(p)]))) in V lr((frak(a)))}
   )\
-                                                     & = lr(
-    {lr([frak(p)]) in op("Spec") lr((S)) thin | thin lr([phi^(- 1) lr((frak(p)))]) in V lr((frak(a)))}
-  )\
-                                                     & = lr(
-    {lr([frak(p)]) in op("Spec") lr((S)) thin | thin frak(a) subset.eq phi^(- 1) lr((frak(p)))}
-  )\
-                                                     & = lr(
-    {lr([frak(p)]) in op("Spec") lr((S)) thin | thin phi lr((frak(a))) subset.eq frak(p)}
-  )\
-                                                     & = V lr((phi lr((frak(a))))) , $ which means that the preimage of any closed subset of $op("Spec")(R)$ is closed in $op("Spec") lr((S))$. Hence $op("Spec") lr((phi))$ is continuous. \
+  & = lr({lr([frak(p)]) in op("Spec") lr((S)) thin | thin lr([phi^(- 1) lr((frak(p)))]) in V lr((frak(a)))})\
+  & = lr({lr([frak(p)]) in op("Spec") lr((S)) thin | thin frak(a) subset.eq phi^(- 1) lr((frak(p)))})\
+  & = lr({lr([frak(p)]) in op("Spec") lr((S)) thin | thin phi lr((frak(a))) subset.eq frak(p)})\
+  & = V lr((phi lr((frak(a))))) , $ which means that the preimage of any closed subset of $op("Spec")(R)$ is closed in $op("Spec") lr((S))$. Hence $op("Spec") lr((phi))$ is continuous. \
   For functorality, let $phi : R arrow.r S$ and $psi : S arrow.r T$ be two ring homomorphisms. It is clear that $ lr((op("Spec")lr((phi)) circle.stroked.tiny op("Spec")lr((psi)))) lr((lr([frak(p)]))) = lr([phi^(- 1) circle.stroked.tiny psi^(- 1) lr((frak(p)))]) = lr([lr((psi circle.stroked.tiny phi))^(- 1) lr((frak(p)))]) = op("Spec") lr((psi circle.stroked.tiny phi)) lr((lr([frak(p)]))) . $
 ]
 #proposition[
   Quotient Map Induces Spectrum Morphism][
   Let $R$ be a commutative ring and $frak(a)$ be an ideal of $R$. The quotient map $pi : R arrow.r R \/ frak(a)$ induces a homeomorphism between $op("Spec") lr((R \/ frak(a)))$ and $V lr((frak(a)))$ as a subspace of $op("Spec")(R)$
   $
-    op("Spec") (pi) = pi^(- 1) : op("Spec")(R \/ frak(a)) & arrow.long.r^tilde.op V (frak(a)) subset.eq op("Spec")(R)\
-    frak(p) \/ frak(a) & arrow.long.r.bar frak(p)
+    op("Spec") (pi) = pi^(- 1) : op("Spec")(R \/ frak(a)) & arrow.long.r^tilde.op V (frak(a)) subset.eq op("Spec")(R) \
+                                       frak(p) \/ frak(a) & arrow.long.r.bar frak(p)
   $
   which enable us to identify $op("Spec") lr((R \/ frak(a)))$ with a closed subspace of $op("Spec")(R)$.
 
@@ -1923,45 +1951,41 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   )$. And we can check that for any basis $D lr((f + frak(a)))$ of $op("Spec") lr((R \/ frak(a)))$, $ lr((op("Spec") lr((pi)))) lr((D lr((f + frak(a))))) & = lr(
     {lr([frak(p)]) in V lr((frak(a))) thin | thin pi lr((lr([frak(p)]))) in D lr((pi lr((f))))}
   )\
-                                                  & = lr(
+  & = lr({lr([frak(p)]) in V lr((frak(a))) thin | thin pi lr((f)) in.not pi lr((frak(p)))})\
+  & = lr({lr([frak(p)]) in V lr((frak(a))) thin | thin f in.not frak(p)})\
+  & = D lr((f)) inter V lr((frak(a))) , $ which is open in $V lr((frak(a)))$. Here is the explanation of the equality $lr(
     {lr([frak(p)]) in V lr((frak(a))) thin | thin pi lr((f)) in.not pi lr((frak(p)))}
-  )\
-                                                  & = lr({lr([frak(p)]) in V lr((frak(a))) thin | thin f in.not frak(p)})\
-                                                  & = D lr((f)) inter V lr((frak(a))) , $ which is open in $V lr((frak(a)))$. Here is the explanation of the equality $lr(
-    {lr([frak(p)]) in V lr((frak(a))) thin | thin pi lr((f)) in.not pi lr((frak(p)))}
-  ) = lr({lr([frak(p)]) in V lr((frak(a))) thin | thin f in.not frak(p)})$. $pi lr((f)) in.not pi lr((frak(p))) arrow.r.double.long f in.not frak(p)$ is clear. For the other direction, if $pi lr((f)) in pi lr((frak(p)))$, then $f = p + a$ for some $p in frak(p)$ and $a in frak(a)$. Note $frak(a) subset.eq frak(p)$, we have $f in frak(p)$. Therefore, we show that $lr((op("Spec")  lr((pi))))^(- 1)$ is continous. Hence $op("Spec")  lr((pi))$ is a homeomorphism.
+  ) = lr({lr([frak(p)]) in V lr((frak(a))) thin | thin f in.not frak(p)})$. $pi lr((f)) in.not pi lr((frak(p))) arrow.r.double.long f in.not frak(p)$ is clear. For the other direction, if $pi lr((f)) in pi lr((frak(p)))$, then $f = p + a$ for some $p in frak(p)$ and $a in frak(a)$. Note $frak(a) subset.eq frak(p)$, we have $f in frak(p)$. Therefore, we show that $lr((op("Spec") lr((pi))))^(- 1)$ is continous. Hence $op("Spec") lr((pi))$ is a homeomorphism.
 
 ]
 #example[
   $op("Spec") lr((𝕜 lr([x]) \/ lr((x^2))))$][
   The only prime ideal of $𝕜 lr([x]) \/ lr((x^2))$ is $lr((overline(x)))$, where $overline(x)$ is the equivalence class of $x$ in $𝕜 lr([x]) \/ lr((x^2))$. \
   ~ \
-  Note $𝕜 lr([x])$ is a PID. The nonzero prime ideals of $𝕜 lr([x])$ are of the form $lr((f))$ for some irreducible polynomial $f in 𝕜 lr([x])$. Suppose $lr((x^2)) subset.eq lr((f))$. Then we have $f divides x^2$, which means $lr((f)) = lr((x))$. Hence $V lr((lr((x^2)))) = lr({lr((x))})$ and $op("Spec")  lr((𝕜 lr([x]) \/ lr((x^2)))) = lr({lr((overline(x)))})$.
+  Note $𝕜 lr([x])$ is a PID. The nonzero prime ideals of $𝕜 lr([x])$ are of the form $lr((f))$ for some irreducible polynomial $f in 𝕜 lr([x])$. Suppose $lr((x^2)) subset.eq lr((f))$. Then we have $f divides x^2$, which means $lr((f)) = lr((x))$. Hence $V lr((lr((x^2)))) = lr({lr((x))})$ and $op("Spec") lr((𝕜 lr([x]) \/ lr((x^2)))) = lr({lr((overline(x)))})$.
 
 ]
 #example[
   $affine_(bb(C))^1 arrow.r affine_(bb(C))^1$ and $V lr((lr((y)))) arrow.r V lr((lr((x^2))))$][
 
-  Given a ring homomorphism $ phi.alt : bb(C) lr([y]) & arrow.r bb(C) lr([x])\
-  y                       & arrow.r.bar x^2 $ it induces a continuous map $ op("Spec")  lr((phi.alt)) : op("Spec")  lr((bb(C) lr([x]))) & arrow.r op("Spec")  lr((bb(C) lr([y])))\
-  lr((x - a))                                       & arrow.r.bar { f lr((y)) in bb(C) lr([y]) divides f lr((x^2)) = g lr((x)) lr((x - a)) } = lr((y - a^2)) $ $op("Spec") lr((phi.alt))$ can be visualized as follows:
+  Given a ring homomorphism $ phi.alt : bb(C) lr([y]) & arrow.r bb(C) lr([x]) \
+                        y & arrow.r.bar x^2 $ it induces a continuous map $ op("Spec") lr((phi.alt)) : op("Spec") lr((bb(C) lr([x]))) & arrow.r op("Spec") lr((bb(C) lr([y])))\
+  lr((x - a)) & arrow.r.bar { f lr((y)) in bb(C) lr([y]) divides f lr((x^2)) = g lr((x)) lr((x - a)) } = lr((y - a^2)) $ $op("Spec") lr((phi.alt))$ can be visualized as follows:
 
   #block[ ]
-  Since $ phi.alt lr((lr((y)))) & = lr({phi.alt lr((g lr((y)) y)) divides g lr((y)) in bb(C) lr([y])})\
-                        & = lr(
-    {g lr((phi.alt lr((y)))) phi.alt lr((y)) divides g lr((y)) in bb(C) lr([y])}
-  )\
-                        & = lr({g lr((x^2)) x^2 divides g lr((y)) in bb(C) lr([y])})\
-                        & subset.eq lr((x^2)) , $ $phi.alt$ can induce a ring homomorphism $ psi : bb(C) lr([y]) \/ lr((y)) & arrow.r bb(C) lr([x]) \/ lr((x^2))\
-  c + lr((y))                    & arrow.r.bar c + lr((x^2)) $ And the $upright(S p e c)$ functor can induce a continuous map $ op("Spec")  lr((psi)) : op("Spec") lr((bb(C) lr([x]) \/ lr((x^2)))) & arrow.r op("Spec")  lr((bb(C) lr([y]) \/ lr((y))))\
-  lr((overline(x)))                                          & arrow.r.bar lr((0)) $
+  Since $ phi.alt lr((lr((y)))) & = lr({phi.alt lr((g lr((y)) y)) divides g lr((y)) in bb(C) lr([y])}) \
+                        & = lr({g lr((phi.alt lr((y)))) phi.alt lr((y)) divides g lr((y)) in bb(C) lr([y])}) \
+                        & = lr({g lr((x^2)) x^2 divides g lr((y)) in bb(C) lr([y])}) \
+                        & subset.eq lr((x^2)) , $ $phi.alt$ can induce a ring homomorphism $ psi : bb(C) lr([y]) \/ lr((y)) & arrow.r bb(C) lr([x]) \/ lr((x^2)) \
+                     c + lr((y)) & arrow.r.bar c + lr((x^2)) $ And the $upright(S p e c)$ functor can induce a continuous map $ op("Spec") lr((psi)) : op("Spec") lr((bb(C) lr([x]) \/ lr((x^2)))) & arrow.r op("Spec") lr((bb(C) lr([y]) \/ lr((y)))) \
+                                                   lr((overline(x))) & arrow.r.bar lr((0)) $
 
 ]
 #example[
   $V lr((I)) subset.eq affine_𝕜^m arrow.r V lr((J)) subset.eq affine_𝕜^n$][
-  Given a ring homomorphism $ phi.alt : 𝕜 lr([y_1 , dots.h.c , y_n]) & arrow.r 𝕜 lr([x_1 , dots.h.c , x_m])\
-  y_i                                       & arrow.r.bar f_i lr((x_1 , dots.h.c , x_m)) $ If $I$ is an ideal of $𝕜 lr([x_1 , dots.h.c , x_m])$ and $J$ is an ideal of $𝕜 lr([y_1 , dots.h.c , y_n])$, and $phi.alt lr((I)) subset.eq J$, then $phi.alt$ induces a continuous map $ op("Spec") lr((phi.alt)) :op("Spec")  lr((𝕜 lr([x_1 , dots.h.c , x_m]) \/ I)) & arrow.r op("Spec")  lr((𝕜 lr([y_1 , dots.h.c , y_n]) \/ J))\
-  lr((overline(x_1 - a_1) , dots.h.c , overline(x_n - a_n)))               & arrow.r.bar lr(
+  Given a ring homomorphism $ phi.alt : 𝕜 lr([y_1 , dots.h.c , y_n]) & arrow.r 𝕜 lr([x_1 , dots.h.c , x_m]) \
+                                     y_i & arrow.r.bar f_i lr((x_1 , dots.h.c , x_m)) $ If $I$ is an ideal of $𝕜 lr([x_1 , dots.h.c , x_m])$ and $J$ is an ideal of $𝕜 lr([y_1 , dots.h.c , y_n])$, and $phi.alt lr((I)) subset.eq J$, then $phi.alt$ induces a continuous map $ op("Spec") lr((phi.alt)) :op("Spec") lr((𝕜 lr([x_1 , dots.h.c , x_m]) \/ I)) & arrow.r op("Spec") lr((𝕜 lr([y_1 , dots.h.c , y_n]) \/ J))\
+  lr((overline(x_1 - a_1) , dots.h.c , overline(x_n - a_n))) & arrow.r.bar lr(
     (overline(y_1 - f_1 lr((a_1 , dots.h.c , a_m))) , dots.h.c , overline(y_n - f_n lr((a_1 , dots.h.c , a_m))))
   ) $
 
@@ -1976,25 +2000,23 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
 
 ]<localization_map_induces_spectrum_morphism>
 #proof[
-  According to communitative algebra, we know that $op("Spec")  lr((l))$ is a bijection. For any basis $D lr((f / s))$ of $op("Spec")  lr((S^(- 1) R))$, $ lr((op("Spec")  lr((l)))) lr((D lr((f / s)))) & = lr(
-    {lr([frak(p)]) in op("Spec")  lr((R)) thin | thin l lr((lr([frak(p)]))) in D lr((l lr((f / s)))) , #h(0em) frak(p) inter S = diameter}
+  According to communitative algebra, we know that $op("Spec") lr((l))$ is a bijection. For any basis $D lr((f / s))$ of $op("Spec") lr((S^(- 1) R))$, $ lr((op("Spec") lr((l)))) lr((D lr((f / s)))) & = lr(
+    {lr([frak(p)]) in op("Spec") lr((R)) thin | thin l lr((lr([frak(p)]))) in D lr((l lr((f / s)))) , #h(0em) frak(p) inter S = diameter}
   )\
-                                           & = lr(
-    {lr([frak(p)]) in op("Spec")  lr((R)) thin | thin f / s in.not l lr((frak(p))) , #h(0em) frak(p) inter S = diameter}
+  & = lr(
+    {lr([frak(p)]) in op("Spec") lr((R)) thin | thin f / s in.not l lr((frak(p))) , #h(0em) frak(p) inter S = diameter}
   )\
-                                           & = lr(
-    {lr([frak(p)]) in op("Spec")  lr((R)) thin | thin f / s in.not S^(- 1) frak(p) , #h(0em) frak(p) inter S = diameter}
+  & = lr(
+    {lr([frak(p)]) in op("Spec") lr((R)) thin | thin f / s in.not S^(- 1) frak(p) , #h(0em) frak(p) inter S = diameter}
   )\
-                                           & = lr(
-    {lr([frak(p)]) in op("Spec")  lr((R)) thin | thin f in.not frak(p) , #h(0em) frak(p) inter S = diameter}
-  )\
-                                           & = lr(
-    {lr([frak(p)]) in op("Spec")  lr((R)) thin | thin frak(p) inter S = diameter}
-  ) inter D lr((f)) , $ which is open in $lr({frak(p) in op("Spec")  lr((R)) thin | thin frak(p) inter S = diameter})$. Here is the explanation of the equality $ lr(
-    {lr([frak(p)]) in op("Spec")  lr((R)) thin | thin f / s in.not S^(- 1) frak(p) , #h(0em) frak(p) inter S = diameter}
+  & = lr({lr([frak(p)]) in op("Spec") lr((R)) thin | thin f in.not frak(p) , #h(0em) frak(p) inter S = diameter})\
+  & = lr(
+    {lr([frak(p)]) in op("Spec") lr((R)) thin | thin frak(p) inter S = diameter}
+  ) inter D lr((f)) , $ which is open in $lr({frak(p) in op("Spec") lr((R)) thin | thin frak(p) inter S = diameter})$. Here is the explanation of the equality $ lr(
+    {lr([frak(p)]) in op("Spec") lr((R)) thin | thin f / s in.not S^(- 1) frak(p) , #h(0em) frak(p) inter S = diameter}
   ) = lr(
-    {lr([frak(p)]) in op("Spec")  lr((R)) thin | thin f in.not frak(p) , #h(0em) frak(p) inter S = diameter}
-  ) . $ $f / s in.not S^(- 1) frak(p) arrow.r.double.long f in.not frak(p)$ is clear. For the other direction, if $f / s in S^(- 1) frak(p)$, then $u lr((f t - p s)) = 0$. Therefore, we show that $lr((op("Spec")  lr((l))))^(- 1)$ is continous. Hence $op("Spec")  lr((l))$ is a homeomorphism.
+    {lr([frak(p)]) in op("Spec") lr((R)) thin | thin f in.not frak(p) , #h(0em) frak(p) inter S = diameter}
+  ) . $ $f / s in.not S^(- 1) frak(p) arrow.r.double.long f in.not frak(p)$ is clear. For the other direction, if $f / s in S^(- 1) frak(p)$, then $u lr((f t - p s)) = 0$. Therefore, we show that $lr((op("Spec") lr((l))))^(- 1)$ is continous. Hence $op("Spec") lr((l))$ is a homeomorphism.
 
 ]
 
@@ -2002,18 +2024,16 @@ There are two special cases of localization. The first one is as follows.
 
 #example[
   $op("Spec") lr((R_(frak(p))))$][
-  The localization of $R$ at a prime ideal $frak(p)$ is denoted by $R_(frak(p))$. Then $l : R arrow.r R_(frak(p))$ induces a homeomorphism $ op("Spec")  lr((R_(frak(p)))) tilde.equiv lr(
-    {lr([frak(q)]) in op("Spec")  lr((R)) thin | thin frak(q) subset.eq frak(p)}
+  The localization of $R$ at a prime ideal $frak(p)$ is denoted by $R_(frak(p))$. Then $l : R arrow.r R_(frak(p))$ induces a homeomorphism $ op("Spec") lr((R_(frak(p)))) tilde.equiv lr(
+    {lr([frak(q)]) in op("Spec") lr((R)) thin | thin frak(q) subset.eq frak(p)}
   ) $
 
 ]
 #proof[
   $
-    op("Spec") lr((R_(frak(p)))) & tilde.equiv lr(
-    {lr([frak(q)]) in op("Spec")(R) thin | thin frak(q) inter lr((R - frak(p))) = diameter}
-  ) = lr(
-    {lr([frak(q)]) in op("Spec")(R) thin | thin frak(q) subset.eq frak(p)}
-  ) .
+    op("Spec") lr((R_(frak(p)))) & tilde.equiv lr({lr([frak(q)]) in op("Spec")(R) thin | thin frak(q) inter lr((R - frak(p))) = diameter}) = lr(
+                                     {lr([frak(q)]) in op("Spec")(R) thin | thin frak(q) subset.eq frak(p)}
+                                   ) .
   $
 
 ]
@@ -2040,14 +2060,12 @@ The second case of localization is as follows.
 ]
 #proof[
   According to , we have $ op("Spec") lr((R_f)) & tilde.equiv lr(
-    {lr([frak(q)]) in op("Spec")(R) thin | thin frak(q) inter lr((lr({f^n in R thin | thin n in bb(Z)}))) = diameter}
-  )\
-                   & = lr(
-    {lr([frak(q)]) in op("Spec")(R) thin | thin forall n gt.eq 1 , #h(0em) f^n in.not frak(q)}
-  )\
-                   & = lr({lr([frak(q)]) in op("Spec")(R) thin | thin f in.not sqrt(frak(q))})\
-                   & = lr({lr([frak(q)]) in op("Spec")(R) thin | thin f in.not frak(q)})\
-                   & = D lr((f)) . $
+                           {lr([frak(q)]) in op("Spec")(R) thin | thin frak(q) inter lr((lr({f^n in R thin | thin n in bb(Z)}))) = diameter}
+                         ) \
+                       & = lr({lr([frak(q)]) in op("Spec")(R) thin | thin forall n gt.eq 1 , #h(0em) f^n in.not frak(q)}) \
+                       & = lr({lr([frak(q)]) in op("Spec")(R) thin | thin f in.not sqrt(frak(q))}) \
+                       & = lr({lr([frak(q)]) in op("Spec")(R) thin | thin f in.not frak(q)}) \
+                       & = D lr((f)) . $
 
 ]
 #lemma[
@@ -2069,12 +2087,14 @@ The second case of localization is as follows.
 
   + #block[Suppose $l_f : R arrow.r R_f$ and $l_g : R arrow.r R_g$ are the localization maps. Since from (i) we know $ l_g lr((lr({f^n thin | thin n in bb(Z)}))) subset.eq R_g^times , $ there exists a unique ring homomorphism
       $
-        rho_(f , g) : R_f & --> R_g\
-        a / f^n & arrow.long.bar a / f^n
+        rho_(f , g) : R_f & --> R_g \
+                  a / f^n & arrow.long.bar a / f^n
       $
       such that the following diagram commutes
-      #commutative_diagram($R_f edge("rr", rho_(f,g), "-->") & & R_g\
-        &R edge("ul", l_f, ->, #left)edge("ur", l_g, ->, #right)&$)
+      #commutative_diagram(
+        $R_f edge("rr", rho_(f,g), "-->") & & R_g\
+        &R edge("ul", l_f, ->, #left)edge("ur", l_g, ->, #right)&$,
+      )
 
     ]
 
@@ -2197,10 +2217,12 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
   Since
   $gamma^(i j) : M_(g_i g_j) arrow.r.hook limits(xor.big)_(k = 1)^(m_(i j)) M_(h_k^(i j))$
   is injective, there exists a unique map $gamma$ such that the following diagram commutes
-  #commutative_diagram($
-    &display(xor.big_(k = 1)^(m_(i j)) M_(h_k^(i j)))\
-    M_(g_i g_j)edge("r", iota, ->) edge("ur", gamma^(i j), ->)& display(xor.big_(k = 1)^(m_(i j))M_(g_i g_j))edge("u", gamma, "-->")
-  $)
+  #commutative_diagram(
+    $
+      &display(xor.big_(k = 1)^(m_(i j)) M_(h_k^(i j)))\
+      M_(g_i g_j)edge("r", iota, ->) edge("ur", gamma^(i j), ->)& display(xor.big_(k = 1)^(m_(i j))M_(g_i g_j))edge("u", gamma, "-->")
+    $,
+  )
   So we get the following exact sequence
   $
     0 stretch(->, size: #2em) M_f stretch(->, size: #2em)^alpha xor.big_(i = 1)^n M_(g_i) stretch(->, size: #2em)^(gamma circle.stroked.tiny beta) xor.big_(i , j = 1)^n xor.big_(k = 1)^(m_(i j)) M_(h_k^(i j)) .
@@ -2333,10 +2355,12 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
     scheme $X$ together with a morphism $g : X arrow.r S$.
 
   - A *morphism of schemes over $S$* is a morphism in $mathsf("Sch")_(S)$, namely a morphism $f : X arrow.r Y$ in $mathsf("Sch")$ such that the following diagram commutes
-    #commutative_diagram($
-      X edge("rd",#right, g, ->) edge("rr", f, ->)& & Y edge("ld",#left, h, ->) \
-      & S
-    $)
+    #commutative_diagram(
+      $
+        X edge("rd", #right, g, ->) edge("rr", f, ->) &   & Y edge("ld", #left, h, ->) \
+                                                      & S
+      $,
+    )
 
   Let $R$ be a commutative ring. The *category of schemes over $R$* is the category of schemes over $op("Spec")(R)$.
 ]
@@ -2359,7 +2383,7 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
 ]
 
 #definition[Scheme Theoretic Fiber][
-  Let $g : X arrow.r S$ be a morphism of schemes. The *scheme theoretic fiber* of $g$ over a point $s in S$ is the scheme $X_s :=X_(kappa(s))= op("Spec")(kappa(s)) times_S X$ over $kappa(s)$#index_math(display: $X_s$, "X_s" ). The pullback diagram is as follows
+  Let $g : X arrow.r S$ be a morphism of schemes. The *scheme theoretic fiber* of $g$ over a point $s in S$ is the scheme $X_s :=X_(kappa(s))= op("Spec")(kappa(s)) times_S X$ over $kappa(s)$#index_math(display: $X_s$, "X_s"). The pullback diagram is as follows
   #square_cd(
     A11: $op("Spec")(kappa(s)) times_S X$,
     A12: $X$,
@@ -2389,7 +2413,38 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
 ]
 
 
+=== Points of a Scheme
 
+By Yoneda lemma, we have the following full and faithful embedding
+#functor_diagram(
+  F: $Y_(mathsf("Sch"))$,
+  C: $mathsf("Sch")$,
+  D: $[mathsf("Sch")^(op("op")),mathsf("Set")]$,
+  g: $f$,
+  X: $X$,
+  Y: $Y$,
+  Fg: $f_star$,
+  FX: $op("Hom")_(mathsf("Sch"))(-,X)$,
+  FY: $op("Hom")_(mathsf("Sch"))(-,Y)$,
+  Fg_arrow: "=>",
+)
+which means that a scheme $X$ can be identified with the functor $op("Hom")_(mathsf("Sch"))(-,X) : mathsf("Sch")^(op("op")) arrow.r mathsf("Set")$. It turns out that we don't need to consider $op("Hom")_(mathsf("Sch"))(Z,X)$ for all schemes $Z$ to determines $X$. In fact, it suffices to consider $op("Hom")_(mathsf("Sch"))(op("Spec")(R),X)$ for all commutative rings $R$.
+
+#lemma[
+  Let $X$ be a scheme and $R$ is a commutative local ring with maximal ideal $frak(m)$. Suppose $f : op("Spec")(R) arrow.r X$ is a morphism of schemes. Let $x:=f([frak(m)])$ be the image of the unique closed point $[frak(m)] in op("Spec")(R)$. Then $f$ induces a local homomorphism of local rings
+  $
+    f^\#_x : cal(O)_(X , x) --> cal(O)_(op("Spec")(R) , [frak(m)]) = R .
+  $
+  Thus we get a map
+  $
+    op("Hom")_(mathsf("Sch"))(op("Spec")(R),X)&--> { (x , phi) | x in X , phi : cal(O)_(X , x) arrow.r R "is a local homomorphism of local rings" } \
+    f & mapsto.long (x:=f([frak(m)]) , f^\#_x)
+  $
+  This map is bijective.
+]
+#proof[
+  If $X=op("Spec")(S)$ for some commutative ring $S$.
+]
 == Properties of Schemes
 
 We say $P$ is a *property of a class of mathematical objects* if for any object $X$ in the class, $P(X)$ is a proposition that is either true or false. We say $X$ has property $P$ if $P(X)$ is true.
