@@ -8,8 +8,12 @@
 
 #let index_math = index.with(index: "Math", apply-casing: false)
 
+#let bounded(eq) = text(top-edge: "bounds", bottom-edge: "bounds", eq)
+#let bnode(pos, label, ..args) = node(pos, bounded(label), ..args)
 
-#let cal(x) = math.class("unary", text(font: "Computer Modern Symbol", x))
+
+
+// #let cal(x) = math.class("unary", text(font: "Computer Modern Symbol", x))
 
 #let scr(it) = math.class("unary", text(
   features: ("ss01",),
@@ -845,7 +849,7 @@ follows:
   )
   where $res(V, U)$ is induced by the universal property of product. Now we check this is a sheaf.
 
-  - Identity axiom: Suppose $U = union.big_(i in I) U_i$ is an open covering of an open set $U subset.eq X$. Let $s , s^prime in Pi lr((U))$ be two sections on $U$ such that $s\|_(U_i) = s^prime\|_(U_i)$ for all $i in I$. Assume $s = lr((a_x))_(x in U) , s^prime = lr((a_x^prime))_(x in U)$. Then we have $ forall i in I , #h(0em) forall x in U_i , #h(0em) a_x = a_x^prime arrow.r.double.long forall x in U , #h(0em) a_x = a_x^prime arrow.r.double.long s = s^prime . $
+  - Identity axiom: Suppose $U = union.big_(i in I) U_i$ is an open covering of an open set $U subset.eq X$. Let $s , s^prime in Pi lr((U))$ be two sections on $U$ such that $s\|_(U_i) = s^prime\|_(U_i)$ for all $i in I$. Assume $s = lr((a_x))_(x in U) , s^prime = lr((a_x^prime))_(x in U)$. Then we have $ forall i in I , forall x in U_i , a_x = a_x^prime arrow.r.double.long forall x in U , a_x = a_x^prime arrow.r.double.long s = s^prime . $
 
   - #block[Gluability axiom: Suppose $U = union.big_(i in I) U_i$ is an open covering of an open set $U subset.eq X$. Let
       $
@@ -956,9 +960,7 @@ follows:
   Let $X$ be a topological space and $A$ be a set. Let $underline(A)_(op("pre"))$ be the #link(<constant-presheaf>)[constant presheaf with value $A$]. Recall that if $underline(A)_(op("pre"))$ is a sheaf, there must be $underline(A)_(op("pre"))(diameter)={*}$. Therefore, if $A$ has more than one element, $underline(A)_(op("pre"))$ is not a sheaf. We can also check that $underline(A)_(op("pre"))$ violates the gluability axiom if $A={0,1}$ and $X={0,1}$ with the discrete topology. Take sections $0 in underline(A)_(op("pre")) lr(({0}))$ and $1 in underline(A)_(op("pre")) lr(({1}))$. We cannot find a section $f in underline(A)_(op("pre")) lr((X))$ such that $f\|_({0}) = 0$ and $f\|_({1}) = 1$.
 
   The sheafification of $underline(A)_(op("pre"))$ is the #link(<constant-sheaf>)[constant sheaf with value $A$], denoted by $underline(A):=(underline(A)_(op("pre")))^(op("sh"))$#index_math(display: $underline(A)$, "A_underline"). That's because the #link(<stalk-of-a-set-valued-presheaf>)[stalk] of $underline(A)_(op("pre"))$ at any point $x in X$ is
-  $
-    (underline(A)_(op("pre")))_x = injlim(x in U in op("Ob")(mathsf("Open")_X)) underline(A) lr((U)) = A .
-  $ and the
+  $ (underline(A)_(op("pre")))_x = injlim(x in U in op("Ob")(mathsf("Open")_X)) underline(A) lr((U)) = A . $ and the
   compatible germs of $underline(A)_(op("pre"))$ on an open set $U subset.eq X$ are just locally constant functions $f: U arrow.r A$.
 ]
 
@@ -1172,7 +1174,7 @@ This lemma justifies the following definition.
   $
     i^* cal(G)(V) = injlim(V subset.eq W in tau) cal(G)(W) = cal(G)(V).
   $
-  Since $i^* cal(F)$ is already a sheaf, we have $  i^(-1) cal(G)=i^* cal(G)=cal(G)|_U$. For any $cal(F) in op("Ob")(mathsf("Sh")_(mathsf("Set"))(U))$ and any open set $V subset.eq U$, we have
+  Since $i^* cal(F)$ is already a sheaf, we have $i^(-1) cal(G)=i^* cal(G)=cal(G)|_U$. For any $cal(F) in op("Ob")(mathsf("Sh")_(mathsf("Set"))(U))$ and any open set $V subset.eq U$, we have
   $
     i^(-1) circle.tiny i_* cal(F)(V)= i^(-1) cal(F)(V inter U) = cal(F)(V inter U) = cal(F)(V),
   $
@@ -1337,8 +1339,6 @@ This lemma justifies the following definition.
 ]
 
 
-
-
 === Sheaf on Topological Base
 <sheaf-on-a-base-for-topology-space>
 #definition[
@@ -1478,14 +1478,17 @@ This lemma justifies the following definition.
   - #emph[Morphisms] : morphisms of ringed spaces $lr((f , f^(♯))) : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$, where $f : X arrow.r Y$ is a continuous map and $f^(♯):cal(O)_Y ->cal(O)_X$ is an $f$-map. By @equivalent-characterization-f-map-between-ringed-spaces, this is equivalent to a morphism of sheaves $f^(♯)_* : cal(O)_Y arrow.r f_(*) cal(O)_X$, where $f_(*) cal(O)_X$ is the #link(<pushforward-sheaf>, "pushforward sheaf") of $cal(O)_X$ along $f$. The naturality of $f^(♯)$ is given by the following commutative diagram:
     #square_cd(
       A11: $cal(O)_Y (V)$,
-      A12: $cal(O)_Y (U)$,
+      A12: $cal(O)_Y (V')$,
       A21: $cal(O)_X (f^(-1)(V))$,
-      A22: $cal(O)_X (f^(-1)(U))$,
-      Ff: $op("res")_(V arrow.l.hook U)$,
-      Gf: $op("res")_(V arrow.l.hook U)$,
+      A22: $cal(O)_X (f^(-1)(V'))$,
+      Ff: $op("res")_(V arrow.l.hook V')$,
+      Gf: $op("res")_(f^(-1)(V) arrow.l.hook f^(-1)(V'))$,
       theta_l: $f_(V)^♯$,
-      theta_r: $f_(U)^♯$,
+      theta_r: $f_(V')^♯$,
+      spacing: (6em, 4em),
     )
+    where $V' subset.eq V subset.eq Y$ are open subsets of $Y$.
+
     For simplicity, we abuse the notation and write $f=lr((f , f^(♯)))$. Then the morphism of ringed spaces can be written as $f : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$.
 ]
 
@@ -1498,6 +1501,8 @@ This lemma justifies the following definition.
 #proof[
   This is a direct consequence of @f-map-induces-morphism-between-stalks.
 ]
+
+=== Locally Ringed Space
 
 #definition[
   Locally Ringed Spaces][A ringed space $lr((X , cal(O)_X))$ is called a #strong[locally ringed space] #index("locally ringed space") if for every $x in X$, the stalk $cal(O)_(X , x)$ #index_math(display: $cal(O)_(X , x)$, "O_(X, x)")is a local ring.
@@ -1551,6 +1556,37 @@ This lemma justifies the following definition.
   where $frak(m)_(X , x)$ is the maximal ideal of $cal(O)_(X , x)$.
 
 ]<residue-field>
+
+
+#proposition[Morphisms between Locally Ringed Spaces Induce Morphisms between Stalks][
+  Let $f : lr((X , cal(O)_X)) arrow.r lr((Y , cal(O)_Y))$ be a morphism of locally ringed spaces, which induces a local ring homomorphism between stalks
+  $
+    f^(♯)_x: cal(O)_(Y,f(x))--> cal(O)_(X,x)
+  $#index_math(display: $f^(♯)_x$, "f^♯_x")
+  and a field extension of residue fields
+  $
+    iota : kappa(f(x)) stretch(arrow.hook, size: #150%) kappa(x) .
+  $
+  Moreover, we have the following commutative diagram
+  #square_cd(
+    A11: $cal(O)_(Y,f(x))$,
+    A12: $cal(O)_(X,x)$,
+    A21: $kappa(f(x))$,
+    A22: $kappa(x)$,
+    Ff: $f^(♯)_x$,
+    Gf: $iota$,
+    Gf_arrow: "hook->",
+    theta_l: $pi_(Y , f(x))$,
+    theta_r: $pi_(X , x)$,
+  )
+]<morphisms-between-locally-ringed-spaces-induce-morphisms-between-stalks>
+#proof[
+  @morphisms-between-ringed-spaces-induce-morphisms-between-stalks gives the ring homomorphism $f^(♯)_x: cal(O)_(Y,f(x))--> cal(O)_(X,x)$, which is a local ring homomorphism by the definition of morphisms between locally ringed spaces. Since
+  $
+    ker (pi_(X , x) compose f^(♯)_x) = (f^(♯)_x)^(-1) (frak(m)_(X , x)) = frak(m)_(Y , f(x)),
+  $
+  by the universal property of quotient rings $kappa(f(x))=cal(O)_(Y,f(x))\/frak(m)_(Y , f(x))$, there exists a unique injective ring homomorphism $iota : kappa(f(x)) arrow.r kappa(x)$ making the above diagram commute.
+]
 
 #definition[
   Open Immersions of Locally Ringed Spaces
@@ -1618,6 +1654,139 @@ This lemma justifies the following definition.
   )
 ]
 
+=== Fibered Product of Locally Ringed Spaces
+
+#lemma[
+  Let $lr((X , cal(O)_X))$, $lr((Y , cal(O)_Y))$ and $lr((S , cal(O)_S))$ be locally ringed spaces and $f : lr((X , cal(O)_X)) arrow.r lr((S , cal(O)_S))$, $g : lr((Y , cal(O)_Y)) arrow.r lr((S , cal(O)_S))$ be morphisms of locally ringed spaces. Suppose $U subset.eq X$, $V subset.eq Y$ and $W subset.eq S$ are open subsets such that $f(U) subset.eq W$ and $g(V) subset.eq W$. Given $x in U$, $y in V$ and $s in W$ such that $f(x) = g(y) = s$, we have the following commutative diagram in $mathsf("CRing")$.
+
+  #commutative_diagram(node-defocus: 0, label-sep: 0.1em, {
+    let (x1, x2, x3, x4) = (-0.5, 0.3, 1, 1.6)
+    let (y1, y2, y3, y4) = (-1, 0, 1, 2)
+    let (btl, btr, bbl, bbr) = ((x1, y1), (x3, y1), (x1, y3), (x3, y3))
+    let (ftl, ftr, fbl, fbr) = ((x2, y2), (x4, y2), (x2, y4), (x4, y4))
+    bnode(btl, $cal(O)_(S)(W)$)
+    bnode(bbl, $cal(O)_(X)(U)$)
+    bnode(btr, $cal(O)_(Y)(V)$)
+    bnode(bbr, $cal(O)_(X)(U) times.o_(cal(O)_(S)(W)) cal(O)_(Y)(V)$)
+    bnode(ftl, $cal(O)_(S,s)$)
+    bnode(ftr, $cal(O)_(Y,y)$)
+    bnode(fbl, $cal(O)_(X,x)$)
+    bnode(fbr, $cal(O)_(X,x) times.o_(cal(O)_(S,s)) cal(O)_(Y,y)$)
+    edge(btl, bbl, $op("res")_(f^(-1)(W) arrow.l.hook U)compose f^(sharp)$, label-side: right, "->")
+    edge(btl, btr, $op("res")_(g^(-1)(W) arrow.l.hook V)compose g^(sharp)$, label-side: left, "->")
+    edge(bbl, bbr, "->")
+    edge(btl, ftl, $op("res")_(W , s)$, "->")
+    edge(bbl, fbl, $op("res")_(U , x)$, label-side: right, label-pos: 40%, "->")
+    edge(ftl, fbl, "->")
+    edge(btr, ftr, $op("res")_(V, y)$, "->")
+    edge(ftl, ftr, "->")
+    edge(ftr, fbr, "hook'->")
+    edge(fbl, fbr, "hook->")
+    edge(btr, bbr, "->")
+    edge(
+      bbr,
+      fbr,
+      $op("res")_(U , x) times.o op("res")_(V, y)$,
+      label-side: right,
+      label-pos: 40%,
+      label-sep: 0em,
+      "-->",
+    )
+  })
+]
+#proof[
+  By the universal property of coproduct $cal(O)_(X)(U) times.o_(cal(O)_(S)(W)) cal(O)_(Y)(V)$ in the category $cal(O)_(S)(W)"-"mathsf("CAlg")$, there exists a unique $cal(O)_(S)(W)$-algebra homomorphism
+  $
+    op("res")_(U , x) times.o op("res")_(V, y) : cal(O)_(X)(U) times.o_(cal(O)_(S)(W)) cal(O)_(Y)(V) & --> cal(O)_(X,x) times.o_(cal(O)_(S,s)) cal(O)_(Y,y) \
+    a times.o b & mapsto.long overline(op("res")_(U , x)(a)) times.o overline(op("res")_(V, y)(b))
+  $
+  such that the diagram commutes.
+]
+
+#lemma[Tensor Product of Stalks and Residue Fields][
+  Let $lr((X , cal(O)_X))$, $lr((Y , cal(O)_Y))$ and $lr((S , cal(O)_S))$ be locally ringed spaces and $f : lr((X , cal(O)_X)) arrow.r lr((S , cal(O)_S))$, $g : lr((Y , cal(O)_Y)) arrow.r lr((S , cal(O)_S))$ be morphisms of locally ringed spaces. Suppose $x in X$, $y in Y$ and $s in S$ such that $f(x) = g(y) = s$. Then we have the following commutative diagram in $mathsf("CRing")$.
+
+  #commutative_diagram(node-defocus: 0, label-sep: 0.1em, {
+    let (x1, x2, x3, x4) = (-0.5, 0.4, 1, 1.7)
+    let (y1, y2, y3, y4) = (-1, 0, 1, 2)
+    let (btl, btr, bbl, bbr) = ((x1, y1), (x3, y1), (x1, y3), (x3, y3))
+    let (ftl, ftr, fbl, fbr) = ((x2, y2), (x4, y2), (x2, y4), (x4, y4))
+    node(btl, $cal(O)_(S,s)$)
+    node(bbl, $cal(O)_(X,x)$)
+    node(btr, $cal(O)_(Y,y)$)
+    node(bbr, $cal(O)_(X,x)times.o_(cal(O)_(S,s)) cal(O)_(Y,y)$)
+    node(ftl, $kappa(s)$)
+    node(ftr, $kappa(y)$)
+    node(fbl, $kappa(x)$)
+    node(fbr, $kappa(x)times.o_(kappa(s)) kappa(y)$)
+    edge(btl, bbl, $f_x^(sharp)$, label-side: right, "->")
+    edge(btl, btr, $g_y^(sharp)$, label-side: left, "->")
+    edge(bbl, bbr, "->")
+    edge(btl, ftl, $pi_(S , s)$, "->>")
+    edge(bbl, fbl, $pi_(X , x)$, label-side: right, label-pos: 40%, "->>")
+    edge(ftl, fbl, "->")
+    edge(btr, ftr, $pi_(Y, y)$, "->>")
+    edge(ftl, ftr, "->")
+    edge(ftr, fbr, "hook'->")
+    edge(fbl, fbr, "hook->")
+    edge(btr, bbr, "->")
+    edge(bbr, fbr, $pi_(X , x) times.o pi_(Y , y)$, label-side: right, label-pos: 40%, label-sep: 0em, "-->")
+  })
+]
+#proof[
+  By the universal property of coproduct $cal(O)_(X,x)times.o_(cal(O)_(S,s)) cal(O)_(Y,y)$ in the category $cal(O)_(S,s)"-"mathsf("CAlg")$, there exists a unique $cal(O)_(S,s)$-algebra homomorphism
+  $
+    pi_(X , x) times.o pi_(Y , y) : cal(O)_(X,x)times.o_(cal(O)_(S,s)) cal(O)_(Y,y) & --> kappa(x) times.o_(kappa(s)) kappa(y) \
+    a times.o b & mapsto.long overline(a) times.o overline(b)
+  $
+  such that the diagram commutes.
+]
+#proposition[Fibered Product of Locally Ringed Spaces][
+  Let $lr((X , cal(O)_X))$, $lr((Y , cal(O)_Y))$ and $lr((S , cal(O)_S))$ be locally ringed spaces and $f : lr((X , cal(O)_X)) arrow.r lr((S , cal(O)_S))$, $g : lr((Y , cal(O)_Y)) arrow.r lr((S , cal(O)_S))$ be morphisms of locally ringed spaces. A construction of the fibered product $X times_S Y$ in the category $mathsf("LRS")$ is given as follows:
+
+  - *Underlying set*: The underlying set of the fibered product $X times_S Y$ is given by
+    $
+      |X times_S Y| = { (x , y, s, frak(p)) mid(|) x in X, y in Y, s in S , frak(p) in op("Spec")(kappa(x) times.o_(kappa(s)) kappa(y)), f(x) = g(y) = s } ,
+    $
+
+  - *Topology*: The topology on $X times_S Y$ is generated by the basis consisting of sets of the form
+    $
+      { (x , y, s, frak(p)) mid(|) x in U , y in V , s in W , frak(p) in op("Spec")(kappa(x) times.o_(kappa(s)) kappa(y)), f(x)= g(y) = s, med op("ev")_(x,y)(phi) in.not frak(p) } ,
+    $
+    where $U subset.eq X$, $V subset.eq Y$ and $W subset.eq S$ are open subsets such that $f(U) subset.eq W$ and $g(V) subset.eq W$, and $phi in cal(O)_(X)(U) times.o_(cal(O)_(S)(W)) cal(O)_(Y)(V)$.
+
+    Here $op("ev")_(x,y) : cal(O)_(X)(U) times.o_(cal(O)_(S)(W)) cal(O)_(Y)(V) arrow.r kappa(x) times.o_(kappa(s)) kappa(y)$ is the tensor product of the $cal(O)_(S)(W)$-algebra homomorphisms $pi_(X , x) compose op("res")_(U , x)$ and $pi_(Y , y) compose op("res")_(V , y)$
+    $
+      op("ev")_(x,y):= (pi_(X , x) compose op("res")_(U , x)) times.o (pi_(Y , y) compose op("res")_(V , y)),
+    $
+    which is given by the following commutative diagram
+    #commutative_diagram({
+      node((-1, -1), bounded[$cal(O)_(X)(U)$])
+      node((-1, 0), bounded[$cal(O)_(X,x)$])
+      node((-1, 1), bounded[$kappa(x)$])
+      node((1, -1), bounded[$cal(O)_(Y)(V)$])
+      node((1, 0), bounded[$cal(O)_(Y,y)$])
+      node((1, 1), bounded[$kappa(y)$])
+      node((0, -1), bounded[$cal(O)_(X)(U) times.o_(cal(O)_(S)(W)) cal(O)_(Y)(V)$])
+      node((0, 0), bounded[$cal(O)_(X,x) times.o_(cal(O)_(S,s)) cal(O)_(Y,y)$])
+      node((0, 1), bounded[$kappa(x)times.o_(kappa(s)) kappa(y)$])
+      edge((-1, -1), (0, -1), "->")
+      edge((-1, -1), (-1, 0), $op("res")_(U,x)$, label-side: right, "->")
+      edge((-1, 0), (-1, 1), $pi_(X,x)$, label-side: right, "->>")
+      edge((-1, 1), (0, 1), "hook->")
+      edge((1, -1), (1, 0), $op("res")_(V,y)$, label-side: left, "->")
+      edge((1, -1), (0, -1), "->")
+      edge((1, 0), (0, 0), "->")
+      edge((1, 1), (0, 1), "hook'->")
+      edge((-1, 0), (0, 0), "->")
+      edge((0, -1), (0, 0), $op("res")_(U,x) times.o op("res")_(V,y)$, label-side: left, "-->")
+      edge((0, 0), (0, 1), $pi_(X,x) times.o pi_(Y,y)$, label-side: left, "-->")
+      edge((1, 0), (1, 1), $pi_(Y,y)$, label-side: left, "->>")
+    })
+
+  - *Structure sheaf*: The structure sheaf $cal(O)_(X times_S Y)$ is defined as follows: for any open set $O subset.eq X times_S Y$,
+]<fibered-product-of-locally-ringed-spaces>
+
 
 #pagebreak()
 
@@ -1650,38 +1819,9 @@ Affine schemes are the basic building blocks of schemes. They are locally ringed
   Affine $n$-space $affine_R^n$][
   Let $R$ be a commutative ring. The #strong[affine $n$-space] over $R$ is $op("Spec")(R[x_1 , x_2 , dots.h.c , x_n])$, denoted by $affine_(R)^n$#index_math(display: [$affine_(R)^n$], "affine_(R)^n").
 ]
-#example[
-  $affine_𝕜^1 = op("Spec") lr((𝕜 lr([x])))$][
-  The affine line over a field $𝕜$ is given by $ op("Spec") lr((𝕜 lr([x]))) = { lr((0)) } union lr({lr((f)) divides f upright("is irreducible over ") 𝕜 lr([x])}) . $ Note $𝕜 lr([x])$ is an Euclidean domain. We see $op("Spec") lr((𝕜 lr([x])))$ has infinitely many elements, and each element corresponds to a maximal ideal of $𝕜 lr([x])$. \
-  Geometrically, describing a irreducible polynomial $f in 𝕜 lr([x])$ is equivalent to specifying the set of all of its roots over $𝕜^(op("sep")) lr([x])$. Thus closed points of $affine_𝕜^1$ can be seen as an orbit space of the action of the absolute Galois group $op("Gal")lr((𝕜^(op("sep")) \/ 𝕜))$#index_math(display: $op("Gal")lr((𝕜^(op("sep")) \/ 𝕜))$, "Gal(k^(sep)/k)") on $𝕜^(op("sep"))$.
 
-]
-#example[
-  $affine_(bb(C))^1 = op("Spec") lr((bb(C) lr([x])))$][
-  The complex affine line $affine_(bb(C))^1$ is given by $ op("Spec") lr((bb(C) lr([x]))) = { lr((0)) } union { lr((x - a)) divides a in bb(C) } . $
 
-]
-#example[
-  $affine_(overline(𝕜))^1 = op("Spec") lr((overline(𝕜) lr([x])))$][
-  If $overline(𝕜)$ is an algebraically closed field, then the affine line $affine_(overline(𝕜))^1$ is given by $ op("Spec") lr((overline(𝕜) lr([x]))) = lr({lr((0))}) union lr({lr((x - a)) divides a in overline(𝕜)}) . $
 
-]
-#example[
-  $affine_(bb(R))^1 = op("Spec") lr((bb(R) lr([x])))$][
-  The real affine line $affine_(bb(R))^1$ is given by $ op("Spec") lr((bb(R) lr([x]))) = { lr((0)) } union { lr((x - a)) divides a in bb(R) } union lr({lr((x^2 + b x + c)) divides b , c in bb(R) , #h(0em) b^2 - 4 c < 0}) . $
-
-]
-#example[
-  $affine_(bb(C))^2 = op("Spec") lr((bb(C) lr([x , y])))$][
-  The complex affine plane $affine_(bb(C))^2$ is given by $ op("Spec") lr((bb(C) lr([x , y]))) = { lr((0)) } union { lr((x - a , y - b)) divides a , b in bb(C) } union lr({lr((f)) divides f upright("is irreducible over ") bb(C) lr([x , y])}) . $
-
-]
-#example[
-  $affine_(bb(C))^n = op("Spec") lr((bb(C) lr([x_1 , dots.h.c , x_n])))$][
-  The prime ideals of $bb(C) lr([x , y])$ includes $lr((0))$, $lr((x_1 - a_1, dots.c , x_n - a_n))$ and $lr((f))$, where $a_i in bb(C)$ and $f$ is an irreducible polynomial in $bb(C) lr([x_1 , dots.h.c , x_n])$. \
-  By the Hilbert's Nullstellensatz, $lr((x_1 - a_1 , dots.h.c , x_n - a_n))$ are exactly all maximal ideals of $bb(C) lr([x_1 , dots.h.c , x_n])$. Therefore, we have a bijection between closed points of $affine_(bb(C))^n$ and $bb(C)^n$.
-
-]
 Given en element $f$ of a commutative ring $R$, we can evaluate $f$ at a prime ideal $lr([frak(p)]) in op("Spec")(R)$ by defining $f lr((lr([frak(p)])))$ to be the image of $f$ under the projection $pi : R arrow.r R \/ frak(p)$, that is $f lr((lr([frak(p)]))) = f + frak(p)$.
 
 To get an intuition, we can consider a polynomial $f in bb(C) lr([x])$, and a prime ideal $frak(p) = lr((x - a))$, then $f lr((lr([frak(p)]))) = f lr((x)) + lr((x - a)) = f lr((a))$. In this case, we see $f lr((a)) = 0 <==> f in lr((x - a))$. Generally, we should make $f$ vanish by modding out by ideals, rather than through evaluation. So we have $f lr((lr([frak(p)]))) = 0 <==> f in frak(p)$, which is the same as saying $f$ vanishes at $frak(p)$. This motivates the following definition.
@@ -1754,9 +1894,7 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   + Let $lr({frak(a)_i})_(i in I)$ be a family if ideals in $A$. Then $ V lr((sum_(i in I) frak(a)_i)) = inter.big_(i in I) V lr((frak(a)_i)) . $
 
   + Let $S$ be a subset of $R$. Then $ V lr((S)) = inter.big_(f in S) V lr((f)) . $
-
-
-]
+]<properties-of-V>
 #proof[
   #block[
     #set enum(numbering: "(i)", start: 1)
@@ -1931,20 +2069,15 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   First, $phi^(- 1)$ is a well-defined map from $op("Spec") lr((S))$ to $op("Spec")(R)$ since $phi^(- 1)$ maps any prime ideal of $S$ to a prime ideal of $R$. Then we show that $phi^(- 1)$ is continuous. Let $V lr((frak(a)))$ be a closed subset of $op("Spec")(R)$. Then we can check that $ lr((spec(phi)))^(- 1) lr((V lr((frak(a))))) & = lr(
     {lr([frak(p)]) in op("Spec") lr((S)) thin | thin phi^(- 1) lr((lr([frak(p)]))) in V lr((frak(a)))}
   )\
-                                                     & = lr(
-    {lr([frak(p)]) in op("Spec") lr((S)) thin | thin lr([phi^(- 1) lr((frak(p)))]) in V lr((frak(a)))}
-  )\
-                                                     & = lr(
-    {lr([frak(p)]) in op("Spec") lr((S)) thin | thin frak(a) subset.eq phi^(- 1) lr((frak(p)))}
-  )\
-                                                     & = lr(
-    {lr([frak(p)]) in op("Spec") lr((S)) thin | thin phi lr((frak(a))) subset.eq frak(p)}
-  )\
-                                                     & = V lr((phi lr((frak(a))))) , $ which means that the preimage of any closed subset of $op("Spec")(R)$ is closed in $op("Spec") lr((S))$. Hence $op("Spec") lr((phi))$ is continuous. \
+  & = lr({lr([frak(p)]) in op("Spec") lr((S)) thin | thin lr([phi^(- 1) lr((frak(p)))]) in V lr((frak(a)))})\
+  & = lr({lr([frak(p)]) in op("Spec") lr((S)) thin | thin frak(a) subset.eq phi^(- 1) lr((frak(p)))})\
+  & = lr({lr([frak(p)]) in op("Spec") lr((S)) thin | thin phi lr((frak(a))) subset.eq frak(p)})\
+  & = V lr((phi lr((frak(a))))) , $ which means that the preimage of any closed subset of $op("Spec")(R)$ is closed in $op("Spec") lr((S))$. Hence $op("Spec") lr((phi))$ is continuous. \
   For functoriality, let $phi : R arrow.r S$ and $psi : S arrow.r T$ be two ring homomorphisms. It is clear that $ lr((op("Spec")lr((phi)) circle.stroked.tiny op("Spec")lr((psi)))) lr((lr([frak(p)]))) = lr([phi^(- 1) circle.stroked.tiny psi^(- 1) lr((frak(p)))]) = lr([lr((psi circle.stroked.tiny phi))^(- 1) lr((frak(p)))]) = op("Spec") lr((psi circle.stroked.tiny phi)) lr((lr([frak(p)]))) . $
 ]
 #proposition[
-  Quotient Map Induces Spectrum Morphism][
+  Quotient Map Induces Spectrum Morphism
+][
   Let $R$ be a commutative ring and $frak(a)$ be an ideal of $R$. The quotient map $pi : R arrow.r R \/ frak(a)$ induces a homeomorphism between $op("Spec") lr((R \/ frak(a)))$ and $V lr((frak(a)))$ as a subspace of $op("Spec")(R)$
   $
     op("Spec") (pi) = pi^(- 1) : op("Spec")(R \/ frak(a)) & arrow.long.r^tilde.op V (frak(a)) subset.eq op("Spec")(R) \
@@ -1952,7 +2085,7 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   $
   which enable us to identify $op("Spec") lr((R \/ frak(a)))$ with a closed subspace of $op("Spec")(R)$.
 
-]
+]<quotient-map-induces-spectrum-morphism>
 #proof[
   Since $op("Spec") lr((pi))$ maps prime ideals of $R \/ frak(a)$ to prime ideals of $R$ that contain $frak(a)$, $op("Spec") lr((pi))$ is a bijection between $op("Spec") lr((R \/ frak(a)))$ and $V lr((frak(a))) = lr(
     {lr([frak(p)]) in op("Spec")(R) thin | thin frak(a) subset.eq frak(p)}
@@ -1961,17 +2094,30 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
   )\
   & = lr({lr([frak(p)]) in V lr((frak(a))) thin | thin pi lr((f)) in.not pi lr((frak(p)))})\
   & = lr({lr([frak(p)]) in V lr((frak(a))) thin | thin f in.not frak(p)})\
-  & = D lr((f)) inter V lr((frak(a))) , $ which is open in $V lr((frak(a)))$. Here is the explanation of the equality $lr(
-    {lr([frak(p)]) in V lr((frak(a))) thin | thin pi lr((f)) in.not pi lr((frak(p)))}
-  )\
-                                                  & = lr({lr([frak(p)]) in V lr((frak(a))) thin | thin f in.not frak(p)})\
-                                                  & = D lr((f)) inter V lr((frak(a))) , $ which is open in $V lr((frak(a)))$. Here is the explanation of the equality $lr(
-    {lr([frak(p)]) in V lr((frak(a))) thin | thin pi lr((f)) in.not pi lr((frak(p)))}
-  ) = lr({lr([frak(p)]) in V lr((frak(a))) thin | thin f in.not frak(p)})$. $pi lr((f)) in.not pi lr((frak(p))) arrow.r.double.long f in.not frak(p)$ is clear. For the other direction, if $pi lr((f)) in pi lr((frak(p)))$, then $f = p + a$ for some $p in frak(p)$ and $a in frak(a)$. Note $frak(a) subset.eq frak(p)$, we have $f in frak(p)$. Therefore, we show that $lr((op("Spec")  lr((pi))))^(- 1)$ is continuous. Hence $op("Spec")  lr((pi))$ is a homeomorphism.
-
+  & = D lr((f)) inter V lr((frak(a))) , $ which is open in $V lr((frak(a)))$. Here is the explanation of the equality
+  $
+    lr({lr([frak(p)]) in V lr((frak(a))) thin | thin pi lr((f)) in.not pi lr((frak(p)))})
+    & = lr({lr([frak(p)]) in V lr((frak(a))) thin | thin f in.not frak(p)}).
+  $
+  The direction $pi lr((f)) in.not pi lr((frak(p))) arrow.r.double.long f in.not frak(p)$ is clear. For the other direction, if $pi lr((f)) in pi lr((frak(p)))$, then $f = p + a$ for some $p in frak(p)$ and $a in frak(a)$. Note $frak(a) subset.eq frak(p)$, we have $f in frak(p)$. Therefore, we show that $lr((op("Spec") lr((pi))))^(- 1)$ is continuous. Hence $op("Spec") lr((pi))$ is a homeomorphism.
 ]
 #example[
-  $op("Spec") lr((𝕜 lr([x]) \/ lr((x^2))))$][
+  $op("Spec")(R_op("red")) -> op("Spec")(R)$
+][
+  Let $R$ be a commutative ring and $R_op("red"):=R\/sqrt((0))$ be reduction of $R$. The quotient map $pi : R arrow.r R_op("red")$ induces a homeomorphism
+  $
+    op("Spec") (pi) = pi^(- 1) : op("Spec")(R_op("red")) & arrow.long.r^tilde.op op("Spec")(R) \
+                                    frak(p) \/ sqrt((0)) & arrow.long.r.bar frak(p)
+  $
+
+]
+#proof[
+  By @properties-of-V, we have $V lr((sqrt((0)))) = op("Spec")(R)$. Then the result follows from @quotient-map-induces-spectrum-morphism.
+]
+
+#example[
+  $op("Spec") lr((𝕜 lr([x]) \/ lr((x^2))))$
+][
   The only prime ideal of $𝕜 lr([x]) \/ lr((x^2))$ is $lr((overline(x)))$, where $overline(x)$ is the equivalence class of $x$ in $𝕜 lr([x]) \/ lr((x^2))$. \
   ~ \
   Note $𝕜 lr([x])$ is a PID. The nonzero prime ideals of $𝕜 lr([x])$ are of the form $lr((f))$ for some irreducible polynomial $f in 𝕜 lr([x])$. Suppose $lr((x^2)) subset.eq lr((f))$. Then we have $f divides x^2$, which means $lr((f)) = lr((x))$. Hence $V lr((lr((x^2)))) = lr({lr((x))})$ and $op("Spec") lr((𝕜 lr([x]) \/ lr((x^2)))) = lr({lr((overline(x)))})$.
@@ -2012,23 +2158,19 @@ Next we define a topology on $op("Spec")(R)$, which is called Zariski topology.
 
 ]<localization_map_induces_spectrum_morphism>
 #proof[
-  According to commutative algebra, we know that $op("Spec")  lr((l))$ is a bijection. For any basis $D lr((f / s))$ of $op("Spec")  lr((S^(- 1) R))$, $ lr((op("Spec")  lr((l)))) lr((D lr((f / s)))) & = lr(
-    {lr([frak(p)]) in op("Spec")  lr((R)) thin | thin l lr((lr([frak(p)]))) in D lr((l lr((f / s)))) , #h(0em) frak(p) inter S = diameter}
+  According to commutative algebra, we know that $op("Spec") lr((l))$ is a bijection. For any basis $D lr((f / s))$ of $op("Spec") lr((S^(- 1) R))$, $ lr((op("Spec") lr((l)))) lr((D lr((f / s)))) & = lr(
+    {lr([frak(p)]) in op("Spec") lr((R)) thin | thin l lr((lr([frak(p)]))) in D lr((l lr((f / s)))) , frak(p) inter S = diameter}
   )\
-  & = lr(
-    {lr([frak(p)]) in op("Spec") lr((R)) thin | thin f / s in.not l lr((frak(p))) , #h(0em) frak(p) inter S = diameter}
-  )\
-  & = lr(
-    {lr([frak(p)]) in op("Spec") lr((R)) thin | thin f / s in.not S^(- 1) frak(p) , #h(0em) frak(p) inter S = diameter}
-  )\
-  & = lr({lr([frak(p)]) in op("Spec") lr((R)) thin | thin f in.not frak(p) , #h(0em) frak(p) inter S = diameter})\
+  & = lr({lr([frak(p)]) in op("Spec") lr((R)) thin | thin f / s in.not l lr((frak(p))) , frak(p) inter S = diameter})\
+  & = lr({lr([frak(p)]) in op("Spec") lr((R)) thin | thin f / s in.not S^(- 1) frak(p) , frak(p) inter S = diameter})\
+  & = lr({lr([frak(p)]) in op("Spec") lr((R)) thin | thin f in.not frak(p) , frak(p) inter S = diameter})\
   & = lr(
     {lr([frak(p)]) in op("Spec") lr((R)) thin | thin frak(p) inter S = diameter}
   ) inter D lr((f)) , $ which is open in $lr({frak(p) in op("Spec") lr((R)) thin | thin frak(p) inter S = diameter})$. Here is the explanation of the equality $ lr(
-    {lr([frak(p)]) in op("Spec") lr((R)) thin | thin f / s in.not S^(- 1) frak(p) , #h(0em) frak(p) inter S = diameter}
+    {lr([frak(p)]) in op("Spec") lr((R)) thin | thin f / s in.not S^(- 1) frak(p) , frak(p) inter S = diameter}
   ) = lr(
-    {lr([frak(p)]) in op("Spec")  lr((R)) thin | thin f in.not frak(p) , #h(0em) frak(p) inter S = diameter}
-  ) . $ $f / s in.not S^(- 1) frak(p) arrow.r.double.long f in.not frak(p)$ is clear. For the other direction, if $f / s in S^(- 1) frak(p)$, then $u lr((f t - p s)) = 0$. Therefore, we show that $lr((op("Spec")  lr((l))))^(- 1)$ is continuous. Hence $op("Spec")  lr((l))$ is a homeomorphism.
+    {lr([frak(p)]) in op("Spec") lr((R)) thin | thin f in.not frak(p) , frak(p) inter S = diameter}
+  ) . $ $f / s in.not S^(- 1) frak(p) arrow.r.double.long f in.not frak(p)$ is clear. For the other direction, if $f / s in S^(- 1) frak(p)$, then $u lr((f t - p s)) = 0$. Therefore, we show that $lr((op("Spec") lr((l))))^(- 1)$ is continuous. Hence $op("Spec") lr((l))$ is a homeomorphism.
 
 ]
 
@@ -2074,7 +2216,7 @@ The second case of localization is as follows.
   According to , we have $ op("Spec") lr((R_f)) & tilde.equiv lr(
                            {lr([frak(q)]) in op("Spec")(R) thin | thin frak(q) inter lr((lr({f^n in R thin | thin n in bb(Z)}))) = diameter}
                          ) \
-                       & = lr({lr([frak(q)]) in op("Spec")(R) thin | thin forall n gt.eq 1 , #h(0em) f^n in.not frak(q)}) \
+                       & = lr({lr([frak(q)]) in op("Spec")(R) thin | thin forall n gt.eq 1 , f^n in.not frak(q)}) \
                        & = lr({lr([frak(q)]) in op("Spec")(R) thin | thin f in.not sqrt(frak(q))}) \
                        & = lr({lr([frak(q)]) in op("Spec")(R) thin | thin f in.not frak(q)}) \
                        & = D lr((f)) . $
@@ -2364,7 +2506,7 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
   Let $S$ be a scheme. The category of schemes over $S$ is the slice category $mathsf("Sch")_(S) = (mathsf("Sch")\/ S)$ #index_math(display: $mathsf("Sch")_(S)$, "Sch_S(X)").
 
   - A *scheme over $S$* is an object $X$ in $mathsf("Sch")_(S)$, namely a
-    scheme $X$ together with a morphism $g : X arrow.r S$.
+    scheme $X$ together with a morphism $X arrow.r S$. The morphism $X arrow.r S$ is sometimes called the *structure morphism*.
 
   - A *morphism of schemes over $S$* is a morphism in $mathsf("Sch")_(S)$, namely a morphism $f : X arrow.r Y$ in $mathsf("Sch")$ such that the following diagram commutes
     #commutative_diagram(
@@ -2377,25 +2519,61 @@ In algebraic geometry, by convention, we use the term "quasi-compactness" to ref
   Let $R$ be a commutative ring. The *category of schemes over $R$* is the category of schemes over $op("Spec")(R)$.
 ]
 
-#definition[Base Change of Schemes][
-  Let $S$ be a scheme and $X$ be a scheme over $S$. Given a morphism $g : S' arrow.r S$, the *base change of $X$ along $g$* is the scheme $X_(S') := S' times_S X$ over $S'$. The pullback diagram is as follows
+#definition[Base Change of $S$-Schemes][
+  Let $S$ be a scheme and $X$ be a scheme over $S$. Given a morphism $g : S' arrow.r S$, the *base change of $X$ along $g$* is the scheme $X_(S') := X times_S S'$ over $S'$. The pullback diagram is as follows
   #square_cd(
     A11: $X_(S')$,
     A12: $X$,
     A21: $S'$,
     A22: $S$,
+    Gf: $g$,
   )
-  Let $R$ be a commutative ring and $X$ be a scheme over $R$. Given a ring homomorphism $g: R arrow.r R'$, the *base change of $X$ along $g$* is the scheme $X_(R') := op("Spec")(R') times_(op("Spec")(R)) X$ over $R'$#index_math(display: $X_(R')$, "X_(R')"). The pullback diagram is as follows
+  Let $R$ be a commutative ring and $X$ be a scheme over $R$. Given a ring homomorphism $phi: R arrow.r R'$, the *base change of $X$ along $phi$* is the scheme $X_(R') := X times_(op("Spec")(R)) op("Spec")(R')$ over $R'$#index_math(display: $X_(R')$, "X_(R')"). The pullback diagram is as follows
   #square_cd(
     A11: $X_(R')$,
     A12: $X$,
     A21: $op("Spec")(R')$,
     A22: $op("Spec")(R)$,
+    Gf: $op("Spec")(phi)$,
   )
 ]
 
+#definition[Base Change Functor][
+  Given a morphism of schemes $g : S' arrow.r S$, the *base change functor along $g$* is the functor
+  #functor_diagram(
+    F: $- times_S S'$,
+    C: $mathsf("Sch")_(S)$,
+    D: $mathsf("Sch")_(S')$,
+    g: $f$,
+    X: $X$,
+    Y: $Y$,
+    Fg: $f_(S') := f times_S id_(S')$,
+    FX: $X_(S')$,
+    FY: $Y_(S')$,
+  )
+
+  $f_(S')$ can be induced by the universal property of the fiber product $Y_(S')=Y times_S S'$ as follows:
+  #align(center, diagram({
+    node((0, 0), [$Y_(S')$])
+    node((0, 1), [$S'$])
+    node((1, 1), [$S$])
+    node((1, 0), [$Y$])
+    node((2, -1), [$X$])
+    node((1, -1), [$X_(S')$])
+    edge((2, -1), (1, 0), [$f$], label-side: right, "->")
+    edge((1, 0), (1, 1), "->")
+    edge((2, -1), (1, 1), "->")
+    edge((0, 0), (0, 1), "->")
+    edge((0, 1), (1, 1), "->")
+    edge((1, -1), (0, 1), "->")
+    edge((1, -1), (2, -1), "->")
+    edge((1, -1), (0, 0), [$f_(S')$], label-side: right, "-->")
+    edge((0, 0), (1, 0), "->")
+  }))
+]
+
 #definition[Scheme Theoretic Fiber][
-  Let $g : X arrow.r S$ be a morphism of schemes. The *scheme theoretic fiber* of $g$ over a point $s in S$ is the scheme $X_s :=X_(kappa(s))= op("Spec")(kappa(s)) times_S X$ over $kappa(s)$#index_math(display: $X_s$, "X_s"). The pullback diagram is as follows
+  Let $g : X arrow.r S$ be a morphism of schemes. The *scheme theoretic fiber* of $g$ over a point $s in S$ is the scheme $X_s :=X_(kappa(s))= X times_S op("Spec")(kappa(s))$ over $kappa(s)$#index_math(display: $X_s$, "X_s"). The pullback diagram is as follows
   #square_cd(
     A11: $op("Spec")(kappa(s)) times_S X$,
     A12: $X$,
@@ -2787,7 +2965,81 @@ Being Noetherian is an affine-local property.
   Both classes are nonempty.
 ]
 
+== Examples of Schemes
+
+=== Reduced Schemes over Algebraically Closed Fields
+
+#example[
+  $affine_(overline(𝕜))^1 = op("Spec") lr((overline(𝕜) lr([x])))$
+][
+  If $overline(𝕜)$ is an algebraically closed field, then the affine line $affine_(overline(𝕜))^1$ is given by
+  $
+    op("Spec") lr((overline(𝕜) lr([x]))) = lr({lr((0))}) union lr({lr((x - a)) divides a in overline(𝕜)}) .
+  $
+]
+#proof[
+  By @affine_line_over_field, since $f(x) = x - a$ for some $a in overline(𝕜)$ are exactly all irreducible polynomials in $overline(𝕜) lr([x])$, we obtain the desired description of $affine_(overline(𝕜))^1$.
+]
+
+#example[
+  $affine_(bb(C))^1 = op("Spec") lr((bb(C) lr([x])))$
+][
+  The complex affine line $affine_(bb(C))^1$ is given by $ op("Spec") lr((bb(C) lr([x]))) = { lr((0)) } union { lr((x - a)) divides a in bb(C) } . $
+]
+
+
+#example[
+  $affine_(bb(C))^2 = op("Spec") lr((bb(C) lr([x , y])))$
+][
+  The complex affine plane $affine_(bb(C))^2$ is given by $ op("Spec") lr((bb(C) lr([x , y]))) = { lr((0)) } union { lr((x - a , y - b)) divides a , b in bb(C) } union lr({lr((f)) divides f upright("is irreducible over") bb(C) lr([x , y])}) . $
+
+]
+#example[
+  $affine_(bb(C))^n = op("Spec") lr((bb(C) lr([x_1 , dots.h.c , x_n])))$
+][
+  The prime ideals of $bb(C) lr([x , y])$ includes $lr((0))$, $lr((x_1 - a_1, dots.c , x_n - a_n))$ and $lr((f))$, where $a_i in bb(C)$ and $f$ is an irreducible polynomial in $bb(C) lr([x_1 , dots.h.c , x_n])$.
+
+  By the Hilbert's Nullstellensatz, $lr((x_1 - a_1, dots.c , x_n - a_n))$ are exactly all maximal ideals of $bb(C) lr([x_1 , dots.h.c , x_n])$. Therefore, we have a bijection between closed points of $affine_(bb(C))^n$ and $bb(C)^n$.
+
+]
+
+=== Reduced Schemes over Non-Algebraically Closed Fields
+
+#example[
+  $affine_𝕜^1 = op("Spec") lr((𝕜 lr([x])))$
+][
+  The affine line over a field $𝕜$ is given by $ op("Spec") lr((𝕜 lr([x]))) = { lr((0)) } union lr({lr((f)) divides f upright("is irreducible over") 𝕜 lr([x])}) . $ Note $𝕜 lr([x])$ is an Euclidean domain. We see $op("Spec") lr((𝕜 lr([x])))$ has infinitely many elements, and each element corresponds to a maximal ideal of $𝕜 lr([x])$.
+
+  Geometrically, describing a irreducible polynomial $f in 𝕜 lr([x])$ is equivalent to specifying the set of all of its roots over $𝕜^(op("sep")) lr([x])$. Thus closed points of $affine_𝕜^1$ can be seen as an orbit space of the action of the absolute Galois group $op("Gal")lr((𝕜^(op("sep")) \/ 𝕜))$#index_math(display: $op("Gal")lr((𝕜^(op("sep")) \/ 𝕜))$, "Gal(k^(sep)/k)") on $𝕜^(op("sep"))$.
+]<affine_line_over_field>
+
+#example[
+  $affine_(bb(R))^1 = op("Spec") lr((bb(R) lr([x])))$
+][
+  The real affine line $affine_(bb(R))^1$ is given by
+  $
+    op("Spec") lr((bb(R) lr([x]))) = { lr((0)) } union { lr((x - a)) divides a in bb(R) } union lr({lr((x^2 + b x + c)) divides b , c in bb(R), b^2 - 4 c < 0}) .
+  $
+  We can also think of $affine_(bb(R))^1$ as an orbit space of the action of the absolute Galois group of $bb(R)$
+  $
+    op("Gal")lr((bb(R)^(op("sep")) \/ bb(R)))= op("Gal")lr((bb(C) \/ bb(R)))={ id_CC, a+b i mapsto a - b i } tilde.equiv ZZ \/ 2ZZ.
+  $
+  The inclusion $bb(R) lr([x]) arrow.hook bb(C) lr([x])$ induces a morphism of schemes $f : affine_(bb(C))^1 arrow.r affine_(bb(R))^1$. Under this morphism, given any $z=a+b i in CC -RR$ with $a,b in RR$, the closed points $(x-z)$ and $(x- overline(z))$ in $affine_(bb(C))^1$ are glued to the closed point $(x^2 - 2 a x + a^2 + b^2)$ in $affine_(bb(R))^1$.
+]
+
+#example[
+  $affine_𝕜^2 = op("Spec") lr((𝕜 lr([x,y])))$
+][
+  Prime ideals of $𝕜 lr([x , y])$ fall into exactly three kinds:
+
+  + dimension 0 (closed points): $lr((x - a , y - b))$ where $a , b in 𝕜$;
+
+  Geometrically, describing a irreducible polynomial $f in 𝕜 lr([x])$ is equivalent to specifying the set of all of its roots over $𝕜^(op("sep")) lr([x])$. Thus closed points of $affine_𝕜^1$ can be seen as an orbit space of the action of the absolute Galois group $op("Gal")lr((𝕜^(op("sep")) \/ 𝕜))$#index_math(display: $op("Gal")lr((𝕜^(op("sep")) \/ 𝕜))$, "Gal(k^(sep)/k)") on $𝕜^(op("sep"))$.
+]<affine_plane_over_field>
+
 #pagebreak()
+
+
 
 = Morphisms of Schemes
 
@@ -2812,6 +3064,40 @@ The category of schemes $mathsf("Sch")$ is a full subcategory of the category of
 
   + There exists an affine open covering $Y = union.big_(i in I) V_i$ such that $f^(- 1) (V_i)$ is quasi-compact for each $i in I$.
 ]<equivalent_definitions_of_quasicompact_morphism>
+
+
+== Examples of Morphisms of Schemes
+
+=== Morphisms between Affine Schemes
+
+#example[Contraction][
+  If $S$ and $R$ are commutative rings and $S arrow.hook R$ is an injective ring homomorphism, then we can identify $S$ as a subring of $R$. In this case, $S arrow.hook R$ induces a morphism of schemes
+  $
+    phi : op("Spec")(R) & --> op("Spec")(S) , \
+                frak(p) & mapsto.long frak(p) inter S .
+  $
+  $phi$ has the following properties:
+
+  + For any ideal $I subset.eq S$, we have
+    $
+      phi^(- 1) (V_S (I)) = V_R (I R) .
+    $
+
+  + For any $frak(q) in op("Spec")(S)$, we have homeomorphism between the fiber $phi^(- 1) (frak(q))$ and $op("Spec")(R times.o_S kappa(frak(q)))$:
+    $
+      phi^(- 1) (frak(q)) = { frak(p) in op("Spec")(R) | frak(p) inter S = frak(q) } tilde.equiv op("Spec")(R times.o_S kappa(frak(q))) ,
+    $
+    where $kappa(frak(q))=S_(frak(q)) \/ frak(q) S_(frak(q))=op("Frac")(S\/frak(q))$ is the residue field of $S$ at $frak(q)$.
+]
+#proof[
+  - Continuity: For any basis open set $D_S (f) subset.eq op("Spec")(S)$ where $f in S$, we have
+    $
+      phi^(- 1) (D_S (f)) = { frak(p) in op("Spec")(R) | f in.not frak(p) inter S }= { frak(p) in op("Spec")(R) | f in.not frak(p) } = D_R (f) subset.eq op("Spec")(R) .
+    $
+    Thus $phi$ is continuous.
+
+
+]
 
 
 #pagebreak()
