@@ -49,7 +49,7 @@
 
   Note that $lr((tau , supset.eq))$ is also a filtered set which can be seen as the filtered (0,1)-category $mathsf("Open")_X^(op("op"))$ #index_math(display: [$mathsf("Open")_X^(op("op"))$], "Open_X").
   Therefore, $mathsf("Open")_X$ is both filtered and cofiltered.
-]
+]<category-of-open-sets>
 
 Note in $mathsf("Open")_X$, all diagrams are commutative.
 
@@ -2216,7 +2216,6 @@ For general $mathsf("C")$-valued locally constant sheaves, we have the following
 ]<fibered-product-of-locally-ringed-spaces>
 
 
-
 == Site
 
 #definition[Grothendieck Pretopology][
@@ -2269,9 +2268,18 @@ For general $mathsf("C")$-valued locally constant sheaves, we have the following
       { f_i : U_i -> U }_(i in I) in cal(K)(U)
     $
 
-    and $g : V -> U$ is any morphism in $cal(C)$, then the pullbacks
-    $U_i times_U V$ exist for all $i in I$, and the family
-
+    and $g : V -> U$ is any morphism in $cal(C)$, then for each $i in I$ there exists a pullback of $f_i$ and $g$ in $cal(C)$, denoted by $U_i times_U V$,
+    #square_cd(
+      A11: $U_i times_U V$,
+      A12: $U_i$,
+      A21: $V$,
+      A22: $U$,
+      Ff: $$,
+      Gf: $g$,
+      theta_l: $$,
+      theta_r: $f_i$,
+    )
+    and we have
     $
       { U_i times_U V -> V }_(i in I)
       in cal(K)(V).
@@ -2279,16 +2287,235 @@ For general $mathsf("C")$-valued locally constant sheaves, we have the following
 
   A category equipped with a Grothendieck pretopology is sometimes called
   a *pretopological site*.
+
+  If $cal(K)$ is a Grothendieck pretopology on $sans("C")$, then an element in $cal(K)(U)$ is called a *covering family* of $U$.
+]
+#remark[
+  For the axiom _pullback stability_, $U_i times_U V$ here means a chosen pullback of $f_i$ and $g$. And in general, the pullback is only unique up to a unique isomorphism. However, axiom _pullback stability_ implies the following stronger proposition: if
+
+  $
+    { f_i : U_i -> U }_(i in I) in cal(K)(U)
+  $
+
+  and $g : V -> U$ is any morphism in $cal(C)$, then for each $i in I$ the pullback of $f_i$ and $g$ exists, and for any a family of choices of pullback of $f_i$ and $g$
+  $
+    {#box(baseline: horizon, square_cd(A11: $P_i$, A12: $U_i$, A21: $V$, A22: $U$, Ff: $$, Gf: $g$, theta_l: $$, theta_r: $f_i$))}_(i in I)
+  $
+  we have
+  $
+    { P_i --> V }_(i in I)
+    in cal(K)(V).
+  $
+]
+
+#example[Trivial Grothendieck Pretopology][
+  Let $sans("C")$ be a category. The *trivial Grothendieck pretopology* on $sans("C")$ is defined by letting $cal(K)(U)$ consist of all families containing exactly one isomorphism, that is,
+  $
+    cal(K)(U) := { { f : U_0 -> U } mid(|) f "is an isomorphism" } .
+  $
+  This is the smallest possible Grothendieck pretopology on $sans("C")$.
+]
+#proof[
+  We only show pullback stability since the other two axioms are trivial. If
+
+  $
+    { f : U_0 -> U }in cal(K)(U),
+  $
+  then
+  $
+    #square_cd(A11: $V$, A12: $U_0$, A21: $V$, A22: $U$, Ff: $f^(-1) compose g$, Gf: $g$, theta_l: $id$, theta_r: $f$)
+  $
+  is a pullback of $f$ and $g$. And we have
+  $
+    { id: V -> V } in cal(K)(V).
+  $
+]
+
+#example[Open Covers of Topological Spaces][
+  Let $X$ be a topological space. The category #link(<category-of-open-sets>)[$sans("Open")_X$] has a Grothendieck pretopology defined by
+  $
+    cal(K)(U) := { { f_i : U_i -> U }_(i in I) mid(|) U = union.big_(i in I) U_i, med f_i in Mor(sans("Open")_X) } .
+  $
+]
+#proof[
+  We only show pullback stability since the other two axioms are trivial. If
+  $
+    { f_i : U_i -> U }_(i in I) in cal(K)(U)
+  $
+  then for any $g:V->U$, we have the following commutative diagram in $sans("Open")_X$:
+
+  #square_cd(
+    A11: $V inter U_i$,
+    A12: $U_i$,
+    A21: $V$,
+    A22: $U$,
+    Ff: $$,
+    Gf: $g$,
+    theta_l: $$,
+    theta_r: $f_i$,
+  )
+  We claim that this is a pullback square. Indeed, suppose that $W$ is an open subset equipped with morphisms
+  $
+    h_i:W --> U_i "and" h:W --> V
+  $
+  such that
+  $
+    f_i compose h_i = g compose h
+  $
+  for all $i$. Then we have
+  $
+    W subset.eq V "and" W subset.eq U_i,
+  $
+  which implies that $W subset.eq V inter U_i$. Hence there exists a unique morphism $k:W->V inter U_i$ such that the following diagram commutes
+
+  $
+    #commutative_diagram({
+      node((0, 0), [$V inter U_i$])
+      node((1, 0), [$U_i$])
+      node((0, 1), [$V$])
+      node((1, 1), [$U$])
+      node((-1, -1), [$W$])
+      edge((0, 0), (0, 1), "->")
+      edge((0, 1), (1, 1), [$g$], label-side: right, "->")
+      edge((0, 0), (1, 0), "->")
+      edge((1, 0), (1, 1), [$f_i$], label-side: left, "->")
+      edge((-1, -1), (0, 1), [$h$], label-side: right, "->", bend: -36deg)
+      edge((-1, -1), (1, 0), [$h_i$], label-side: left, "->", bend: 36deg)
+      edge((-1, -1), (0, 0), [$k$], label-side: left, "-->")
+    })
+  $
+
+  Since
+  $
+    V = V inter U = V inter (union.big_(i in I) U_i) = union.big_(i in I) (V inter U_i),
+  $
+  we have
+  $
+    { V inter U_i -> V }_(i in I) in cal(K)(V).
+  $
+
+]
+
+#example[Open Covers in $sans("Top")$][
+  The category $sans("Top")$ of topological spaces and continuous maps has a
+  Grothendieck pretopology defined by
+  $
+    cal(K)(U) := {
+      { f_i : U_i -> U }_(i in I)
+      mid(|)
+      U = union.big_(i in I) f_i (U_i),
+      med f_i "is an open embedding"
+    }.
+  $
+  We say $f_i : U_i -> U$ is an *open embedding* if endowing $f_i (U_i)$ with the subspace topology inherited from $U$, the map $f_i : U_i -> f_i (U_i)$ is a homeomorphism and $f_i (U_i)$ is an open subset of $U$.
+]
+
+#proof[
+  We only show pullback stability since the other two axioms are trivial. Suppose that
+  $
+    { f_i : U_i -> U }_(i in I) in cal(K)(U).
+  $
+  Since $f_i (U_i)$ is open in $U$, for any continuous map $g : V -> U$, the subset
+  $
+    g^(-1)(f_i (U_i))
+  $
+  is open in $V$. Since $f_i$ is an open embedding, it induces a homeomorphism
+  $
+    f_i : U_i -> f_i (U_i).
+  $
+  Hence we have the following commutative diagram in $sans("Top")$:
+
+  $
+    #square_cd(
+      A11: $g^(-1)(f_i (U_i))$,
+      A12: $U_i$,
+      A21: $V$,
+      A22: $U$,
+      Ff: $q_i$,
+      Gf: $g$,
+      theta_l: $iota_i$,
+      theta_r: $f_i$,
+    )
+  $
+  where $iota_i$ is the inclusion and
+  $
+    q_i := (f_i^(-1) compose g)|_(g^(-1)(f_i (U_i))).
+  $
+
+  We claim that this is a pullback square. Indeed, suppose that $W$ is a
+  topological space equipped with continuous maps
+  $
+    h_i : W -> U_i
+    "and"
+    h : W -> V
+  $
+  such that
+  $
+    f_i compose h_i = g compose h.
+  $
+  Then for every $w in W$,
+  $
+    g(h(w)) = f_i (h_i (w)) in f_i (U_i),
+  $
+  which implies that
+  $
+    h(W) subset.eq g^(-1)(f_i (U_i)).
+  $
+  Hence $h$ uniquely factors through the inclusion $iota_i$, giving a unique
+  continuous map
+  $
+    k : W & --> g^(-1)(f_i (U_i)) \
+        w & mapsto.long h(w)
+  $
+  such that the following diagram commutes:
+
+  $
+    #commutative_diagram({
+      node((0, 0), [$g^(-1)(f_i (U_i))$])
+      node((1, 0), [$U_i$])
+      node((0, 1), [$V$])
+      node((1, 1), [$U$])
+      node((-1, -1), [$W$])
+      edge((0, 0), (0, 1), [$iota_i$], label-side: right, "->")
+      edge((0, 1), (1, 1), [$g$], label-side: right, "->")
+      edge((0, 0), (1, 0), [$q_i$], label-side: left, "->")
+      edge((1, 0), (1, 1), [$f_i$], label-side: left, "->")
+      edge((-1, -1), (0, 1), [$h$], label-side: right, "->", bend: -36deg)
+      edge((-1, -1), (1, 0), [$h_i$], label-side: left, "->", bend: 36deg)
+      edge((-1, -1), (0, 0), [$k$], label-side: left, "-->")
+    })
+  $
+
+  Therefore
+  $
+    g^(-1)(f_i (U_i)) tilde.equiv U_i times_U V.
+  $
+
+  Moreover, since
+  $
+    V
+    = g^(-1)(U)
+    = g^(-1)(union.big_(i in I) f_i (U_i))
+    = union.big_(i in I) g^(-1)(f_i (U_i)),
+  $
+  and each
+  $
+    iota_i : g^(-1)(f_i (U_i)) -> V
+  $
+  is an open embedding, we have
+  $
+    { g^(-1)(f_i (U_i)) -> V }_(i in I) in cal(K)(V).
+  $
 ]
 
 #definition[Coverage][
   Let $sans("C")$ be a category with a Grothendieck pretopology. A #strong[coverage] on $sans("C")$ consists of a function assigning to each object $U in Ob(sans("C"))$ a collection $cal(K)(U)$ of families of morphisms
   $
-    { f_i : U_i --> U }_(i in I),
+    { f_i : U_i -> U }_(i in I),
   $
   called *covering families*, such that if
   $
-    { f_i : U_i --> U }_(i in I) in cal(K)(U)
+    { f_i : U_i -> U }_(i in I) in cal(K)(U)
   $
   is a covering family and $g:V->U$ is a morphism, then there exists a covering family
   $
@@ -2431,223 +2658,6 @@ For general $mathsf("C")$-valued locally constant sheaves, we have the following
   $
 
   The assignment $cal(J)_(cal(K))$ is a Grothendieck topology on $sans("C")$.
-]
-
-#definition[Cartesian Morphism][
-  Let $p: mathsf("E") arrow.r mathsf("C")$ be a functor.
-  A morphism
-
-  $
-    phi: x --> y
-  $
-
-  in $mathsf("E")$ is called #strong[$p$-cartesian], if the following universal property holds: for every object $z in op("Ob")(mathsf("E"))$, every morphism
-
-  $
-    g: p(z) --> p(x)
-  $
-
-  in $mathsf("C")$, and every morphism
-
-  $
-    psi: z --> y
-  $
-
-  in $mathsf("E")$ satisfying
-
-  $
-    p(psi) = f compose g,
-  $
-
-  there exists a unique morphism
-
-  $
-    chi: z --> x
-  $
-
-  such that
-
-  $
-    p(chi)=g
-    quad "and" quad
-    phi compose chi=psi.
-  $
-
-  In other words, every specified factorization of $p(psi)$ through $f$
-  lifts uniquely to a factorization of $psi$ through $phi$.
-]
-
-
-#definition[Cartesian Morphism][
-
-  Let $p: mathsf("E") arrow.r mathsf("C")$ be a functor, and let $phi: x -> y$ be a morphism in $mathsf("E")$.
-
-  The morphism $phi$ is called #strong[$p$-cartesian], if it satisfies the following universal property: for every object $z in op("Ob")(mathsf("E"))$, every morphism $g: p(z) -> p(x)$ in $mathsf("C")$, and every morphism $psi: z -> y$ in $mathsf("E")$ such that
-  $
-    p(psi)=p(phi) compose g,
-  $
-
-  namely the following triangle commutes in $mathsf("C")$
-
-  #commutative_diagram({
-    node((0, 0), [$p(x)$])
-    node((0, 1), [$p(y)$])
-    node((-1, 1), [$p(z)$])
-    edge((-1, 1), (0, 1), [$p(psi)$], label-side: right, "->")
-    edge((0, 0), (0, 1), [$p(phi)$], label-side: left, "->")
-    edge((-1, 1), (0, 0), [$g$], label-side: left, "->")
-  })
-
-  there exists a unique morphism $chi: z -> x$ in $mathsf("E")$ such that
-  $
-    p(chi)=g,
-  $
-  and the following triangle commutes in $mathsf("E")$
-
-  #commutative_diagram({
-    node((0, 0), [$x$])
-    node((0, 1), [$y$])
-    node((-1, 1), [$z$])
-    edge((-1, 1), (0, 1), [$psi$], label-side: right, "->")
-    edge((0, 0), (0, 1), [$phi$], label-side: left, "->")
-    edge((-1, 1), (0, 0), [$exists! chi$], label-side: left, "-->")
-  })
-
-  In other words, every specified factorization
-
-  $
-    p(psi)=p(phi) compose g
-  $
-
-  in the base category $mathsf("C")$ lifts uniquely to a factorization
-
-  $
-    psi=phi compose chi
-  $
-
-  in the total category $mathsf("E")$, with $chi$ lying over $g$.
-
-]
-
-
-
-
-#definition[Fibred Category][
-
-  Let $p: mathsf("E") -> mathsf("C")$ be a functor.
-  We say that $mathsf("E")$ is a #strong[category fibred over]
-  $mathsf("C")$, or that $p$ is a #strong[Grothendieck fibration],
-  if, for every object $x in op("Ob")(mathsf("E"))$, every object
-  $V in op("Ob")(mathsf("C"))$, and every morphism
-
-  $
-    f: V --> p(x)
-  $
-
-  in $mathsf("C")$, there exist an object
-  $y in op("Ob")(mathsf("E"))$ and a $p$-cartesian morphism
-
-  $
-    phi: y --> x
-  $
-
-  such that
-
-  $
-    p(phi)=f.
-  $
-
-  Such a morphism $phi:y->x$ is called a
-  #strong[cartesian lift] of $f$ with target $x$.
-
-]
-
-
-
-#definition[Vertical Morphism][
-
-  Let $p: mathsf("E") -> mathsf("C")$ be a functor.
-  A morphism
-
-  $
-    alpha: x -> y
-  $
-
-  in $mathsf("E")$ is called #strong[$p$-vertical], or simply
-  #strong[vertical], if
-
-  $
-    p(alpha)=op("id")_(p(x)).
-  $
-
-  In this case, necessarily
-
-  $
-    p(x)=p(y).
-  $
-
-]
-
-
-#definition[Fiber for a Functor][
-
-  Let $p: mathsf("E") -> mathsf("C")$ be a functor, and let
-  $U in op("Ob")(mathsf("C"))$. The #strong[fiber of $mathsf("E")$ over $U$], denoted by $mathsf("E")_U$, is the category defined as follows:
-
-  - _Objects_:
-
-    $
-      op("Ob")(mathsf("E")_U)={x in op("Ob")(mathsf("E")) mid(|) p(x)=U}.
-    $
-
-  - _Morphisms_: Given two objects $x,y in op("Ob")(mathsf("E")_U)$,
-
-    $
-      Hom_(mathsf("E")_U)(x,y) = { alpha in Hom_(mathsf("E"))(x,y) mid(|) p(alpha)=op("id")_U }.
-    $
-
-  Identities and composition in $mathsf("E")_U$ are inherited from
-  $mathsf("E")$.
-]
-
-
-#definition[Cleavage][
-
-  Let $p: mathsf("E") -> mathsf("C")$ be a fibration.
-
-  A #strong[cleavage] for $p$ consists of the following choice:
-  for every morphism
-
-  $
-    f: V --> U
-  $
-
-  in $mathsf("C")$ and every object
-  $x in op("Ob")(mathsf("E")_U)$, choose an object
-
-  $
-    f^*(x) in op("Ob")(mathsf("E")_V)
-  $
-
-  together with a $p$-cartesian morphism
-
-  $
-    overline(f)_x: f^*(x) --> x
-  $
-
-  satisfying
-
-  $
-    p(overline(f)_x)=f.
-  $
-
-  The morphism $overline(f)_x$ is called the
-  #strong[chosen cartesian lift] of $f$ with target $x$, and
-  $f^*(x)$ is called the #strong[pullback of $x$ along $f$].
-
-  A fibration equipped with a cleavage is called a
-  #strong[cloven fibration].
-
 ]
 
 
