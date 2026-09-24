@@ -2421,7 +2421,7 @@ For general $mathsf("C")$-valued locally constant sheaves, we have the following
   $
   is open in $V$. Since $f_i$ is an open embedding, it induces a homeomorphism
   $
-    f_i : U_i -> f_i (U_i).
+    f_i : U_i --> f_i (U_i).
   $
   Hence we have the following commutative diagram in $sans("Top")$:
 
@@ -2445,9 +2445,9 @@ For general $mathsf("C")$-valued locally constant sheaves, we have the following
   We claim that this is a pullback square. Indeed, suppose that $W$ is a
   topological space equipped with continuous maps
   $
-    h_i : W -> U_i
+    h_i : W --> U_i
     "and"
-    h : W -> V
+    h : W --> V
   $
   such that
   $
@@ -2500,7 +2500,7 @@ For general $mathsf("C")$-valued locally constant sheaves, we have the following
   $
   and each
   $
-    iota_i : g^(-1)(f_i (U_i)) -> V
+    iota_i : g^(-1)(f_i (U_i)) --> V
   $
   is an open embedding, we have
   $
@@ -4454,7 +4454,8 @@ The category of schemes $mathsf("Sch")$ is a full subcategory of the category of
   $
     op("ord")_Z (f) := op("ord")_(cal(O)_(X , eta_Z)) (f),
   $
-  where
+  where 
+  $cal(O)_(X , eta_Z)$ is the local ring of $X$ at the generic point $eta_Z$.
 ]
 
 #definition[Principal Weil divisor][
